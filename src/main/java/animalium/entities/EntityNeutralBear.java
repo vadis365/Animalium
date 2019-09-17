@@ -2,7 +2,7 @@ package animalium.entities;
 
 import javax.annotation.Nullable;
 
-import animalium.Animalium;
+import animalium.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -41,10 +41,18 @@ public class EntityNeutralBear extends EntityBear {
 	}
 
 	@Override
+	public void setAttackTarget(EntityLivingBase entity) {
+		if (entity instanceof EntityPlayer)
+			super.setAttackTarget(null);
+		else
+			super.setAttackTarget(entity);
+	}
+
+	@Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack is = player.getHeldItem(hand);
 		float healingBuff = 0.0F;
-		if (!getEntityWorld().isRemote && !is.isEmpty() && is.getItem() == Animalium.RAT_MEAT) {
+		if (!getEntityWorld().isRemote && !is.isEmpty() && is.getItem() == ModItems.RAT_MEAT) {
 				healingBuff = 2.0F;
 
 				if (getHealth() < getMaxHealth()) {
@@ -64,7 +72,7 @@ public class EntityNeutralBear extends EntityBear {
 	}
 
 	@Override
-    public void moveEntityWithHeading(float strafe, float forward) {
+    public void travel(float strafe, float up, float forward) {
         if (isBeingRidden() && canBeSteered()) {
             EntityLivingBase entitylivingbase = (EntityLivingBase)getControllingPassenger();
             rotationYaw = entitylivingbase.rotationYaw;
@@ -83,11 +91,11 @@ public class EntityNeutralBear extends EntityBear {
 
             if (canPassengerSteer()) {
                 setAIMoveSpeed((float)getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-                super.moveEntityWithHeading(strafe, forward);
+                super.travel(strafe, up, forward);
             }
             else if (entitylivingbase instanceof EntityPlayer) {
             	setAIMoveSpeed((float)getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-                super.moveEntityWithHeading(strafe, forward);
+                super.travel(strafe, up, forward);
             }
 
             prevLimbSwingAmount = limbSwingAmount;
@@ -103,7 +111,7 @@ public class EntityNeutralBear extends EntityBear {
         }
         else {
             jumpMovementFactor = 0.02F;
-            super.moveEntityWithHeading(strafe, forward);
+            super.travel(strafe, up, forward);
         }
     }
 

@@ -1,6 +1,7 @@
 package animalium.items;
 
 import animalium.Animalium;
+import animalium.ModItems;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,10 +22,10 @@ public class ItemBearClawPaxel extends ItemTool {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		if (isToolEffective(state))
-			return Animalium.TOOL_BEAR_CLAW_PAXEL.getEfficiencyOnProperMaterial();
-		return 1.0F;
+			return Animalium.TOOL_BEAR_CLAW_PAXEL.getEfficiency();
+		return 2.0F;
 	}
 
 	public boolean isToolEffective(IBlockState state) {
@@ -33,6 +34,6 @@ public class ItemBearClawPaxel extends ItemTool {
 
 	@Override
 	public boolean getIsRepairable(ItemStack stack, ItemStack material) {
-		return material.getItem() == Animalium.BEAR_CLAW;
+		return material.getItem() == ModItems.BEAR_CLAW;
 	}
 }

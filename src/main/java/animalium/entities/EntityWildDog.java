@@ -1,6 +1,9 @@
 package animalium.entities;
 
-import animalium.Animalium;
+import java.util.ArrayList;
+import java.util.List;
+
+import animalium.ModItems;
 import animalium.configs.ConfigHandler;
 import animalium.entities.ai.EntityAIWildDogLeap;
 import net.minecraft.block.Block;
@@ -81,6 +84,8 @@ public class EntityWildDog extends EntityMob implements IEntityMultiPartDog {
 
 	@Override
     public boolean getCanSpawnHere() {
+		if(isDimBlacklisted(dimension))
+			return false;
         return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.WILD_DOG_SPAWN_Y_HEIGHT;
     }
 
@@ -89,10 +94,21 @@ public class EntityWildDog extends EntityMob implements IEntityMultiPartDog {
         return !getEntityWorld().containsAnyLiquid(getEntityBoundingBox()) && getEntityWorld().getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && getEntityWorld().checkNoEntityCollision(getEntityBoundingBox(), this);
     }
 
+	private Boolean isDimBlacklisted(int dimensionIn) {
+		List<Integer> dimBlackList = new ArrayList<Integer>();
+		for (int dims = 0; dims < ConfigHandler.WILD_DOG_BLACKLISTED_DIMS.length; dims++) {
+			String dimEntry = ConfigHandler.WILD_DOG_BLACKLISTED_DIMS[dims].trim();
+			dimBlackList.add(Integer.valueOf(dimEntry));
+		}
+		if(dimBlackList.contains(dimensionIn))
+			return true;
+		return false;
+	}
+
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		if (getEntityWorld().rand.nextInt(5) == 0) {
-			ItemStack stack = new ItemStack(Animalium.WILD_DOG_PELT);
+			ItemStack stack = new ItemStack(ModItems.WILD_DOG_PELT);
 			if (isBurning())
 				stack = new ItemStack(Items.BONE);
 			entityDropItem(stack, 1.0F);
@@ -110,7 +126,7 @@ public class EntityWildDog extends EntityMob implements IEntityMultiPartDog {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundEvents.ENTITY_WOLF_HURT;
 	}
 
@@ -142,7 +158,7 @@ public class EntityWildDog extends EntityMob implements IEntityMultiPartDog {
 
 	@Override
 	public boolean attackEntityFromPart(EntityDogPart dogPart, DamageSource source, float damage) {
-		if (source.getEntity() instanceof EntityPlayer || source.isExplosion())
+		if (source.getTrueSource() instanceof EntityPlayer || source.isExplosion())
 			attackDogFrom(source, damage);
 		return true;
 	}

@@ -1,5 +1,8 @@
 package animalium.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import animalium.configs.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,6 +20,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityLookHelper;
 import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -44,12 +48,6 @@ public class EntityPiranha extends EntityMob {
 		super(world);
 		setSize(0.9F, 0.9F);
 		moveHelper = new EntityPiranha.PiranhaMoveHelper(this);
-		if (world != null && !world.isRemote) {
-			if (ConfigHandler.PIRANHA_ATTACK_MOBS)
-				targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
-			if (ConfigHandler.PIRANHA_ATTACK_CREATURES)
-				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
-		}
 	}
 
 	@Override
@@ -61,6 +59,11 @@ public class EntityPiranha extends EntityMob {
 		tasks.addTask(4, new EntityAILookIdle(this));
 		targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, true, null));
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
+		
+		if (ConfigHandler.PIRANHA_ATTACK_MOBS)
+			targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
+		if (ConfigHandler.PIRANHA_ATTACK_CREATURES)
+			targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class EntityPiranha extends EntityMob {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.75D);
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
 		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10D);
 		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
 		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
@@ -122,6 +125,8 @@ public class EntityPiranha extends EntityMob {
 
 	@Override
     public boolean getCanSpawnHere() {
+		if(isDimBlacklisted(dimension))
+			return false;
 		return (posY > 45.0D && posY <= 80) && super.getCanSpawnHere();
     }
 
@@ -130,13 +135,24 @@ public class EntityPiranha extends EntityMob {
 		return 3;
 	}
 
+	private Boolean isDimBlacklisted(int dimensionIn) {
+		List<Integer> dimBlackList = new ArrayList<Integer>();
+		for (int dims = 0; dims < ConfigHandler.PIRANHA_BLACKLISTED_DIMS.length; dims++) {
+			String dimEntry = ConfigHandler.PIRANHA_BLACKLISTED_DIMS[dims].trim();
+			dimBlackList.add(Integer.valueOf(dimEntry));
+		}
+		if(dimBlackList.contains(dimensionIn))
+			return true;
+		return false;
+	}
+
 	@Override
 	   protected SoundEvent getAmbientSound() {
         return isInWater() ? SoundEvents.ENTITY_GENERIC_SWIM : SoundEvents.ENTITY_GUARDIAN_FLOP;
     }
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundEvents.ENTITY_GUARDIAN_HURT_LAND;
 	}
 
@@ -167,7 +183,7 @@ public class EntityPiranha extends EntityMob {
 			if (isInWater()) {
 				Vec3d vec3d = getLook(0.0F);
 				for (int i = 0; i < 2; ++i)
-					getEntityWorld().spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX + (rand.nextDouble() - 0.5D) * (double) width - vec3d.xCoord * 1.5D, posY + rand.nextDouble() * (double) height - vec3d.yCoord * 1.5D, posZ + (rand.nextDouble() - 0.5D) * (double) width - vec3d.zCoord * 1.5D, 0.0D, 0.0D, 0.0D, new int[0]);
+					getEntityWorld().spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX + (rand.nextDouble() - 0.5D) * (double) width - vec3d.x * 1.5D, posY + rand.nextDouble() * (double) height - vec3d.y * 1.5D, posZ + (rand.nextDouble() - 0.5D) * (double) width - vec3d.z * 1.5D, 0.0D, 0.0D, 0.0D, new int[0]);
 			}
 		}
 
@@ -191,10 +207,10 @@ public class EntityPiranha extends EntityMob {
 	}
 	
 	@Override
-	public void moveEntityWithHeading(float strafe, float forward) {
+	public void travel(float strafe, float up, float forward) {
 		if (isServerWorld()) {
 			if (isInWater()) {
-				moveRelative(strafe, forward, 0.1F);
+				moveRelative(strafe, up,  forward, 0.1F);
 				move(MoverType.SELF, motionX, motionY, motionZ);
 				motionX *= 0.8999999761581421D;
 				motionY *= 0.8999999761581421D;
@@ -204,10 +220,10 @@ public class EntityPiranha extends EntityMob {
 					motionY -= 0.005D;
 				}
 			} else {
-				super.moveEntityWithHeading(strafe, forward);
+				super.travel(strafe, up, forward);
 			}
 		} else {
-			super.moveEntityWithHeading(strafe, forward);
+			super.travel(strafe, up, forward);
 		}
 	}
 
@@ -257,6 +273,22 @@ public class EntityPiranha extends EntityMob {
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected void collideWithNearbyEntities() {
+		super.collideWithNearbyEntities();
+		if (ConfigHandler.PIRANHA_DAMAGE_BOATS) {
+			List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
+
+			if (!list.isEmpty() && this.rand.nextInt(ConfigHandler.PIRANHA_DAMAGE_BOATS_CHANCE) == 0) {
+				for (int k = 0; k < list.size(); ++k) {
+					if (((Entity) list.get(k) instanceof EntityBoat)) {
+						attackEntityAsMob(list.get(k));
+					}
+				}
+			}
+		}
 	}
 
 	//AIs
@@ -319,7 +351,7 @@ public class EntityPiranha extends EntityMob {
 
 		@Override
 		protected double getAttackReachSqr(EntityLivingBase attackTarget) {
-			return (double) (4.0F + attackTarget.width);
+			return (double) (0.5F + attackTarget.width);
 		}
 	}
 }

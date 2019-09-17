@@ -1,6 +1,7 @@
 package animalium.items;
 
 import animalium.Animalium;
+import animalium.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -22,7 +23,7 @@ public class ItemDogPeltBoots extends ItemArmor {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getArmorTexture(ItemStack is, Entity entity, EntityEquipmentSlot slot, String type) {
-		if (is.getItem() == Animalium.DOG_PELT_BOOTS)
+		if (is.getItem() == ModItems.DOG_PELT_BOOTS)
 			return "animalium:textures/items/dog_boots.png";
 		else
 			return null;
@@ -30,7 +31,7 @@ public class ItemDogPeltBoots extends ItemArmor {
 
 	@Override
 	public boolean getIsRepairable(ItemStack armour, ItemStack material) {
-		return material.getItem() == Animalium.WILD_DOG_PELT;
+		return material.getItem() == ModItems.WILD_DOG_PELT;
 	}
 	
 	@Override

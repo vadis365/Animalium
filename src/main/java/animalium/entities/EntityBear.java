@@ -1,6 +1,9 @@
 package animalium.entities;
 
-import animalium.Animalium;
+import java.util.ArrayList;
+import java.util.List;
+
+import animalium.ModItems;
 import animalium.configs.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -42,8 +45,8 @@ public class EntityBear extends EntityMob {
 				targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
 			if (ConfigHandler.BEAR_ATTACK_CREATURES)
 				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
-			stepHeight = 2F;
 		}
+		stepHeight = 2F;
 	}
 
 	@Override
@@ -132,15 +135,21 @@ public class EntityBear extends EntityMob {
 	}
 
 	@Override
-    protected boolean isValidLightLevel() {
+	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 8)
-            return false;
-        return true;
-    }
+		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
+			if (getEntityWorld().isDaytime())
+				if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 6)
+					return true;
+		} else if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 8)
+			return false;
+		return true;
+	}
 
 	@Override
 	public boolean getCanSpawnHere() {
+		if(isDimBlacklisted(dimension))
+			return false;
 		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
 			if (getEntityWorld().isDaytime())
 				return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
@@ -160,13 +169,24 @@ public class EntityBear extends EntityMob {
 		return 1;
 	}
 
+	private Boolean isDimBlacklisted(int dimensionIn) {
+		List<Integer> dimBlackList = new ArrayList<Integer>();
+		for (int dims = 0; dims < ConfigHandler.BEAR_BLACKLISTED_DIMS.length; dims++) {
+			String dimEntry = ConfigHandler.BEAR_BLACKLISTED_DIMS[dims].trim();
+			dimBlackList.add(Integer.valueOf(dimEntry));
+		}
+		if(dimBlackList.contains(dimensionIn))
+			return true;
+		return false;
+	}
+
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		int randomAmount = 1 + rand.nextInt(2 + looting);
 		for (int count = 0; count < randomAmount; ++count)
-			entityDropItem(new ItemStack(Animalium.BEAR_CLAW), 0F);
+			entityDropItem(new ItemStack(ModItems.BEAR_CLAW), 0F);
 
-		entityDropItem(new ItemStack(isBurning() ? Animalium.BEAR_MEAT_COOKED : Animalium.BEAR_MEAT), 0.0F);
+		entityDropItem(new ItemStack(isBurning() ? ModItems.BEAR_MEAT_COOKED : ModItems.BEAR_MEAT), 0.0F);
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 package animalium.entities;
 
-import animalium.Animalium;
+import java.util.ArrayList;
+import java.util.List;
+
+import animalium.ModItems;
 import animalium.configs.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -22,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
@@ -112,7 +116,7 @@ public class EntityRat extends EntityMob {
 		if (canEntityBeSeen(entity)) {
 			boolean attacked;
 			if (attacked = super.attackEntityAsMob(entity)) {
-				if (entity instanceof EntityPlayer && getRNG().nextInt(1) == 0) {
+				if (entity instanceof EntityPlayer && getRNG().nextInt(ConfigHandler.RAT_STEALS_PROBABILITY) == 0 && ConfigHandler.RAT_STEALS_ITEMS) {
 					EntityPlayer player = (EntityPlayer) entity;
 					if (!getEntityWorld().isRemote && getCanAttack()) {
 						ItemStack stack = player.getHeldItemMainhand();
@@ -151,8 +155,21 @@ public class EntityRat extends EntityMob {
 
 	@Override
     public boolean getCanSpawnHere() {
+		if(isDimBlacklisted(dimension))
+			return false;
         return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.RAT_SPAWN_Y_HEIGHT;
     }
+
+	private Boolean isDimBlacklisted(int dimensionIn) {
+		List<Integer> dimBlackList = new ArrayList<Integer>();
+		for (int dims = 0; dims < ConfigHandler.RAT_BLACKLISTED_DIMS.length; dims++) {
+			String dimEntry = ConfigHandler.RAT_BLACKLISTED_DIMS[dims].trim();
+			dimBlackList.add(Integer.valueOf(dimEntry));
+		}
+		if(dimBlackList.contains(dimensionIn))
+			return true;
+		return false;
+	}
 
 	@Override
     public boolean isNotColliding() {
@@ -174,9 +191,9 @@ public class EntityRat extends EntityMob {
 			entityDropItem(stack, 1F);
 		}
 		if (getEntityWorld().rand.nextInt(5) == 0) {
-			ItemStack stack = new ItemStack(Animalium.RAT_MEAT);
+			ItemStack stack = new ItemStack(ModItems.RAT_MEAT);
 			if (isBurning())
-				stack = new ItemStack(Animalium.RAT_MEAT_COOKED);
+				stack = new ItemStack(ModItems.RAT_MEAT_COOKED);
 			entityDropItem(stack, 1.0F);
 		}
 	}
@@ -197,7 +214,7 @@ public class EntityRat extends EntityMob {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundEvents.ENTITY_RABBIT_HURT;
 	}
 
@@ -220,14 +237,14 @@ public class EntityRat extends EntityMob {
 		}
 
 		@Override
-		public boolean continueExecuting() {
-			float f = attacker.getBrightness(1.0F);
+		public boolean shouldContinueExecuting() {
+			float f = attacker.getBrightness();
 
 			if (f >= 0.5F && attacker.getRNG().nextInt(100) == 0 || !rat.getCanAttack()) {
 				attacker.setAttackTarget((EntityLivingBase) null);
 				return false;
 			} else {
-				return super.continueExecuting();
+				return super.shouldContinueExecuting();
 			}
 		}
 
@@ -244,7 +261,7 @@ public class EntityRat extends EntityMob {
 
 		@Override
 		public boolean shouldExecute() {
-			float f = taskOwner.getBrightness(1.0F);
+			float f = taskOwner.getBrightness();
 			return f >= 0.5F ? false : super.shouldExecute();
 		}
 	}

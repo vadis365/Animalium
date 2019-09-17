@@ -13,11 +13,6 @@ public class ConfigGuiFactory implements IModGuiFactory {
 	}
 
 	@Override
-	public Class<? extends GuiScreen> mainConfigGuiClass() {
-		return ConfigGUI.class;
-	}
-
-	@Override
 	public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
 		return null;
 	}
@@ -30,11 +25,5 @@ public class ConfigGuiFactory implements IModGuiFactory {
 	@Override
 	public GuiScreen createConfigGui(GuiScreen parentScreen) {
 		return new ConfigGUI(parentScreen);
-	}
-
-	@Override
-	public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
