@@ -1,58 +1,42 @@
 package animalium;
 
 import animalium.configs.ConfigHandler;
-import animalium.entities.EntityBear;
-import animalium.entities.EntityNeutralBear;
-import animalium.entities.EntityPiranha;
-import animalium.entities.EntityRat;
-import animalium.entities.EntityWildDog;
-import animalium.proxy.CommonProxy;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving.SpawnPlacementType;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(modid = "animalium", name = "animalium", version = "0.3.8", guiFactory = "animalium.configs.ConfigGuiFactory", dependencies = "after:BiomesOPlenty")
 
+@Mod(Reference.MOD_ID)
 public class Animalium {
+	
+	public Animalium () {
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+		MinecraftForge.EVENT_BUS.register(this);
+	}
 
-	@Instance("animalium")
-	public static Animalium INSTANCE;
+//	public static ToolMaterial TOOL_BEAR_CLAW_PAXEL = EnumHelper.addToolMaterial("BEAR_CLAW_PAXEL", 2, 1079, 8.0F, 4.0F, 14);
+//	public static ArmorMaterial ARMOR_DOG_PELT = EnumHelper.addArmorMaterial("ARMOR_DOG_PELT", "wild_dog_pelt", 19, new int[] { 2, 3, 2, 2 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 3.0F);
 
-	@SidedProxy(clientSide = "animalium.proxy.ClientProxy", serverSide = "animalium.proxy.CommonProxy")
-	public static CommonProxy PROXY;
-	public static ToolMaterial TOOL_BEAR_CLAW_PAXEL = EnumHelper.addToolMaterial("BEAR_CLAW_PAXEL", 2, 1079, 8.0F, 4.0F, 14);
-	public static ArmorMaterial ARMOR_DOG_PELT = EnumHelper.addArmorMaterial("ARMOR_DOG_PELT", "wild_dog_pelt", 19, new int[] { 2, 3, 2, 2 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 3.0F);
-
-	public static CreativeTabs TAB = new CreativeTabs("animalium") {
+	public static ItemGroup TAB = new ItemGroup(Reference.MOD_ID) {
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack createIcon() {
 			return new ItemStack (ModItems.BEAR_CLAW_PAXEL);
 		}
 	};
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		ConfigHandler.INSTANCE.loadConfig(event);
+
+	private void setup(final FMLCommonSetupEvent event) {
+	/*	ConfigHandler.INSTANCE.loadConfig(event);
 
 		ModItems.init();
 		ModRecipes.init();
@@ -88,19 +72,14 @@ public class Animalium {
 					EntityRegistry.addSpawn(EntityRat.class, ConfigHandler.RAT_SPAWN_PROBABILITY, ConfigHandler.RAT_MIN_SPAWN_SIZE, ConfigHandler.RAT_MAX_SPAWN_SIZE, EnumCreatureType.MONSTER, allBiomes);
 				}
 		}
-	}
-
-	private static ResourceLocation getEntityResource(String entityName) {
-		return new ResourceLocation("animalium", entityName);
-	}
-
-	@EventHandler
-	public void posInit(FMLPostInitializationEvent event) {
-	}
-
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	*/	
 		MinecraftForge.EVENT_BUS.register(ConfigHandler.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ModItems.DOG_PELT_BOOTS);
 	}
+
+	private void doClientStuff(final FMLClientSetupEvent event) {}
+
+	private void enqueueIMC(final InterModEnqueueEvent event) {}
+
+	private void processIMC(final InterModProcessEvent event) {}
 }

@@ -2,56 +2,61 @@ package animalium.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import animalium.ModItems;
 import animalium.configs.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityBear extends EntityMob {
+public class EntityBear extends MonsterEntity {
 	private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
 	public float standingAngle, prevStandingAngle;
-	public EntityBear(World world) {
-		super(world);
-		setSize(2F, 2F);
-		if (world != null && !world.isRemote) {
-			if (ConfigHandler.BEAR_ATTACK_MOBS)
-				targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
-			if (ConfigHandler.BEAR_ATTACK_CREATURES)
-				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
-		}
-		stepHeight = 2F;
-	}
+	
+	   public EntityBear(EntityType<? extends EntityBear> type, World world) {
+		      super(type, world);
+		//		setSize(2F, 2F);
+				if (world != null && !world.isRemote) {
+					if (ConfigHandler.BEAR_ATTACK_MOBS)
+						targetSelector.addGoal(1, new EntityBear.TargetGoal<>(this, MobEntity.class));
+					if (ConfigHandler.BEAR_ATTACK_CREATURES)
+						targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
+				}
+				stepHeight = 2F;
+		   }
 
 	@Override
-	protected void entityInit() {
-		super.entityInit();
+	protected void registerData() {
+		super.registerData();
 		dataManager.register(IS_STANDING, false);
 	}
 
@@ -62,36 +67,35 @@ public class EntityBear extends EntityMob {
 	private void setIsStanding(boolean standing) {
 		dataManager.set(IS_STANDING, standing);
 	}
-
+	
 	@Override
-	protected void initEntityAI() {
-		tasks.addTask(1, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityBear.AIBearAttack(this));
-		tasks.addTask(3, new EntityAIWander(this, 0.6D));
-		tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		tasks.addTask(5, new EntityAILookIdle(this));
-		targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, true, null));
-		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+	protected void registerGoals() {
+		goalSelector.addGoal(1, new SwimGoal(this));
+		goalSelector.addGoal(2, new EntityBear.AttackGoal(this));
+		goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
+		goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		goalSelector.addGoal(5, new LookRandomlyGoal(this));
+		targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, PlayerEntity.class));
 	}
 
 	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-		getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.75D);
+	   protected void registerAttributes() {
+	      super.registerAttributes();
+	      getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
+	      getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
+	      getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+	      getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+	      getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.75D);
 	}
 
 	@Override
-	public void onLivingUpdate() {
-
+	   public void tick() {
 		if (!getEntityWorld().isRemote) {
 
 			if (getAttackTarget() != null) {
 				faceEntity(getAttackTarget(), 10.0F, 20.0F);
-				double distance = getDistance(getAttackTarget().posX, getAttackTarget().getEntityBoundingBox().minY, getAttackTarget().posZ);
+				double distance = getDistance(getAttackTarget());
 
 				if (distance > 5.0D)
 					setIsStanding(false);
@@ -120,49 +124,52 @@ public class EntityBear extends EntityMob {
 				standingAngle = 1F;
 		}
 
-		super.onLivingUpdate();
+	      super.tick();
 	}
 	
-    @SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
     public float smoothedAngle(float partialTicks) {
         return standingAngle + (standingAngle - prevStandingAngle) * partialTicks;
     }
-
+/* TODO Entity Registry
 	@Override
 	@SuppressWarnings("rawtypes")
-	public boolean canAttackClass(Class entity) {
-		return EntityBear.class != entity;
+	public boolean canAttack(EntityType<?> typeIn) {
+		return typeIn!= ModEntities.EntityType.BEAR;
 	}
-
-	@Override
+*/
 	protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
 		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
 			if (getEntityWorld().isDaytime())
-				if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 6)
+				if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 6)
 					return true;
-		} else if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 8)
+		} else if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 8)
 			return false;
 		return true;
 	}
 
 	@Override
-	public boolean getCanSpawnHere() {
-		if(isDimBlacklisted(dimension))
+	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
+		if(isDimBlacklisted(dimension.getId()))
 			return false;
 		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
 			if (getEntityWorld().isDaytime())
-				return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
+				return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
 			else
 				return false;
 		}
-		return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
+		return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
+	}
+
+	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
+		return world.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(world, pos, random) && func_223315_a(entity, world, spawn_reason, pos, random);
 	}
 
 	@Override
-    public boolean isNotColliding() {
-        return !getEntityWorld().containsAnyLiquid(getEntityBoundingBox()) && getEntityWorld().getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && getEntityWorld().checkNoEntityCollision(getEntityBoundingBox(), this);
-    }
+	public boolean isNotColliding(IWorldReader world) {
+		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
+	}
 
 	@Override
 	public int getMaxSpawnedInChunk() {
@@ -179,7 +186,7 @@ public class EntityBear extends EntityMob {
 			return true;
 		return false;
 	}
-
+/*
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		int randomAmount = 1 + rand.nextInt(2 + looting);
@@ -188,16 +195,16 @@ public class EntityBear extends EntityMob {
 
 		entityDropItem(new ItemStack(isBurning() ? ModItems.BEAR_MEAT_COOKED : ModItems.BEAR_MEAT), 0.0F);
 	}
-
+*/
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		if (canEntityBeSeen(entity)) {
-			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()));
 
 			if (hasHitTarget) {
 				entity.addVelocity(-MathHelper.sin(rotationYaw * 3.141593F / 180.0F) * 0.5F, 0.2D, MathHelper.cos(rotationYaw * 3.141593F / 180.0F) * 0.5F);
 				if (!getEntityWorld().isRemote)
-					getEntityWorld().playSound((EntityPlayer) null, posX, posY, posZ, SoundEvents.ENTITY_POLAR_BEAR_WARNING, SoundCategory.HOSTILE, 1F, 1F);
+					getEntityWorld().playSound(null, posX, posY, posZ, SoundEvents.ENTITY_POLAR_BEAR_WARNING, SoundCategory.HOSTILE, 1F, 1F);
 			}
 			return hasHitTarget;
 		}
@@ -220,15 +227,20 @@ public class EntityBear extends EntityMob {
 		this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
 	}
 
-	static class AIBearAttack extends EntityAIAttackMelee {
-		
-		public AIBearAttack(EntityBear bear) {
+	static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+		public TargetGoal(EntityBear bear, Class<T> classTarget) {
+			super(bear, classTarget, true);
+		}
+	}
+
+	static class AttackGoal extends MeleeAttackGoal {
+		public AttackGoal(EntityBear bear) {
 			super(bear, 0.6D, false);
 		}
 
 		@Override
-		protected double getAttackReachSqr(EntityLivingBase attackTarget) {
-			return (double) (4.0F + attackTarget.width);
+		protected double getAttackReachSqr(LivingEntity attackTarget) {
+			return (double) (4.0F + attackTarget.getWidth());
 		}
 	}
 
