@@ -1,19 +1,7 @@
 package animalium;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-import net.minecraftforge.registries.IForgeRegistry;
-
 public class ModRecipes {
-	
+	/*
 	public static IRecipe LEATHER, BEAR_CLAW_PAXEL, DOG_PELT_BOOTS;
 
 	public static void init() {
@@ -48,4 +36,5 @@ public class ModRecipes {
 		GameRegistry.addSmelting(new ItemStack(ModItems.BEAR_MEAT), new ItemStack(ModItems.BEAR_MEAT_COOKED), 1F);
 		GameRegistry.addSmelting(new ItemStack(ModItems.RAT_MEAT), new ItemStack(ModItems.RAT_MEAT_COOKED), 1F);
 	}
+	*/
 }

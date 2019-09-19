@@ -3,7 +3,7 @@ package animalium.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import animalium.configs.ConfigHandler;
+import animalium.configs.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -60,9 +60,9 @@ public class EntityPiranha extends EntityMob {
 		targetTasks.addTask(0, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, true, null));
 		targetTasks.addTask(3, new EntityAIHurtByTarget(this, false));
 		
-		if (ConfigHandler.PIRANHA_ATTACK_MOBS)
+		if (Config.PIRANHA_ATTACK_MOBS.get())
 			targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
-		if (ConfigHandler.PIRANHA_ATTACK_CREATURES)
+		if (Config.PIRANHA_ATTACK_CREATURES.get())
 			targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
 	}
 
@@ -137,8 +137,8 @@ public class EntityPiranha extends EntityMob {
 
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < ConfigHandler.PIRANHA_BLACKLISTED_DIMS.length; dims++) {
-			String dimEntry = ConfigHandler.PIRANHA_BLACKLISTED_DIMS[dims].trim();
+		for (int dims = 0; dims < Config.PIRANHA_BLACKLISTED_DIMS.get().length; dims++) {
+			String dimEntry = Config.PIRANHA_BLACKLISTED_DIMS.get()[dims].trim();
 			dimBlackList.add(Integer.valueOf(dimEntry));
 		}
 		if(dimBlackList.contains(dimensionIn))
@@ -278,10 +278,10 @@ public class EntityPiranha extends EntityMob {
 	@Override
 	protected void collideWithNearbyEntities() {
 		super.collideWithNearbyEntities();
-		if (ConfigHandler.PIRANHA_DAMAGE_BOATS) {
+		if (Config.PIRANHA_DAMAGE_BOATS.get()) {
 			List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox());
 
-			if (!list.isEmpty() && this.rand.nextInt(ConfigHandler.PIRANHA_DAMAGE_BOATS_CHANCE) == 0) {
+			if (!list.isEmpty() && this.rand.nextInt(Config.PIRANHA_DAMAGE_BOATS_CHANCE.get()) == 0) {
 				for (int k = 0; k < list.size(); ++k) {
 					if (((Entity) list.get(k) instanceof EntityBoat)) {
 						attackEntityAsMob(list.get(k));

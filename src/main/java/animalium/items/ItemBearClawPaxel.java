@@ -1,35 +1,37 @@
 package animalium.items;
 
-import animalium.Animalium;
+import com.sun.istack.internal.Nullable;
+
 import animalium.ModItems;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import animalium.ModToolMaterials;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ToolItem;
+import net.minecraftforge.common.ToolType;
 
-public class ItemBearClawPaxel extends ItemTool {
+public class ItemBearClawPaxel extends ToolItem {
 
-	public ItemBearClawPaxel(ToolMaterial material) {
-		super(1.0F, 1.0F, material, null);
-		setCreativeTab(Animalium.TAB);
+	public ItemBearClawPaxel(ModToolMaterials material) {
+		super(1.0F, 1.0F, material, null, null);
 	}
 
 	@Override
-	  public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState blockState) {
-		if ("pickaxe".equals(toolClass) || "axe".equals(toolClass) || "shovel".equals(toolClass))
-			return Animalium.TOOL_BEAR_CLAW_PAXEL.getHarvestLevel();
+	   public int getHarvestLevel(ItemStack stack, ToolType tool, @Nullable PlayerEntity player, @Nullable BlockState blockState) {
+		if ("pickaxe".equals(tool.getName()) || "axe".equals(tool.getName()) || "shovel".equals(tool.getName()))
+			return  ModToolMaterials.TOOL_BEAR_CLAW_PAXEL.getHarvestLevel();
 		return -1;
 	}
 
 	@Override
-	public float getDestroySpeed(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, BlockState state) {
 		if (isToolEffective(state))
-			return Animalium.TOOL_BEAR_CLAW_PAXEL.getEfficiency();
+			return  ModToolMaterials.TOOL_BEAR_CLAW_PAXEL.getEfficiency();
 		return 2.0F;
 	}
 
-	public boolean isToolEffective(IBlockState state) {
-		return state.getBlock().isToolEffective("pickaxe", state) || state.getBlock().isToolEffective("axe", state) || state.getBlock().isToolEffective("shovel", state);
+	public boolean isToolEffective(BlockState state) {
+		return state.isToolEffective(ToolType.get("pickaxe")) || state.isToolEffective(ToolType.get("axe")) || state.isToolEffective(ToolType.get("shovel"));
 	}
 
 	@Override

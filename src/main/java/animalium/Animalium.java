@@ -1,10 +1,13 @@
 package animalium;
 
-import animalium.configs.ConfigHandler;
+import animalium.client.render.entity.RenderBear;
+import animalium.client.render.entity.RenderWildDog;
+import animalium.entities.EntityBear;
+import animalium.entities.EntityWildDog;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -24,9 +27,6 @@ public class Animalium {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-//	public static ToolMaterial TOOL_BEAR_CLAW_PAXEL = EnumHelper.addToolMaterial("BEAR_CLAW_PAXEL", 2, 1079, 8.0F, 4.0F, 14);
-//	public static ArmorMaterial ARMOR_DOG_PELT = EnumHelper.addArmorMaterial("ARMOR_DOG_PELT", "wild_dog_pelt", 19, new int[] { 2, 3, 2, 2 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 3.0F);
-
 	public static ItemGroup TAB = new ItemGroup(Reference.MOD_ID) {
 		@Override
 		public ItemStack createIcon() {
@@ -34,12 +34,9 @@ public class Animalium {
 		}
 	};
 
-
 	private void setup(final FMLCommonSetupEvent event) {
-	/*	ConfigHandler.INSTANCE.loadConfig(event);
+	/*	
 
-		ModItems.init();
-		ModRecipes.init();
 		ModRecipes.registerSmelting();
 
 		EntityRegistry.registerModEntity(getEntityResource("piranha"), EntityPiranha.class, "piranha", 1, this, 120, 1, true, -126, -48326583);
@@ -73,11 +70,15 @@ public class Animalium {
 				}
 		}
 	*/	
-		MinecraftForge.EVENT_BUS.register(ConfigHandler.INSTANCE);
 		MinecraftForge.EVENT_BUS.register(ModItems.DOG_PELT_BOOTS);
 	}
 
-	private void doClientStuff(final FMLClientSetupEvent event) {}
+	private void doClientStuff(final FMLClientSetupEvent event) {
+		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBear :: new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityWildDog.class, RenderWildDog :: new);
+	//	RenderingRegistry.registerEntityRenderingHandler(EntityPiranha.class, RenderPiranha::new);
+	//	RenderingRegistry.registerEntityRenderingHandler(EntityRat.class, RenderRat::new);
+	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {}
 

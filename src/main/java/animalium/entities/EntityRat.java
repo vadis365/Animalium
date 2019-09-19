@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import animalium.ModItems;
-import animalium.configs.ConfigHandler;
+import animalium.configs.Config;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,9 +43,9 @@ public class EntityRat extends EntityMob {
 		super(world);
 		setSize(0.9F, 0.9F);
 		if (world != null && !world.isRemote) {
-			if (ConfigHandler.RAT_ATTACK_MOBS)
+			if (Config.RAT_ATTACK_MOBS.get())
 				targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
-			if (ConfigHandler.RAT_ATTACK_CREATURES)
+			if (Config.RAT_ATTACK_CREATURES.get())
 				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
 		}
 	}
@@ -116,7 +116,7 @@ public class EntityRat extends EntityMob {
 		if (canEntityBeSeen(entity)) {
 			boolean attacked;
 			if (attacked = super.attackEntityAsMob(entity)) {
-				if (entity instanceof EntityPlayer && getRNG().nextInt(ConfigHandler.RAT_STEALS_PROBABILITY) == 0 && ConfigHandler.RAT_STEALS_ITEMS) {
+				if (entity instanceof EntityPlayer && getRNG().nextInt(Config.RAT_STEALS_PROBABILITY.get()) == 0 && Config.RAT_STEALS_ITEMS.get()) {
 					EntityPlayer player = (EntityPlayer) entity;
 					if (!getEntityWorld().isRemote && getCanAttack()) {
 						ItemStack stack = player.getHeldItemMainhand();
@@ -157,13 +157,13 @@ public class EntityRat extends EntityMob {
     public boolean getCanSpawnHere() {
 		if(isDimBlacklisted(dimension))
 			return false;
-        return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.RAT_SPAWN_Y_HEIGHT;
+        return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= Config.RAT_SPAWN_Y_HEIGHT.get();
     }
 
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < ConfigHandler.RAT_BLACKLISTED_DIMS.length; dims++) {
-			String dimEntry = ConfigHandler.RAT_BLACKLISTED_DIMS[dims].trim();
+		for (int dims = 0; dims < Config.RAT_BLACKLISTED_DIMS.get().length; dims++) {
+			String dimEntry = Config.RAT_BLACKLISTED_DIMS.get()[dims].trim();
 			dimBlackList.add(Integer.valueOf(dimEntry));
 		}
 		if(dimBlackList.contains(dimensionIn))

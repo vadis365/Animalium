@@ -9,6 +9,7 @@ import animalium.items.ItemBearClawPaxel;
 import animalium.items.ItemDogPeltBoots;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -46,7 +47,7 @@ public class ModItems {
 			if (target instanceof EntityBear) {
 				if (!player.getEntityWorld().isRemote) {
 					EntityBear bear = (EntityBear) target;
-					EntityNeutralBear tamedBear = new EntityNeutralBear(player.getEntityWorld());
+					EntityNeutralBear tamedBear = ModEntities.BEAR_TAMED.create(player.getEntityWorld());
 					tamedBear.copyLocationAndAnglesFrom(bear);
 					bear.remove();
 					player.getEntityWorld().addEntity(tamedBear);
@@ -68,13 +69,13 @@ public class ModItems {
 	BEAR_CLAW = new Item(new Item.Properties().group(Animalium.TAB));
 	BEAR_CLAW.setRegistryName(Reference.MOD_ID, "bear_claw");
 
-	BEAR_CLAW_PAXEL = new ItemBearClawPaxel(Animalium.TOOL_BEAR_CLAW_PAXEL);
+	BEAR_CLAW_PAXEL = new ItemBearClawPaxel(ModToolMaterials.TOOL_BEAR_CLAW_PAXEL);
 	BEAR_CLAW_PAXEL.setRegistryName(Reference.MOD_ID, "bear_claw_paxel");
 
-	DOG_PELT_BOOTS = new ItemDogPeltBoots();
+	DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(1).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
 	DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "dog_boots");
 	}
-	
+
 	@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 	public static class RegistrationHandlerItems {
 		public static final List<Item> ITEMS = new ArrayList<Item>();

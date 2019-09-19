@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import animalium.configs.ConfigHandler;
+import animalium.ModEntities;
+import animalium.configs.Config;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -44,11 +46,10 @@ public class EntityBear extends MonsterEntity {
 	
 	   public EntityBear(EntityType<? extends EntityBear> type, World world) {
 		      super(type, world);
-		//		setSize(2F, 2F);
 				if (world != null && !world.isRemote) {
-					if (ConfigHandler.BEAR_ATTACK_MOBS)
+					if (Config.BEAR_ATTACK_MOBS.get())
 						targetSelector.addGoal(1, new EntityBear.TargetGoal<>(this, MobEntity.class));
-					if (ConfigHandler.BEAR_ATTACK_CREATURES)
+					if (Config.BEAR_ATTACK_CREATURES.get())
 						targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
 				}
 				stepHeight = 2F;
@@ -131,16 +132,15 @@ public class EntityBear extends MonsterEntity {
     public float smoothedAngle(float partialTicks) {
         return standingAngle + (standingAngle - prevStandingAngle) * partialTicks;
     }
-/* TODO Entity Registry
+
 	@Override
-	@SuppressWarnings("rawtypes")
 	public boolean canAttack(EntityType<?> typeIn) {
-		return typeIn!= ModEntities.EntityType.BEAR;
+		return typeIn!= ModEntities.BEAR;
 	}
-*/
+
 	protected boolean isValidLightLevel() {
 		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
-		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (getEntityWorld().isDaytime())
 				if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 6)
 					return true;
@@ -153,13 +153,13 @@ public class EntityBear extends MonsterEntity {
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
 		if(isDimBlacklisted(dimension.getId()))
 			return false;
-		if (ConfigHandler.BEAR_SPAWN_ONLY_AT_DAY) {
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (getEntityWorld().isDaytime())
-				return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
+				return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.BEAR_SPAWN_Y_HEIGHT.get();
 			else
 				return false;
 		}
-		return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= ConfigHandler.BEAR_SPAWN_Y_HEIGHT;
+		return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.BEAR_SPAWN_Y_HEIGHT.get();
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
@@ -178,8 +178,8 @@ public class EntityBear extends MonsterEntity {
 
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < ConfigHandler.BEAR_BLACKLISTED_DIMS.length; dims++) {
-			String dimEntry = ConfigHandler.BEAR_BLACKLISTED_DIMS[dims].trim();
+		for (int dims = 0; dims < Config.BEAR_BLACKLISTED_DIMS.get().length; dims++) {
+			String dimEntry = Config.BEAR_BLACKLISTED_DIMS.get()[dims].trim();
 			dimBlackList.add(Integer.valueOf(dimEntry));
 		}
 		if(dimBlackList.contains(dimensionIn))
@@ -211,19 +211,23 @@ public class EntityBear extends MonsterEntity {
 		return false;
 	}
 
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
 	}
 
-	protected SoundEvent getHurtSound() {
+	@Override
+	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundEvents.ENTITY_POLAR_BEAR_HURT;
 	}
 
+	@Override
 	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
 	}
 
-	protected void playStepSound(BlockPos pos, Block blockIn) {
+	@Override
+	protected void playStepSound(BlockPos pos, BlockState state) {
 		this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
 	}
 

@@ -1,26 +1,27 @@
 package animalium.client.render.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import animalium.client.model.ModelBear;
 import animalium.entities.EntityBear;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class RenderBear extends RenderLiving<EntityBear> {
+@OnlyIn(Dist.CLIENT)
+public class RenderBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/bear.png");
 
-	public RenderBear(RenderManager renderManagerIn) {
-        super(renderManagerIn, new ModelBear(), 0.5F);
+	public RenderBear(EntityRendererManager renderManagerIn) {
+        super(renderManagerIn, new ModelBear<>(), 0.5F);
     }
 
 	@Override
 	protected void preRenderCallback(EntityBear entity, float partialTickTime) {
-		GlStateManager.scale(1.5F, 1.5F, 1.5F);
-		GlStateManager.rotate(180F, 0F, 1F, 0F);
+		GlStateManager.scalef(1.5F, 1.5F, 1.5F);
+		GlStateManager.rotatef(180F, 0F, 1F, 0F);
 	}
 
 	@Override
