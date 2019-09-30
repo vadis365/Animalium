@@ -1,0 +1,25 @@
+{
+	"_comment": "Items",
+	"item.animalium.wild_dog_pelt": "Wild Dog Pelt",
+	"item.animalium.dog_boots": "Wild Dog Pelt Boots",
+	"item.animalium.bear_meat": "Raw Bear Meat",
+	"item.animalium.bear_meat_cooked": "Cooked Bear Meat",
+	"item.animalium.bear_claw": "Bear Claw",
+	"item.animalium.bear_claw_paxel": "Bear Claw Paxel",
+	"item.animalium.rat_meat": "Raw Rat Meat",
+	"item.animalium.rat_meat_cooked": "Cooked Rat Meat",
+	  
+	"_comment": "Tool Tips",
+	"tooltip.upper_1": "Works like an upside-down hopper.",
+	"tooltip.upper_2": "Sucks items up from block below.",
+	
+	"_comment": "Creative Tabs",
+	"itemGroup.animalium": "Animalium",
+	
+	"_comment": "Entities",
+	"entity.piranha": "Piranha",
+	"entity.wild_dog": "Wild Dog",
+	"entity.bear": "Brown Bear",
+	"entity.bear_tamed": "Neutral Brown Bear",
+	"entity.rat": "Rat"
+}

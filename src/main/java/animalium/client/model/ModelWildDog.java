@@ -3,13 +3,12 @@ package animalium.client.model;
 import animalium.entities.EntityWildDog;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelWildDog<T extends Entity> extends EntityModel<T> {
+public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 
 	RendererModel body_rear;
 	RendererModel body_mid;
@@ -183,11 +182,10 @@ public class ModelWildDog<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		EntityWildDog dog = (EntityWildDog) entity;
 		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((dog.ticksExisted) * 0.2F) * 0.6F;
+		float flap = MathHelper.sin((entity.ticksExisted) * 0.2F) * 0.6F;
 
 		tail1.rotateAngleY = flap * 0.2F;
 		tail2.rotateAngleY = tail1.rotateAngleY * 1.2F;
@@ -197,7 +195,7 @@ public class ModelWildDog<T extends Entity> extends EntityModel<T> {
 		tail2.rotateAngleX = 0.10471975511965977F - animation * 3F;
 		tail3.rotateAngleX = 0.03490658503988659F - animation * 4F;
 
-		if(dog.posX == dog.lastTickPosX) {
+		if(entity.posX == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = -0.6981317007977318F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 1.2217304763960306F  + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -0.5235987755982988F - animation2 * 18F + flap * 0.075F;
@@ -258,7 +256,7 @@ public class ModelWildDog<T extends Entity> extends EntityModel<T> {
 
 		}
 
-		if (!dog.onGround)
+		if (!entity.onGround)
 			lower_jaw.rotateAngleX = -0.9F;
 		else
 			lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;

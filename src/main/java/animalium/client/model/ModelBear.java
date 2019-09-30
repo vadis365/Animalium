@@ -3,13 +3,12 @@ package animalium.client.model;
 import animalium.entities.EntityBear;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelBear<T extends Entity> extends EntityModel<T> {
+public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 	RendererModel body_rear;
 	RendererModel body_mid;
 	RendererModel r_hindleg1;
@@ -166,15 +165,14 @@ public class ModelBear<T extends Entity> extends EntityModel<T> {
 
 	@Override
 	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		
-		EntityBear bear = (EntityBear) entity;
+
 		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((bear.ticksExisted) * 0.3F) * 0.8F;
-		float standingAngle = bear.smoothedAngle(partialRenderTicks);
+		float flap = MathHelper.sin((entity.ticksExisted) * 0.3F) * 0.8F;
+		float standingAngle = entity.smoothedAngle(partialRenderTicks);
 
-		if (bear.posX == bear.lastTickPosX) {
+		if (entity.posX == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 0.17453292519943295F + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -(standingAngle*1.25F) -0.17453292519943295F - animation2 * 18F + flap * 0.05F;
@@ -241,7 +239,7 @@ public class ModelBear<T extends Entity> extends EntityModel<T> {
 			head.rotateAngleZ = -(standingAngle * 0.1F * flap * 6F);
 		}
 
-		if (!bear.onGround)
+		if (!entity.onGround)
 			lower_jaw.rotateAngleX = -0.9F;
 		else {
 			if(standingAngle > 0)

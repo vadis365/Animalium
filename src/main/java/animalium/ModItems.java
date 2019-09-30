@@ -76,12 +76,13 @@ public class ModItems {
 	DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "dog_boots");
 	}
 
-	@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
+	@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandlerItems {
 		public static final List<Item> ITEMS = new ArrayList<Item>();
 
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
+			init();
 			final Item[] items = {
 					WILD_DOG_PELT,
 					BEAR_MEAT,

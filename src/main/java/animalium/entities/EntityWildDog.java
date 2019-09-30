@@ -41,12 +41,6 @@ public class EntityWildDog extends MonsterEntity {
 	public EntityWildDog(EntityType<? extends EntityWildDog> type, World world) {
 		super(type, world);
 		dogPartArray = new EntityDogPart[] {dogPartHead};
-		if (world != null && !world.isRemote) {
-			if (Config.WILD_DOG_ATTACK_MOBS.get())
-				targetSelector.addGoal(1, new EntityWildDog.TargetGoal<>(this, MobEntity.class));
-			if (Config.WILD_DOG_ATTACK_CREATURES.get())
-				targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, LivingEntity.class));
-		}
 	}
 
 	@Override
@@ -59,6 +53,11 @@ public class EntityWildDog extends MonsterEntity {
 		goalSelector.addGoal(6, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, PlayerEntity.class));
+
+		if (Config.WILD_DOG_ATTACK_MOBS.get())
+			targetSelector.addGoal(1, new EntityWildDog.TargetGoal<>(this, MobEntity.class));
+		if (Config.WILD_DOG_ATTACK_CREATURES.get())
+			targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, LivingEntity.class));
 	}
 
 	@Override

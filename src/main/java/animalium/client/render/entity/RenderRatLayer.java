@@ -1,42 +1,58 @@
 package animalium.client.render.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import animalium.client.model.ModelRat;
 import animalium.entities.EntityRat;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class RenderRatLayer implements LayerRenderer<EntityRat> {
-	private final RenderRat ratRenderer;
+@OnlyIn(Dist.CLIENT)
+public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>> {
 
-	public RenderRatLayer(RenderRat livingEntityRendererIn) {
-		this.ratRenderer = livingEntityRendererIn;
+	private final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+	public RenderRatLayer(IEntityRenderer <EntityRat, ModelRat<EntityRat>> entity) {
+		super(entity);
 	}
 
 	@Override
-	public void doRenderLayer(EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+	public void render(EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		ItemStack stack = entity.getHeldItemMainhand();
 
-		if (stack != null)
+		if (!stack.isEmpty())
 			this.renderHeldItem(entity, stack);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void renderHeldItem(EntityRat entity, ItemStack stack) {
-		if (stack != null) {
+		if (!stack.isEmpty()) {
+			Item item = stack.getItem();
+			Block block = Block.getBlockFromItem(item);
 			GlStateManager.pushMatrix();
+	        boolean transparent3D = itemRenderer.shouldRenderItemIn3D(stack) && block.getRenderLayer() == BlockRenderLayer.TRANSLUCENT;
+	        if (transparent3D)
+	        	GlStateManager.depthMask(false);
+
 			float animation = MathHelper.sin((entity.limbSwing * 0.4F) * 1.5F) * 0.3F * entity.limbSwingAmount * 0.3F;
-			GlStateManager.translate(0.0F, 1F + animation, 1.75F);
-			GlStateManager.rotate(-110.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.scale(0.5F, 0.5F, 0.5F);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-			Minecraft.getMinecraft().getRenderItem().renderItem(stack, Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack, (World) null, (EntityLivingBase) null));
+			GlStateManager.translatef(0.0F, 1F + animation, 1.75F);
+			GlStateManager.rotatef(-110.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+
+			itemRenderer.renderItem(stack, entity, ItemCameraTransforms.TransformType.GROUND, false);
+			//itemRenderer.renderItem(stack, itemRenderer.getItemModelWithOverrides(stack, (World) null, (LivingEntity) null));
+			if (transparent3D)
+				GlStateManager.depthMask(true);
+
 			GlStateManager.popMatrix();
 		}
 	}

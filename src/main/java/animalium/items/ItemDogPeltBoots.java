@@ -9,10 +9,10 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ItemDogPeltBoots extends ArmorItem {
@@ -34,16 +34,21 @@ public class ItemDogPeltBoots extends ArmorItem {
 	public boolean getIsRepairable(ItemStack armour, ItemStack material) {
 		return material.getItem() == ModItems.WILD_DOG_PELT;
 	}
-/*	
+	
 	@Override
-	public void onArmorTick(World world, PlayerEntity player, ItemStack itemStack) {
-		player.fallDistance = 0.0F;
-		if (player.isSprinting() && player.onGround) {
-			player.motionX *= 1D + 0.5D;
-			player.motionZ *= 1D + 0.5D;
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+		if (entity instanceof PlayerEntity) {
+			ItemStack is = ((PlayerEntity) entity).getItemStackFromSlot(EquipmentSlotType.FEET);
+			if (!is.isEmpty() && is.getItem() == this && !entity.isSneaking()) {
+				if (entity.isSprinting() && entity.onGround) {
+					entity.fallDistance = 0.0F;
+					float f1 = entity.rotationYaw * ((float) Math.PI / 180F);
+					entity.setMotion(entity.getMotion().add((double) (-MathHelper.sin(f1) * 1F + 0.5F), 0.0D, (double) (MathHelper.cos(f1) * 1F + 0.5F)));
+				}
+			}
 		}
 	}
-*/
+/*
 	@SubscribeEvent
 	public void onEntitySprint(LivingUpdateEvent e) {
 		if (e.getEntityLiving() instanceof PlayerEntity) {
@@ -56,7 +61,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 				}
 		}
 	}
-
+*/
 	@SubscribeEvent
 	public void onEntityJump(LivingJumpEvent e) {
 		if (e.getEntityLiving() instanceof PlayerEntity) {

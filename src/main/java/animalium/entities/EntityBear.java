@@ -46,12 +46,6 @@ public class EntityBear extends MonsterEntity {
 	
 	   public EntityBear(EntityType<? extends EntityBear> type, World world) {
 		      super(type, world);
-				if (world != null && !world.isRemote) {
-					if (Config.BEAR_ATTACK_MOBS.get())
-						targetSelector.addGoal(1, new EntityBear.TargetGoal<>(this, MobEntity.class));
-					if (Config.BEAR_ATTACK_CREATURES.get())
-						targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
-				}
 				stepHeight = 2F;
 		   }
 
@@ -78,6 +72,11 @@ public class EntityBear extends MonsterEntity {
 		goalSelector.addGoal(5, new LookRandomlyGoal(this));
 		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 		targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, PlayerEntity.class));
+
+		if (Config.BEAR_ATTACK_MOBS.get())
+			targetSelector.addGoal(1, new EntityBear.TargetGoal<>(this, MonsterEntity.class));
+		if (Config.BEAR_ATTACK_CREATURES.get())
+			targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
 	}
 
 	@Override
