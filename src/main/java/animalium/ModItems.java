@@ -5,7 +5,6 @@ import java.util.List;
 
 import animalium.entities.EntityBear;
 import animalium.entities.EntityNeutralBear;
-import animalium.items.ItemBearClawPaxel;
 import animalium.items.ItemDogPeltBoots;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +25,7 @@ public class ModItems {
 	public static Item BEAR_MEAT;
 	public static Item BEAR_MEAT_COOKED;
 	public static Item BEAR_CLAW;
-	public static Item BEAR_CLAW_PAXEL;
+	//public static Item BEAR_CLAW_PAXEL;
 	public static Item RAT_MEAT;
 	public static Item RAT_MEAT_COOKED;
 	public static Item DOG_PELT_BOOTS;
@@ -69,8 +68,8 @@ public class ModItems {
 	BEAR_CLAW = new Item(new Item.Properties().group(Animalium.TAB));
 	BEAR_CLAW.setRegistryName(Reference.MOD_ID, "bear_claw");
 
-	BEAR_CLAW_PAXEL = new ItemBearClawPaxel(ModToolMaterials.TOOL_BEAR_CLAW_PAXEL);
-	BEAR_CLAW_PAXEL.setRegistryName(Reference.MOD_ID, "bear_claw_paxel");
+	//BEAR_CLAW_PAXEL = new ItemBearClawPaxel(ModToolMaterials.TOOL_BEAR_CLAW_PAXEL);
+	//BEAR_CLAW_PAXEL.setRegistryName(Reference.MOD_ID, "bear_claw_paxel");
 
 	DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(1).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
 	DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "dog_boots");
@@ -88,7 +87,7 @@ public class ModItems {
 					BEAR_MEAT,
 					BEAR_MEAT_COOKED,
 					BEAR_CLAW,
-					BEAR_CLAW_PAXEL,
+					//BEAR_CLAW_PAXEL,
 					RAT_MEAT,
 					RAT_MEAT_COOKED,
 					DOG_PELT_BOOTS

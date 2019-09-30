@@ -34,7 +34,7 @@ public class Animalium {
 	public static ItemGroup TAB = new ItemGroup(Reference.MOD_ID) {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack (ModItems.BEAR_CLAW_PAXEL);
+			return new ItemStack (ModItems.BEAR_CLAW);
 		}
 	};
 
