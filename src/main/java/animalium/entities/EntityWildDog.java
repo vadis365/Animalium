@@ -83,8 +83,8 @@ public class EntityWildDog extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
+//		if(isDimBlacklisted(dimension.getId()))
+//			return false;
         return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
     }
 
@@ -96,7 +96,7 @@ public class EntityWildDog extends MonsterEntity {
 	public boolean isNotColliding(IWorldReader world) {
 		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
 	}
-
+/*
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
 		for (int dims = 0; dims < Config.WILD_DOG_BLACKLISTED_DIMS.get().length; dims++) {
@@ -107,7 +107,7 @@ public class EntityWildDog extends MonsterEntity {
 			return true;
 		return false;
 	}
-/*
+
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		if (getEntityWorld().rand.nextInt(5) == 0) {

@@ -155,15 +155,15 @@ public class EntityRat extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
+//		if(isDimBlacklisted(dimension.getId()))
+//			return false;
         return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.RAT_SPAWN_Y_HEIGHT.get();
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
 		return world.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(world, pos, random) && func_223315_a(entity, world, spawn_reason, pos, random);
 	}
-
+/*
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
 		for (int dims = 0; dims < Config.RAT_BLACKLISTED_DIMS.get().length; dims++) {
@@ -174,7 +174,7 @@ public class EntityRat extends MonsterEntity {
 			return true;
 		return false;
 	}
-
+*/
 	@Override
     public boolean isNotColliding(IWorldReader world) {
 		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);

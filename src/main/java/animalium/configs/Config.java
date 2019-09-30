@@ -26,26 +26,26 @@ public class Config {
     public static ForgeConfigSpec.IntValue PIRANHA_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_SPAWN_PROBABILITY;
-	public static ForgeConfigSpec.ConfigValue<String[]> PIRANHA_BLACKLISTED_DIMS;
+//	public static ForgeConfigSpec.ConfigValue<String[]> PIRANHA_BLACKLISTED_DIMS;
 	
 	public static ForgeConfigSpec.IntValue WILD_DOG_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_Y_HEIGHT;
-	public static ForgeConfigSpec.ConfigValue<String[]> WILD_DOG_BLACKLISTED_DIMS;
+//	public static ForgeConfigSpec.ConfigValue<String[]> WILD_DOG_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue BEAR_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_Y_HEIGHT;
 	public static ForgeConfigSpec.BooleanValue BEAR_SPAWN_ONLY_AT_DAY;
-	public static ForgeConfigSpec.ConfigValue<String[]> BEAR_BLACKLISTED_DIMS;
+//	public static ForgeConfigSpec.ConfigValue<String[]> BEAR_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue RAT_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_Y_HEIGHT;
-	public static ForgeConfigSpec.ConfigValue<String[]> RAT_BLACKLISTED_DIMS;
+//	public static ForgeConfigSpec.ConfigValue<String[]> RAT_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_MOBS;
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_CREATURES;
@@ -70,26 +70,26 @@ public class Config {
         PIRANHA_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		PIRANHA_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		PIRANHA_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Piranha Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
-		PIRANHA_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Piranha Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
+	//	PIRANHA_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Piranha Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
 		WILD_DOG_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		WILD_DOG_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		WILD_DOG_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Wild Dog Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
 		WILD_DOG_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Wild Dog Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
-		WILD_DOG_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Wild Dog Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
+	//	WILD_DOG_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Wild Dog Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
 		BEAR_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		BEAR_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Maximum Size").defineInRange("max_spawn_size", 1, 1, Integer.MAX_VALUE);
 		BEAR_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Bear Spawn Chance Probability").defineInRange("chance", 1, 1, Integer.MAX_VALUE);
 		BEAR_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Bear Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
 		BEAR_SPAWN_ONLY_AT_DAY = COMMON_BUILDER.comment("Bears Spawn Only During Day").define("only_day_spawns", true);
-		BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
+	//	BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
 		RAT_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		RAT_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		RAT_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Rat Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
 		RAT_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Rat Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
-		RAT_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Rat Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
+	//	RAT_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Rat Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
         COMMON_BUILDER.pop();
 
         COMMON_BUILDER.comment("Animal Attack Settings").push(CATEGORY_ATTACKS);
@@ -115,7 +115,7 @@ public class Config {
     }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path) {
-
+  
         final CommentedFileConfig configData = CommentedFileConfig.builder(path)
                 .sync()
                 .autosave()
@@ -134,7 +134,5 @@ public class Config {
     @SubscribeEvent
     public static void onReload(final ModConfig.ConfigReloading configEvent) {
     }
-
-
 }
 

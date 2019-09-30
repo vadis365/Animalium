@@ -129,8 +129,8 @@ public class EntityPiranha extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
+	//	if(isDimBlacklisted(dimension.getId()))
+	//		return false;
 		return (posY > 45.0D && posY <= 80) && super.canSpawn(world, spawnReasonIn);
     }
 
@@ -142,7 +142,7 @@ public class EntityPiranha extends MonsterEntity {
 	public int getMaxSpawnedInChunk() {
 		return 3;
 	}
-
+/*
 	private Boolean isDimBlacklisted(int dimensionIn) {
 		List<Integer> dimBlackList = new ArrayList<Integer>();
 		for (int dims = 0; dims < Config.PIRANHA_BLACKLISTED_DIMS.get().length; dims++) {
@@ -153,7 +153,7 @@ public class EntityPiranha extends MonsterEntity {
 			return true;
 		return false;
 	}
-
+*/
 	@Override
 	   protected SoundEvent getAmbientSound() {
         return isInWater() ? SoundEvents.ENTITY_GENERIC_SWIM : SoundEvents.ENTITY_GUARDIAN_FLOP;
