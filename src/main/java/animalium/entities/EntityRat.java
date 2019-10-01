@@ -1,7 +1,5 @@
 package animalium.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import animalium.ModEntities;
@@ -161,7 +159,7 @@ public class EntityRat extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(world, pos, random) && func_223315_a(entity, world, spawn_reason, pos, random);
+		return world.getDifficulty() != Difficulty.PEACEFUL;
 	}
 /*
 	private Boolean isDimBlacklisted(int dimensionIn) {

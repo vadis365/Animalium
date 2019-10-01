@@ -38,8 +38,8 @@ public class Animalium {
 		
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
-	//	Path path = FMLPaths.CONFIGDIR.get().resolve("animalium-common.toml");
-		//Config.loadConfig(Config.COMMON_CONFIG, path);
+		Path path = FMLPaths.CONFIGDIR.get().resolve("animalium-common.toml");
+		Config.loadConfig(Config.COMMON_CONFIG, path);
 	}
 
 	public static ItemGroup TAB = new ItemGroup(Reference.MOD_ID) {
@@ -56,7 +56,7 @@ public class Animalium {
 
 		PROXY.registerRenderers();
 */	
-
+		ModEntities.registerEntitySpawns();
 		MinecraftForge.EVENT_BUS.register(ModItems.DOG_PELT_BOOTS);
 	}
 	

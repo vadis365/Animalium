@@ -58,7 +58,6 @@ public class ModEntities {
 		registry.register(WILD_DOG.setRegistryName(Reference.MOD_ID, "wild_dog"));
 		registry.register(RAT.setRegistryName(Reference.MOD_ID, "rat"));
 		registry.register(PIRANHA.setRegistryName(Reference.MOD_ID, "piranha"));
-		registerEntitySpawns();
 	}
 
 	@SubscribeEvent

@@ -1,7 +1,5 @@
 package animalium.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import animalium.ModEntities;
@@ -51,7 +49,7 @@ public class EntityWildDog extends MonsterEntity {
 		goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
 		goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 8.0F));
 		goalSelector.addGoal(6, new LookRandomlyGoal(this));
-		targetSelector.addGoal(1, new HurtByTargetGoal(this));
+		targetSelector.addGoal(1, new EntityWildDog.HurtByAggressorGoal(this));
 		targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, PlayerEntity.class));
 
 		if (Config.WILD_DOG_ATTACK_MOBS.get())
@@ -89,7 +87,7 @@ public class EntityWildDog extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(world, pos, random) && func_223315_a(entity, world, spawn_reason, pos, random);
+		return world.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
 	@Override
@@ -147,23 +145,6 @@ public class EntityWildDog extends MonsterEntity {
 		double offSetZ = Math.cos(a) * -0.75D;
 		dogPartHead.setLocationAndAngles(posX - offSetX, posY + 0.7D, posZ - offSetZ, 0.0F, 0.0F);
     }
-	
-	static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
-		public TargetGoal(EntityWildDog dog, Class<T> classTarget) {
-			super(dog, classTarget, true);
-		}
-	}
-
-	static class AttackGoal extends MeleeAttackGoal {
-		public AttackGoal(EntityWildDog dog) {
-			super(dog, 0.6D, false);
-		}
-
-		@Override
-		protected double getAttackReachSqr(LivingEntity attackTarget) {
-			return (double) (4.0F + attackTarget.getWidth());
-		}
-	}
 
 	public boolean attackEntityFromPart(EntityDogPart dogPart, DamageSource source, float damage) {
 		if (source.getTrueSource() instanceof PlayerEntity || source.isExplosion())
@@ -181,5 +162,36 @@ public class EntityWildDog extends MonsterEntity {
     protected boolean attackDogFrom(DamageSource source, float amount){
         return super.attackEntityFrom(source, amount);
     }
+
+	static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+		public TargetGoal(EntityWildDog dog, Class<T> classTarget) {
+			super(dog, classTarget, true);
+		}
+	}
+
+	static class AttackGoal extends MeleeAttackGoal {
+		public AttackGoal(EntityWildDog dog) {
+			super(dog, 0.6D, false);
+		}
+
+		@Override
+		protected double getAttackReachSqr(LivingEntity attackTarget) {
+			return (double) (4.0F + attackTarget.getWidth());
+		}
+	}
+
+	static class HurtByAggressorGoal extends HurtByTargetGoal {
+		public HurtByAggressorGoal(EntityWildDog wild_dog) {
+			super(wild_dog);
+			this.setCallsForHelp(new Class[] { EntityWildDog.class });
+		}
+
+		protected void setAttackTarget(MobEntity mobIn, LivingEntity targetIn) {
+			if (mobIn instanceof EntityWildDog && this.goalOwner.canEntityBeSeen(targetIn)) {
+				mobIn.setAttackTarget(targetIn);
+			}
+
+		}
+	}
 
 }

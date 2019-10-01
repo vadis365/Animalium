@@ -1,17 +1,13 @@
 package animalium.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import animalium.ModEntities;
 import animalium.configs.Config;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -162,7 +158,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && func_223323_a(world, pos, random) && func_223315_a(entity, world, spawn_reason, pos, random);
+		return world.getDifficulty() != Difficulty.PEACEFUL;
 	}
 
 	@Override

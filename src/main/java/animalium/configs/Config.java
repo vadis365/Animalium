@@ -65,49 +65,48 @@ public class Config {
 
 
     static {
-
         COMMON_BUILDER.comment("Animal Spawn Settings").push(CATEGORY_SPAWNS);
-        PIRANHA_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
-		PIRANHA_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
-		PIRANHA_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Piranha Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
+        PIRANHA_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Minimum Size").defineInRange("piranha_min_spawn_size", 1, 1, Integer.MAX_VALUE);
+		PIRANHA_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Maximum Size").defineInRange("piranha_max_spawn_size", 3, 1, Integer.MAX_VALUE);
+		PIRANHA_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Piranha Spawn Chance Probability").defineInRange("piranha_chance", 10, 1, Integer.MAX_VALUE);
 	//	PIRANHA_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Piranha Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
-		WILD_DOG_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
-		WILD_DOG_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
-		WILD_DOG_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Wild Dog Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
-		WILD_DOG_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Wild Dog Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
+		WILD_DOG_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Minimum Size").defineInRange("wild_dog_min_spawn_size", 1, 1, Integer.MAX_VALUE);
+		WILD_DOG_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Maximum Size").defineInRange("wild_dog_max_spawn_size", 3, 1, Integer.MAX_VALUE);
+		WILD_DOG_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Wild Dog Spawn Chance Probability").defineInRange("wild_dog_chance", 10, 1, Integer.MAX_VALUE);
+		WILD_DOG_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Wild Dog Max Y Spawn Height").defineInRange("wild_dog_max_y", 256, 1, 256);
 	//	WILD_DOG_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Wild Dog Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
-		BEAR_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
-		BEAR_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Maximum Size").defineInRange("max_spawn_size", 1, 1, Integer.MAX_VALUE);
-		BEAR_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Bear Spawn Chance Probability").defineInRange("chance", 1, 1, Integer.MAX_VALUE);
-		BEAR_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Bear Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
-		BEAR_SPAWN_ONLY_AT_DAY = COMMON_BUILDER.comment("Bears Spawn Only During Day").define("only_day_spawns", true);
+		BEAR_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Minimum Size").defineInRange("bear_min_spawn_size", 1, 1, Integer.MAX_VALUE);
+		BEAR_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Maximum Size").defineInRange("bear_max_spawn_size", 1, 1, Integer.MAX_VALUE);
+		BEAR_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Bear Spawn Chance Probability").defineInRange("bear_chance", 1, 1, Integer.MAX_VALUE);
+		BEAR_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Bear Max Y Spawn Height").defineInRange("bear_max_y", 256, 1, 256);
+		BEAR_SPAWN_ONLY_AT_DAY = COMMON_BUILDER.comment("Bears Spawn Only During Day").define("bear_only_day_spawns", true);
 	//	BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
 
-		RAT_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Minimum Size").defineInRange("min_spawn_size", 1, 1, Integer.MAX_VALUE);
-		RAT_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Maximum Size").defineInRange("max_spawn_size", 3, 1, Integer.MAX_VALUE);
-		RAT_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Rat Spawn Chance Probability").defineInRange("chance", 10, 1, Integer.MAX_VALUE);
-		RAT_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Rat Max Y Spawn Height").defineInRange("max_y", 256, 1, 256);
+		RAT_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Minimum Size").defineInRange("rat_min_spawn_size", 1, 1, Integer.MAX_VALUE);
+		RAT_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Maximum Size").defineInRange("rat_max_spawn_size", 3, 1, Integer.MAX_VALUE);
+		RAT_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Rat Spawn Chance Probability").defineInRange("rat_chance", 10, 1, Integer.MAX_VALUE);
+		RAT_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Rat Max Y Spawn Height").defineInRange("rat_max_y", 256, 1, 256);
 	//	RAT_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Rat Spawn Dimension Blacklist").define("dimensions", new String[] { "1","-1"});
         COMMON_BUILDER.pop();
 
         COMMON_BUILDER.comment("Animal Attack Settings").push(CATEGORY_ATTACKS);
-        PIRANHA_ATTACK_MOBS = COMMON_BUILDER.comment("Piranhas Attack Monsters").define("should_attack_monsters", false);
-		PIRANHA_ATTACK_CREATURES = COMMON_BUILDER.comment("Piranhas Attack Everything (Except Piranhas)").define("should_attack_all", false);
-		PIRANHA_DAMAGE_BOATS = COMMON_BUILDER.comment("Piranhas Damage Boats on Colliding").define("should_damage_boats", true);
-		PIRANHA_DAMAGE_BOATS_CHANCE = COMMON_BUILDER.comment("Piranhas Damage Boats Probablility").defineInRange("chance_to_damage_boats", 30, 0, Integer.MAX_VALUE);
-		
-		WILD_DOG_ATTACK_MOBS = COMMON_BUILDER.comment("Wild Dogs Attack Monsters").define("should_attack_monsters", false);
-		WILD_DOG_ATTACK_CREATURES = COMMON_BUILDER.comment("Wild Dogs Attack Everything (Except Wild Dogs)").define("should_attack_all", false);
+        PIRANHA_ATTACK_MOBS = COMMON_BUILDER.comment("Piranhas Attack Monsters").define("piranha_should_attack_monsters", false);
+		PIRANHA_ATTACK_CREATURES = COMMON_BUILDER.comment("Piranhas Attack Everything (Except Piranhas)").define("piranha_should_attack_all", false);
+		PIRANHA_DAMAGE_BOATS = COMMON_BUILDER.comment("Piranhas Damage Boats on Colliding").define("piranha_should_damage_boats", true);
+		PIRANHA_DAMAGE_BOATS_CHANCE = COMMON_BUILDER.comment("Piranhas Damage Boats Probablility").defineInRange("piranha_chance_to_damage_boats", 30, 0, Integer.MAX_VALUE);
 
-		BEAR_ATTACK_MOBS = COMMON_BUILDER.comment("Bears Attack Monsters").define("should_attack_monsters", false);
-		BEAR_ATTACK_CREATURES = COMMON_BUILDER.comment("Bears Attack Everything (Except Bears)").define("should_attack_all", false);
+		WILD_DOG_ATTACK_MOBS = COMMON_BUILDER.comment("Wild Dogs Attack Monsters").define("wild_dog_should_attack_monsters", false);
+		WILD_DOG_ATTACK_CREATURES = COMMON_BUILDER.comment("Wild Dogs Attack Everything (Except Wild Dogs)").define("wild_dog_should_attack_all", false);
 
-		RAT_ATTACK_MOBS = COMMON_BUILDER.comment("Rats Attack Monsters").define("should_attack_monsters", false);
-		RAT_ATTACK_CREATURES = COMMON_BUILDER.comment("Rats Attack Everything (Except Rats)").define("should_attack_all", false);
-		RAT_STEALS_ITEMS = COMMON_BUILDER.comment("Rats Steal Items").define("should_steal", true);
-		RAT_STEALS_PROBABILITY = COMMON_BUILDER.comment("Rat Item Stealing Probability Bigger Numbers = Less Chance").defineInRange("stealing_chance", 10, 0, Integer.MAX_VALUE);
+		BEAR_ATTACK_MOBS = COMMON_BUILDER.comment("Bears Attack Monsters").define("bear_should_attack_monsters", false);
+		BEAR_ATTACK_CREATURES = COMMON_BUILDER.comment("Bears Attack Everything (Except Bears)").define("bear_should_attack_all", false);
+
+		RAT_ATTACK_MOBS = COMMON_BUILDER.comment("Rats Attack Monsters").define("rat_should_attack_monsters", false);
+		RAT_ATTACK_CREATURES = COMMON_BUILDER.comment("Rats Attack Everything (Except Rats)").define("rat_should_attack_all", false);
+		RAT_STEALS_ITEMS = COMMON_BUILDER.comment("Rats Steal Items").define("rat_should_steal", true);
+		RAT_STEALS_PROBABILITY = COMMON_BUILDER.comment("Rat Item Stealing Probability Bigger Numbers = Less Chance").defineInRange("rat_stealing_chance", 10, 0, Integer.MAX_VALUE);
         COMMON_BUILDER.pop();
 
         COMMON_CONFIG = COMMON_BUILDER.build();

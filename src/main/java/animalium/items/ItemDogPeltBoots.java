@@ -42,7 +42,8 @@ public class ItemDogPeltBoots extends ArmorItem {
 			if (!is.isEmpty() && is.getItem() == this && !entity.isSneaking()) {
 				if (entity.isSprinting() && entity.onGround) {
 					entity.fallDistance = 0.0F;
-					entity.setMotion(entity.getMotion().add(0.5F, 0.0D, 0.5F));
+					float f1 = entity.rotationYaw * ((float) Math.PI / 180F);
+					entity.setMotion(entity.getMotion().add((double) (-MathHelper.sin(f1) * 0.3F), 0.0D, (double) (MathHelper.cos(f1) * 0.3F)));
 				}
 			}
 		}
