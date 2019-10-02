@@ -49,13 +49,13 @@ public class EntityWildDog extends MonsterEntity {
 		goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
 		goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 8.0F));
 		goalSelector.addGoal(6, new LookRandomlyGoal(this));
-		targetSelector.addGoal(1, new EntityWildDog.HurtByAggressorGoal(this));
-		targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, PlayerEntity.class));
+		targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(EntityWildDog.class));
+		targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 
 		if (Config.WILD_DOG_ATTACK_MOBS.get())
-			targetSelector.addGoal(1, new EntityWildDog.TargetGoal<>(this, MobEntity.class));
+			targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, MobEntity.class, true));
 		if (Config.WILD_DOG_ATTACK_CREATURES.get())
-			targetSelector.addGoal(2, new EntityWildDog.TargetGoal<>(this, LivingEntity.class));
+			targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true));
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class EntityWildDog extends MonsterEntity {
 
 	@Override
 	public boolean canAttack(EntityType<?> typeIn) {
-		return typeIn!= ModEntities.WILD_DOG;
+		return typeIn != ModEntities.WILD_DOG;
 	}
 
     protected boolean isValidLightLevel() {
@@ -163,12 +163,6 @@ public class EntityWildDog extends MonsterEntity {
         return super.attackEntityFrom(source, amount);
     }
 
-	static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
-		public TargetGoal(EntityWildDog dog, Class<T> classTarget) {
-			super(dog, classTarget, true);
-		}
-	}
-
 	static class AttackGoal extends MeleeAttackGoal {
 		public AttackGoal(EntityWildDog dog) {
 			super(dog, 0.6D, false);
@@ -179,19 +173,4 @@ public class EntityWildDog extends MonsterEntity {
 			return (double) (4.0F + attackTarget.getWidth());
 		}
 	}
-
-	static class HurtByAggressorGoal extends HurtByTargetGoal {
-		public HurtByAggressorGoal(EntityWildDog wild_dog) {
-			super(wild_dog);
-			this.setCallsForHelp(new Class[] { EntityWildDog.class });
-		}
-
-		protected void setAttackTarget(MobEntity mobIn, LivingEntity targetIn) {
-			if (mobIn instanceof EntityWildDog && this.goalOwner.canEntityBeSeen(targetIn)) {
-				mobIn.setAttackTarget(targetIn);
-			}
-
-		}
-	}
-
 }
