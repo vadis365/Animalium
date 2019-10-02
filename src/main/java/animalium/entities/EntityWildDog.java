@@ -81,31 +81,26 @@ public class EntityWildDog extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-//		if(isDimBlacklisted(dimension.getId()))
-//			return false;
+		if(isDimBlacklisted(dimension.getId()))
+			return false;
         return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL;
+		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
 	}
 
 	@Override
 	public boolean isNotColliding(IWorldReader world) {
 		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
 	}
-/*
-	private Boolean isDimBlacklisted(int dimensionIn) {
-		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < Config.WILD_DOG_BLACKLISTED_DIMS.get().length; dims++) {
-			String dimEntry = Config.WILD_DOG_BLACKLISTED_DIMS.get()[dims].trim();
-			dimBlackList.add(Integer.valueOf(dimEntry));
-		}
-		if(dimBlackList.contains(dimensionIn))
+
+	public static boolean isDimBlacklisted(int dimensionIn) {
+		if(Config.WILD_DOG_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
 	}
-
+/*
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		if (getEntityWorld().rand.nextInt(5) == 0) {

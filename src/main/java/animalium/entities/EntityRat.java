@@ -153,26 +153,21 @@ public class EntityRat extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-//		if(isDimBlacklisted(dimension.getId()))
-//			return false;
+		if(isDimBlacklisted(dimension.getId()))
+			return false;
         return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.RAT_SPAWN_Y_HEIGHT.get();
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL;
+		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
 	}
-/*
-	private Boolean isDimBlacklisted(int dimensionIn) {
-		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < Config.RAT_BLACKLISTED_DIMS.get().length; dims++) {
-			String dimEntry = Config.RAT_BLACKLISTED_DIMS.get()[dims].trim();
-			dimBlackList.add(Integer.valueOf(dimEntry));
-		}
-		if(dimBlackList.contains(dimensionIn))
+
+	public static boolean isDimBlacklisted(int dimensionIn) {
+		if(Config.RAT_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
 	}
-*/
+
 	@Override
     public boolean isNotColliding(IWorldReader world) {
 		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);

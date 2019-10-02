@@ -146,8 +146,8 @@ public class EntityBear extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-//		if(isDimBlacklisted(dimension.getId()))
-//			return false;
+		if(isDimBlacklisted(dimension.getId()))
+			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (getEntityWorld().isDaytime())
 				return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.BEAR_SPAWN_Y_HEIGHT.get();
@@ -158,7 +158,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL;
+		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
 	}
 
 	@Override
@@ -170,18 +170,13 @@ public class EntityBear extends MonsterEntity {
 	public int getMaxSpawnedInChunk() {
 		return 1;
 	}
-/*
-	private Boolean isDimBlacklisted(int dimensionIn) {
-		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < Config.BEAR_BLACKLISTED_DIMS.get().length; dims++) {
-			String dimEntry = Config.BEAR_BLACKLISTED_DIMS.get()[dims].trim();
-			dimBlackList.add(Integer.valueOf(dimEntry));
-		}
-		if(dimBlackList.contains(dimensionIn))
+
+	public static boolean isDimBlacklisted(int dimensionIn) {
+		if(Config.BEAR_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
 	}
-
+/*
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting) {
 		int randomAmount = 1 + rand.nextInt(2 + looting);

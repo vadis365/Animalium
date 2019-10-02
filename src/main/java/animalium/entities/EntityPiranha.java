@@ -127,12 +127,14 @@ public class EntityPiranha extends MonsterEntity {
 
 	@Override
 	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-	//	if(isDimBlacklisted(dimension.getId()))
-	//		return false;
+		if(isDimBlacklisted(dimension.getId()))
+			return false;
 		return (posY > 45.0D && posY <= 80) && super.canSpawn(world, spawnReasonIn);
     }
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
+		if(world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId()))
+			return false;
 		return (random.nextInt(20) == 0 || !world.canBlockSeeSky(pos)) && world.getDifficulty() != Difficulty.PEACEFUL && (spawn_reason == SpawnReason.SPAWNER || world.getFluidState(pos).isTagged(FluidTags.WATER));
 	}
 
@@ -140,18 +142,13 @@ public class EntityPiranha extends MonsterEntity {
 	public int getMaxSpawnedInChunk() {
 		return 3;
 	}
-/*
-	private Boolean isDimBlacklisted(int dimensionIn) {
-		List<Integer> dimBlackList = new ArrayList<Integer>();
-		for (int dims = 0; dims < Config.PIRANHA_BLACKLISTED_DIMS.get().length; dims++) {
-			String dimEntry = Config.PIRANHA_BLACKLISTED_DIMS.get()[dims].trim();
-			dimBlackList.add(Integer.valueOf(dimEntry));
-		}
-		if(dimBlackList.contains(dimensionIn))
+
+	public static boolean isDimBlacklisted(int dimensionIn) {
+		if(Config.PIRANHA_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
 	}
-*/
+
 	@Override
 	   protected SoundEvent getAmbientSound() {
         return isInWater() ? SoundEvents.ENTITY_GENERIC_SWIM : SoundEvents.ENTITY_GUARDIAN_FLOP;
