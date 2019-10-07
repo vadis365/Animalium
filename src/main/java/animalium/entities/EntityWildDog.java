@@ -3,6 +3,7 @@ package animalium.entities;
 import java.util.Random;
 
 import animalium.ModEntities;
+import animalium.ModItems;
 import animalium.configs.Config;
 import animalium.entities.ai.WildDogLeapAtTargetGoal;
 import net.minecraft.block.BlockState;
@@ -20,6 +21,8 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundEvent;
@@ -72,22 +75,16 @@ public class EntityWildDog extends MonsterEntity {
 		return typeIn != ModEntities.WILD_DOG;
 	}
 
-    protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
-        if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 8)
+	public static boolean isValidLightLevel(IWorld world, BlockPos pos) {
+        if (world.getLightFor(LightType.BLOCK, pos) >= 8)
             return false;
         return true;
     }
 
-	@Override
-	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
-        return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
-    }
-
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
+		if(isDimBlacklisted(world.getDimension().getType().getId()))
+			return false;
+        return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
 	}
 
 	@Override
@@ -100,9 +97,9 @@ public class EntityWildDog extends MonsterEntity {
 			return true;
 		return false;
 	}
-/*
+
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting) {
+	protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
 		if (getEntityWorld().rand.nextInt(5) == 0) {
 			ItemStack stack = new ItemStack(ModItems.WILD_DOG_PELT);
 			if (isBurning())
@@ -110,7 +107,7 @@ public class EntityWildDog extends MonsterEntity {
 			entityDropItem(stack, 1.0F);
 		}
 	}
-*/
+
 	@Override
 	protected void playStepSound(BlockPos pos, BlockState state) {
 		playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);

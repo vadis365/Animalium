@@ -32,6 +32,8 @@ public class ModItems {
 	public static Item RAT_MEAT;
 	public static Item RAT_MEAT_COOKED;
 	public static Item DOG_PELT_BOOTS;
+	public static Item PIRANHA_STEAK;
+	public static Item PIRANHA_STEAK_COOKED;
 	
 	public static void init() {
 	WILD_DOG_PELT = new Item(new Item.Properties().group(Animalium.TAB));
@@ -42,6 +44,12 @@ public class ModItems {
 
 	BEAR_MEAT_COOKED = new Item((new Item.Properties().group(Animalium.TAB).food((new Food.Builder()).hunger(8).saturation(0.8F).meat().build())));
 	BEAR_MEAT_COOKED.setRegistryName(Reference.MOD_ID, "bear_meat_cooked");
+
+	PIRANHA_STEAK = new Item((new Item.Properties().group(Animalium.TAB).food((new Food.Builder()).hunger(2).saturation(0.1F).build())));
+	PIRANHA_STEAK.setRegistryName(Reference.MOD_ID, "piranha_steak");
+
+	PIRANHA_STEAK_COOKED = new Item((new Item.Properties().group(Animalium.TAB).food((new Food.Builder()).hunger(6).saturation(0.8F).build())));
+	PIRANHA_STEAK_COOKED.setRegistryName(Reference.MOD_ID, "piranha_steak_cooked");
 
 	RAT_MEAT = new Item((new Item.Properties().group(Animalium.TAB).food((new Food.Builder()).hunger(2).saturation(0.3F).effect(new EffectInstance(Effects.HUNGER, 600, 0), 0.3F).meat().build()))) {
 		@Override
@@ -92,6 +100,8 @@ public class ModItems {
 					BEAR_CLAW_PAXEL,
 					RAT_MEAT,
 					RAT_MEAT_COOKED,
+					PIRANHA_STEAK,
+					PIRANHA_STEAK_COOKED,
 					DOG_PELT_BOOTS
 					};
 			final IForgeRegistry<Item> registry = event.getRegistry();

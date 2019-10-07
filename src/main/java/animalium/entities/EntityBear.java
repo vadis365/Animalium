@@ -3,6 +3,7 @@ package animalium.entities;
 import java.util.Random;
 
 import animalium.ModEntities;
+import animalium.ModItems;
 import animalium.configs.Config;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,6 +20,7 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -133,32 +135,26 @@ public class EntityBear extends MonsterEntity {
 		return typeIn!= ModEntities.BEAR;
 	}
 
-	protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
+	protected static boolean isValidLightLevel(IWorld world, BlockPos pos) {
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
-			if (getEntityWorld().isDaytime())
-				if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 6)
+			if (world.getSkylightSubtracted() < 4)
+				if (world.getLightFor(LightType.BLOCK, pos) >= 6)
 					return true;
-		} else if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 8)
+		} else if (world.getLightFor(LightType.BLOCK, pos) >= 8)
 			return false;
 		return true;
 	}
 
-	@Override
-	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
+	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
+		if(isDimBlacklisted(world.getDimension().getType().getId()))
 			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
-			if (getEntityWorld().isDaytime())
-				return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.BEAR_SPAWN_Y_HEIGHT.get();
+			if (world.getSkylightSubtracted() < 4)
+				return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.BEAR_SPAWN_Y_HEIGHT.get();
 			else
 				return false;
 		}
-		return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.BEAR_SPAWN_Y_HEIGHT.get();
-	}
-
-	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
+		return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.BEAR_SPAWN_Y_HEIGHT.get();
 	}
 
 	@Override
@@ -176,16 +172,16 @@ public class EntityBear extends MonsterEntity {
 			return true;
 		return false;
 	}
-/*
+
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting) {
+	protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
 		int randomAmount = 1 + rand.nextInt(2 + looting);
 		for (int count = 0; count < randomAmount; ++count)
 			entityDropItem(new ItemStack(ModItems.BEAR_CLAW), 0F);
 
 		entityDropItem(new ItemStack(isBurning() ? ModItems.BEAR_MEAT_COOKED : ModItems.BEAR_MEAT), 0.0F);
 	}
-*/
+
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		if (canEntityBeSeen(entity)) {

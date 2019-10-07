@@ -3,6 +3,7 @@ package animalium.entities;
 import java.util.Random;
 
 import animalium.ModEntities;
+import animalium.ModItems;
 import animalium.configs.Config;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -144,22 +145,16 @@ public class EntityRat extends MonsterEntity {
 		return typeIn!= ModEntities.RAT;
 	}
 
-    protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
-        if (this.getEntityWorld().getLightFor(LightType.BLOCK, blockpos) >= 8)
+	public static boolean isValidLightLevel(IWorld world, BlockPos pos) {
+        if (world.getLightFor(LightType.BLOCK, pos) >= 8)
             return false;
         return true;
     }
 
-	@Override
-	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
-        return getEntityWorld().getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel() && isNotColliding(getEntityWorld()) && posY <= Config.RAT_SPAWN_Y_HEIGHT.get();
-    }
-
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		return world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId());
+		if(isDimBlacklisted(world.getDimension().getType().getId()))
+			return false;
+        return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
 	}
 
 	public static boolean isDimBlacklisted(int dimensionIn) {
@@ -180,9 +175,9 @@ public class EntityRat extends MonsterEntity {
 		else
 			return true;
 	}
-/*
+
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting) {
+	protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
 		if(!getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty()) {
 			ItemStack stack = getItemStackFromSlot(EquipmentSlotType.MAINHAND);
 			entityDropItem(stack, 1F);
@@ -194,7 +189,7 @@ public class EntityRat extends MonsterEntity {
 			entityDropItem(stack, 1.0F);
 		}
 	}
-*/
+
 	@Override
 	protected float getSoundPitch() {
 		return 0.5F;

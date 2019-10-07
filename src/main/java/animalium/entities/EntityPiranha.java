@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import animalium.ModEntities;
+import animalium.ModItems;
 import animalium.configs.Config;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureAttribute;
@@ -25,6 +26,7 @@ import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -116,24 +118,15 @@ public class EntityPiranha extends MonsterEntity {
         return new SwimmerPathNavigator(this, world);
     }
 
-    protected boolean isValidLightLevel() {
-        return true;
-    }
-
 	@Override
 	public boolean isNotColliding(IWorldReader world) {
 		return world.checkNoEntityCollision(this);
 	}
 
-	@Override
-	  public boolean canSpawn(IWorld world, SpawnReason spawnReasonIn) {
-		if(isDimBlacklisted(dimension.getId()))
-			return false;
-		return (posY > 45.0D && posY <= 80) && super.canSpawn(world, spawnReasonIn);
-    }
-
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(world.getDifficulty() != Difficulty.PEACEFUL && !isDimBlacklisted(world.getDimension().getType().getId()))
+		if(isDimBlacklisted(world.getDimension().getType().getId()))
+			return false;
+		if((pos.getY() < 45.0D || pos.getY() >= 80))
 			return false;
 		return (random.nextInt(20) == 0 || !world.canBlockSeeSky(pos)) && world.getDifficulty() != Difficulty.PEACEFUL && (spawn_reason == SpawnReason.SPAWNER || world.getFluidState(pos).isTagged(FluidTags.WATER));
 	}
@@ -223,17 +216,17 @@ public class EntityPiranha extends MonsterEntity {
 			super.travel(travel_vector);
 		}
 	}
-/*
+
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting) {
+	protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
 		if (getEntityWorld().rand.nextInt(5) == 0) {
-			ItemStack stack = new ItemStack(Items.FISH);
+			ItemStack stack = new ItemStack(ModItems.PIRANHA_STEAK);
 			if (this.isBurning())
-				stack = new ItemStack(Items.COOKED_FISH);
+				stack = new ItemStack(ModItems.PIRANHA_STEAK_COOKED);
 			entityDropItem(stack, 1.0F);
 		}
 	}
-*/
+
 	@Override
 	 public void tick() {
 		if(!getEntityWorld().isRemote) {
