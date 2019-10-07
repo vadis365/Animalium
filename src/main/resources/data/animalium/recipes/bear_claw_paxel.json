@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XS ",
+    "XS "
+  ],
+  "key": {
+    "X": {
+      "item": "animalium:bear_claw"
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "rods_wooden"
+    }
+  },
+  "result": {
+    "item": "animalium:bear_claw_paxel"
+  }
+}

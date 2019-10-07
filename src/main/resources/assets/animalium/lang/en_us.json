@@ -1,13 +1,15 @@
 {
 	"_comment": "Items",
 	"item.animalium.wild_dog_pelt": "Wild Dog Pelt",
-	"item.animalium.dog_boots": "Wild Dog Pelt Boots",
+	"item.animalium.wild_dog_pelt_boots": "Wild Dog Pelt Boots",
 	"item.animalium.bear_meat": "Raw Bear Meat",
 	"item.animalium.bear_meat_cooked": "Cooked Bear Meat",
 	"item.animalium.bear_claw": "Bear Claw",
 	"item.animalium.bear_claw_paxel": "Bear Claw Paxel",
 	"item.animalium.rat_meat": "Raw Rat Meat",
 	"item.animalium.rat_meat_cooked": "Cooked Rat Meat",
+	"item.animalium.piranha_steak": "Raw Piranha Steak",
+	"item.animalium.piranha_steak_cooked": "Cooked Piranha Steak",
 	  
 	"_comment": "Tool Tips",
 	"tooltip.upper_1": "Works like an upside-down hopper.",

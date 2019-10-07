@@ -24,8 +24,8 @@ public class ItemDogPeltBoots extends ArmorItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public String getArmorTexture(ItemStack is, Entity entity, EquipmentSlotType slot, String type) {
-		if (is.getItem() == ModItems.DOG_PELT_BOOTS)
-			return "animalium:textures/items/dog_boots.png";
+		if (is.getItem() == ModItems.WILD_DOG_PELT_BOOTS)
+			return "animalium:textures/items/armour_wild_dog_pelt_boots.png";
 		else
 			return null;
 	}
@@ -34,7 +34,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	public boolean getIsRepairable(ItemStack armour, ItemStack material) {
 		return material.getItem() == ModItems.WILD_DOG_PELT;
 	}
-	
+
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if (entity instanceof PlayerEntity) {
@@ -48,20 +48,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 			}
 		}
 	}
-/*
-	@SubscribeEvent
-	public void onEntitySprint(LivingUpdateEvent e) {
-		if (e.getEntityLiving() instanceof PlayerEntity) {
-			ItemStack is = ((PlayerEntity) e.getEntityLiving()).getItemStackFromSlot(EquipmentSlotType.FEET);
-			if (!is.isEmpty() && is.getItem() == this && !e.getEntityLiving().isSneaking()) {
-			      if (e.getEntityLiving().isSprinting() && e.getEntityLiving().onGround) {
-			         float f1 = e.getEntityLiving().rotationYaw * ((float)Math.PI / 180F);
-			         e.getEntityLiving().setMotion(e.getEntityLiving().getMotion().add((double)(-MathHelper.sin(f1) * 1F + 0.5F), 0.0D, (double)(MathHelper.cos(f1) * 1F + 0.5F)));
-			      }
-				}
-		}
-	}
-*/
+
 	@SubscribeEvent
 	public void onEntityJump(LivingJumpEvent e) {
 		if (e.getEntityLiving() instanceof PlayerEntity) {
@@ -74,10 +61,8 @@ public class ItemDogPeltBoots extends ArmorItem {
 			         float f1 = e.getEntityLiving().rotationYaw * ((float)Math.PI / 180F);
 			         e.getEntityLiving().setMotion(e.getEntityLiving().getMotion().add((double)(-MathHelper.sin(f1) * 0.2F), 0.0D, (double)(MathHelper.cos(f1) * 0.2F)));
 			      }
-
 			      e.getEntityLiving().isAirBorne = true;
-				
-			//	e.getEntityLiving().getVmotionY += 0.4D;
+
 				}
 		}
 	}

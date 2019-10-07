@@ -52,7 +52,7 @@ public class EntityWildDog extends MonsterEntity {
 		goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
 		goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 8.0F));
 		goalSelector.addGoal(6, new LookRandomlyGoal(this));
-		targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(EntityWildDog.class));
+		targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(PlayerEntity.class));
 		targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
 
 		if (Config.WILD_DOG_ATTACK_MOBS.get())

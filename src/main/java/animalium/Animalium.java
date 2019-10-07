@@ -28,14 +28,14 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Reference.MOD_ID)
 public class Animalium {
-	
+
 	public Animalium () {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		MinecraftForge.EVENT_BUS.register(this);
-		
+
 		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
 		Path path = FMLPaths.CONFIGDIR.get().resolve("animalium-common.toml");
@@ -50,17 +50,9 @@ public class Animalium {
 	};
 
 	private void setup(final FMLCommonSetupEvent event) {
-	/*	
-
-		ModRecipes.registerSmelting();
-
-		PROXY.registerRenderers();
-*/	
 		ModEntities.registerEntitySpawns();
-		MinecraftForge.EVENT_BUS.register(ModItems.DOG_PELT_BOOTS);
+		MinecraftForge.EVENT_BUS.register(ModItems.BEAR_CLAW_PAXEL);
 	}
-	
-
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBear :: new);

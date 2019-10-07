@@ -2,7 +2,6 @@ package animalium;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import animalium.entities.EntityBear;
 import animalium.entities.EntityNeutralBear;
@@ -13,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -31,7 +29,7 @@ public class ModItems {
 	public static Item BEAR_CLAW_PAXEL;
 	public static Item RAT_MEAT;
 	public static Item RAT_MEAT_COOKED;
-	public static Item DOG_PELT_BOOTS;
+	public static Item WILD_DOG_PELT_BOOTS;
 	public static Item PIRANHA_STEAK;
 	public static Item PIRANHA_STEAK_COOKED;
 	
@@ -81,8 +79,8 @@ public class ModItems {
 	BEAR_CLAW_PAXEL = new ItemBearClawPaxel(ModToolMaterials.TOOL_BEAR_CLAW_PAXEL, p -> p.group(Animalium.TAB));//hmmmmm
 	BEAR_CLAW_PAXEL.setRegistryName(Reference.MOD_ID, "bear_claw_paxel");
 
-	DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(1).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
-	DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "dog_boots");
+	WILD_DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(1).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
+	WILD_DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "wild_dog_pelt_boots");
 	}
 
 	@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -102,7 +100,7 @@ public class ModItems {
 					RAT_MEAT_COOKED,
 					PIRANHA_STEAK,
 					PIRANHA_STEAK_COOKED,
-					DOG_PELT_BOOTS
+					WILD_DOG_PELT_BOOTS
 					};
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
