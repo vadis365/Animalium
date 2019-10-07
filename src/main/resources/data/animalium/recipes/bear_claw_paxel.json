@@ -10,8 +10,7 @@
       "item": "animalium:bear_claw"
     },
     "S": {
-      "type": "forge:ore_dict",
-      "ore": "rods_wooden"
+      "item": "minecraft:stick"
     }
   },
   "result": {
