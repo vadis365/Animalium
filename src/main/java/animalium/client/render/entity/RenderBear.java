@@ -15,7 +15,7 @@ public class RenderBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/bear.png");
 
 	public RenderBear(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ModelBear<>(), 0.5F);
+        super(renderManagerIn, new ModelBear<>(), 1.5F);
     }
 
 	@Override
