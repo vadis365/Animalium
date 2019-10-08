@@ -64,11 +64,11 @@ public class ModEntities {
 	public static void registerSpawnEggs(final RegistryEvent.Register<Item> event) {
 		init();
 		event.getRegistry().registerAll(
-				new SpawnEggItem(BEAR, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "bear"),
-				new SpawnEggItem(PIRANHA, -126, -48326583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "piranha"),
-				new SpawnEggItem(WILD_DOG, -310, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "wild_dog"),
-				new SpawnEggItem(RAT, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "rat"),
-				new SpawnEggItem(BEAR_TAMED, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "bear_tamed"));
+				new SpawnEggItem(BEAR, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "bear_spawn_egg"),
+				new SpawnEggItem(PIRANHA, -126, -48326583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "piranha_spawn_egg"),
+				new SpawnEggItem(WILD_DOG, -310, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "wild_dog_spawn_egg"),
+				new SpawnEggItem(RAT, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "rat_spawn_egg"),
+				new SpawnEggItem(BEAR_TAMED, -3546547, -65179583, new Item.Properties().group(Animalium.TAB)).setRegistryName(Reference.MOD_ID, "bear_tamed_spawn_egg"));
 	}
 
 	public static void registerEntitySpawns() {
