@@ -126,9 +126,9 @@ public class EntityPiranha extends MonsterEntity {
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
 		if(isDimBlacklisted(world.getDimension().getType().getId()))
 			return false;
-		if((pos.getY() < 45.0D || pos.getY() >= 80))
+		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;
-		return (random.nextInt(20) == 0 || !world.canBlockSeeSky(pos)) && world.getDifficulty() != Difficulty.PEACEFUL && (spawn_reason == SpawnReason.SPAWNER || world.getFluidState(pos).isTagged(FluidTags.WATER));
+		return (random.nextInt(10) == 0 || !world.canBlockSeeSky(pos)) && world.getDifficulty() != Difficulty.PEACEFUL && (spawn_reason == SpawnReason.SPAWNER || world.getFluidState(pos).isTagged(FluidTags.WATER));
 	}
 
 	@Override
