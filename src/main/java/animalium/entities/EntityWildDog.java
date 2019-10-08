@@ -37,10 +37,11 @@ import net.minecraft.world.World;
 public class EntityWildDog extends MonsterEntity {
 
     public EntityDogPart[] dogPartArray;
-	public EntityDogPart dogPartHead = new EntityDogPart(this, "head", 0.5F, 0.5F);
+	public EntityDogPart dogPartHead;
 
 	public EntityWildDog(EntityType<? extends EntityWildDog> type, World world) {
 		super(type, world);
+		dogPartHead = new EntityDogPart(this, "head", 0.5F, 0.5F);
 		dogPartArray = new EntityDogPart[] {dogPartHead};
 	}
 
