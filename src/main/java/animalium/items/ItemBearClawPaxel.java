@@ -4,9 +4,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.sun.istack.internal.Nullable;
 
 import animalium.ModItems;
 import animalium.ModToolMaterials;
