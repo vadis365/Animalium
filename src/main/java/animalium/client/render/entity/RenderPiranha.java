@@ -1,9 +1,10 @@
 package animalium.client.render.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import animalium.client.model.ModelPiranha;
 import animalium.entities.EntityPiranha;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -19,16 +20,16 @@ public class RenderPiranha extends MobRenderer<EntityPiranha, ModelPiranha<Entit
     }
 
 	@Override
-	protected void preRenderCallback(EntityPiranha entity, float f) {
+	protected void func_225620_a_(EntityPiranha entity, MatrixStack matrix, float partialTickTime) {
 		if (entity.isGrounded() && !entity.isLeaping()) {
-			GlStateManager.translatef(0F, 0.5F, 0F);
-			GlStateManager.rotatef(90F, 0F, 0F, 1F);
-			GlStateManager.translatef(-0.7F, 0.7F, 0F);
+			matrix.func_227861_a_(0F, 0.5F, 0F); // translation
+			matrix.func_227863_a_(Vector3f.field_229183_f_.func_229187_a_(90.0F)); // rotation
+			matrix.func_227861_a_(-0.7F, 0.7F, 0F); // translation
 		}
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityPiranha entity) {
+	public ResourceLocation getEntityTexture(EntityPiranha entity) {
 		return TEXTURE;
 	}
 }

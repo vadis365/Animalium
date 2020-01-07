@@ -1,8 +1,12 @@
 package animalium.client.model;
 
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import animalium.entities.EntityWildDog;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -10,136 +14,136 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 
-	RendererModel body_rear;
-	RendererModel body_mid;
-	RendererModel tail1;
-	RendererModel r_hindleg1;
-	RendererModel l_hindleg1;
-	RendererModel body_front;
-	RendererModel neck;
-	RendererModel l_foreleg1;
-	RendererModel r_foreleg1;
-	RendererModel head;
-	RendererModel lower_jaw;
-	RendererModel upper_jaw;
-	RendererModel l_ear;
-	RendererModel r_ear;
-	RendererModel l_foreleg2;
-	RendererModel l_fore_paw;
-	RendererModel r_foreleg2;
-	RendererModel r_fore_paw;
-	RendererModel tail2;
-	RendererModel tail3;
-	RendererModel r_hindleg2;
-	RendererModel r_hindleg3;
-	RendererModel r_hind_paw;
-	RendererModel l_hindleg2;
-	RendererModel l_hindleg3;
-	RendererModel l_hind_paw;
+	ModelRenderer body_rear;
+	ModelRenderer body_mid;
+	ModelRenderer tail1;
+	ModelRenderer r_hindleg1;
+	ModelRenderer l_hindleg1;
+	ModelRenderer body_front;
+	ModelRenderer neck;
+	ModelRenderer l_foreleg1;
+	ModelRenderer r_foreleg1;
+	ModelRenderer head;
+	ModelRenderer lower_jaw;
+	ModelRenderer upper_jaw;
+	ModelRenderer l_ear;
+	ModelRenderer r_ear;
+	ModelRenderer l_foreleg2;
+	ModelRenderer l_fore_paw;
+	ModelRenderer r_foreleg2;
+	ModelRenderer r_fore_paw;
+	ModelRenderer tail2;
+	ModelRenderer tail3;
+	ModelRenderer r_hindleg2;
+	ModelRenderer r_hindleg3;
+	ModelRenderer r_hind_paw;
+	ModelRenderer l_hindleg2;
+	ModelRenderer l_hindleg3;
+	ModelRenderer l_hind_paw;
 
 	public ModelWildDog() {
 		textureWidth = 128;
 		textureHeight = 64;
-		r_fore_paw = new RendererModel(this, 59, 25);
+		r_fore_paw = new ModelRenderer(this, 59, 25);
 		r_fore_paw.setRotationPoint(0.0F, 9.6F, -0.5F);
-		r_fore_paw.addBox(-1.5F, -1.0F, -1.0F, 3, 2, 4, 0.0F);
+		r_fore_paw.func_228301_a_(-1.5F, -1.0F, -1.0F, 3, 2, 4, 0.0F);
 		setRotateAngle(r_fore_paw, -0.5235987755982988F, 0.0F, 0.0F);
-		lower_jaw = new RendererModel(this, 81, 0);
+		lower_jaw = new ModelRenderer(this, 81, 0);
 		lower_jaw.setRotationPoint(0.0F, 2.5F, 3.0F);
-		lower_jaw.addBox(-1.5F, -1.0F, -1.0F, 3, 2, 6, 0.0F);
-		tail1 = new RendererModel(this, 80, 29);
+		lower_jaw.func_228301_a_(-1.5F, -1.0F, -1.0F, 3, 2, 6, 0.0F);
+		tail1 = new ModelRenderer(this, 80, 29);
 		tail1.setRotationPoint(0.0F, 2.5F, -6.0F);
-		tail1.addBox(-2.5F, -2.0F, -4.0F, 5, 4, 5, 0.0F);
+		tail1.func_228301_a_(-2.5F, -2.0F, -4.0F, 5, 4, 5, 0.0F);
 		setRotateAngle(tail1, 0.06981317007977318F, 0.0F, 0.0F);
-		body_front = new RendererModel(this, 26, 12);
+		body_front = new ModelRenderer(this, 26, 12);
 		body_front.setRotationPoint(0.0F, 0.0F, 6.0F);
-		body_front.addBox(-4.0F, 0.0F, 0.0F, 8, 9, 8, 0.0F);
+		body_front.func_228301_a_(-4.0F, 0.0F, 0.0F, 8, 9, 8, 0.0F);
 		setRotateAngle(body_front, 0.17453292519943295F, 0.0F, 0.0F);
-		l_fore_paw = new RendererModel(this, 10, 25);
+		l_fore_paw = new ModelRenderer(this, 10, 25);
 		l_fore_paw.setRotationPoint(0.0F, 9.6F, -0.5F);
-		l_fore_paw.addBox(-1.5F, -1.0F, -1.0F, 3, 2, 4, 0.0F);
+		l_fore_paw.func_228301_a_(-1.5F, -1.0F, -1.0F, 3, 2, 4, 0.0F);
 		setRotateAngle(l_fore_paw, -0.5235987755982988F, 0.0F, 0.0F);
-		r_foreleg2 = new RendererModel(this, 62, 12);
+		r_foreleg2 = new ModelRenderer(this, 62, 12);
 		r_foreleg2.setRotationPoint(0.0F, 6.0F, 0.0F);
-		r_foreleg2.addBox(-1.0F, 0.0F, -1.5F, 2, 10, 2, 0.0F);
+		r_foreleg2.func_228301_a_(-1.0F, 0.0F, -1.5F, 2, 10, 2, 0.0F);
 		setRotateAngle(r_foreleg2, 1.2217304763960306F, 0.0F, 0.0F);
-		r_hindleg2 = new RendererModel(this, 61, 49);
+		r_hindleg2 = new ModelRenderer(this, 61, 49);
 		r_hindleg2.setRotationPoint(1.0F, 4.5F, -1.5F);
-		r_hindleg2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
+		r_hindleg2.func_228301_a_(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
 		setRotateAngle(r_hindleg2, -1.2217304763960306F, -0.0F, 0.0F);
-		upper_jaw = new RendererModel(this, 82, 9);
+		upper_jaw = new ModelRenderer(this, 82, 9);
 		upper_jaw.setRotationPoint(0.0F, 0.0F, 0.0F);
-		upper_jaw.addBox(-2.0F, -1.0F, 4.5F, 4, 2, 4, 0.0F);
+		upper_jaw.func_228301_a_(-2.0F, -1.0F, 4.5F, 4, 2, 4, 0.0F);
 		setRotateAngle(upper_jaw, -0.17453292519943295F, -0.0F, 0.0F);
-		head = new RendererModel(this, 79, 16);
+		head = new ModelRenderer(this, 79, 16);
 		head.setRotationPoint(0.0F, 0.0F, 2.0F);
-		head.addBox(-3.0F, -2.5F, 0.0F, 6, 6, 5, 0.0F);
+		head.func_228301_a_(-3.0F, -2.5F, 0.0F, 6, 6, 5, 0.0F);
 		setRotateAngle(head, 0.17453292519943295F, -0.0F, 0.0F);
-		tail2 = new RendererModel(this, 81, 39);
+		tail2 = new ModelRenderer(this, 81, 39);
 		tail2.setRotationPoint(0.0F, 0.0F, -3.7F);
-		tail2.addBox(-1.5F, -1.5F, -5.0F, 3, 3, 6, 0.0F);
+		tail2.func_228301_a_(-1.5F, -1.5F, -5.0F, 3, 3, 6, 0.0F);
 		setRotateAngle(tail2, 0.10471975511965977F, -0.0F, 0.0F);
-		l_hindleg1 = new RendererModel(this, 7, 36);
+		l_hindleg1 = new ModelRenderer(this, 7, 36);
 		l_hindleg1.setRotationPoint(-4.0F, 3.5F, -2.5F);
-		l_hindleg1.addBox(-3.5F, -1.0F, -2.5F, 5, 7, 5, 0.0F);
+		l_hindleg1.func_228301_a_(-3.5F, -1.0F, -2.5F, 5, 7, 5, 0.0F);
 		setRotateAngle(l_hindleg1, 0.0F, -0.0F, -0.012740903539558604F);
-		l_hind_paw = new RendererModel(this, 9, 58);
+		l_hind_paw = new ModelRenderer(this, 9, 58);
 		l_hind_paw.setRotationPoint(0.0F, 6.0F, -1.0F);
-		l_hind_paw.addBox(-2.0F, -1.0F, -0.5F, 4, 2, 4, 0.0F);
+		l_hind_paw.func_228301_a_(-2.0F, -1.0F, -0.5F, 4, 2, 4, 0.0F);
 		setRotateAngle(l_hind_paw, -0.6981317007977318F, 0.0F, 0.0F);
-		r_hind_paw = new RendererModel(this, 59, 58);
+		r_hind_paw = new ModelRenderer(this, 59, 58);
 		r_hind_paw.setRotationPoint(0.0F, 6.0F, -1.0F);
-		r_hind_paw.addBox(-2.0F, -1.0F, -0.5F, 4, 2, 4, 0.0F);
+		r_hind_paw.func_228301_a_(-2.0F, -1.0F, -0.5F, 4, 2, 4, 0.0F);
 		setRotateAngle(r_hind_paw, -0.6981317007977318F, -0.0F, 0.0F);
-		l_hindleg3 = new RendererModel(this, 0, 55);
+		l_hindleg3 = new ModelRenderer(this, 0, 55);
 		l_hindleg3.setRotationPoint(0.0F, 4.0F, 0.5F);
-		l_hindleg3.addBox(-1.0F, -1.0F, -1.5F, 2, 7, 2, 0.0F);
+		l_hindleg3.func_228301_a_(-1.0F, -1.0F, -1.5F, 2, 7, 2, 0.0F);
 		setRotateAngle(l_hindleg3, 1.5707963267948966F, -0.0F, 0.0F);
-		l_foreleg1 = new RendererModel(this, 11, 0);
+		l_foreleg1 = new ModelRenderer(this, 11, 0);
 		l_foreleg1.setRotationPoint(-5.0F, 3.0F, 6.0F);
-		l_foreleg1.addBox(-1.5F, -1.0F, -1.5F, 3, 8, 3, 0.0F);
+		l_foreleg1.func_228301_a_(-1.5F, -1.0F, -1.5F, 3, 8, 3, 0.0F);
 		setRotateAngle(l_foreleg1, -0.6981317007977318F, -0.0F, 0.0F);
-		r_hindleg1 = new RendererModel(this, 57, 36);
+		r_hindleg1 = new ModelRenderer(this, 57, 36);
 		r_hindleg1.setRotationPoint(4.0F, 3.5F, -2.5F);
-		r_hindleg1.addBox(-1.5F, -1.0F, -2.5F, 5, 7, 5, 0.0F);
-		neck = new RendererModel(this, 31, 0);
+		r_hindleg1.func_228301_a_(-1.5F, -1.0F, -2.5F, 5, 7, 5, 0.0F);
+		neck = new ModelRenderer(this, 31, 0);
 		neck.setRotationPoint(0.0F, 3.0F, 8.0F);
-		neck.addBox(-2.5F, -2.0F, -3.0F, 5, 5, 6, 0.0F);
+		neck.func_228301_a_(-2.5F, -2.0F, -3.0F, 5, 5, 6, 0.0F);
 		setRotateAngle(neck, -0.17453292519943295F, 0.0F, 0.0F);
-		l_foreleg2 = new RendererModel(this, 13, 12);
+		l_foreleg2 = new ModelRenderer(this, 13, 12);
 		l_foreleg2.setRotationPoint(0.0F, 6.0F, 0.0F);
-		l_foreleg2.addBox(-1.0F, 0.0F, -1.5F, 2, 10, 2, 0.0F);
+		l_foreleg2.func_228301_a_(-1.0F, 0.0F, -1.5F, 2, 10, 2, 0.0F);
 		setRotateAngle(l_foreleg2, 1.2217304763960306F, -0.0F, 0.0F);
-		l_hindleg2 = new RendererModel(this, 11, 49);
+		l_hindleg2 = new ModelRenderer(this, 11, 49);
 		l_hindleg2.setRotationPoint(-1.0F, 4.5F, -1.5F);
-		l_hindleg2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
+		l_hindleg2.func_228301_a_(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
 		setRotateAngle(l_hindleg2, -1.2217304763960306F, -0.0F, 0.0F);
-		r_foreleg1 = new RendererModel(this, 60, 0);
+		r_foreleg1 = new ModelRenderer(this, 60, 0);
 		r_foreleg1.setRotationPoint(5.0F, 3.0F, 6.0F);
-		r_foreleg1.addBox(-1.5F, -1.0F, -1.5F, 3, 8, 3, 0.0F);
+		r_foreleg1.func_228301_a_(-1.5F, -1.0F, -1.5F, 3, 8, 3, 0.0F);
 		setRotateAngle(r_foreleg1, -0.6981317007977318F, -0.0F, 0.0F);
-		r_hindleg3 = new RendererModel(this, 76, 55);
+		r_hindleg3 = new ModelRenderer(this, 76, 55);
 		r_hindleg3.setRotationPoint(0.0F, 4.0F, 0.5F);
-		r_hindleg3.addBox(-1.0F, -1.0F, -1.5F, 2, 7, 2, 0.0F);
+		r_hindleg3.func_228301_a_(-1.0F, -1.0F, -1.5F, 2, 7, 2, 0.0F);
 		setRotateAngle(r_hindleg3, 1.5707963267948966F, 0.0F, 0.0F);
-		tail3 = new RendererModel(this, 83, 49);
+		tail3 = new ModelRenderer(this, 83, 49);
 		tail3.setRotationPoint(0.0F, 0.0F, -4.6F);
-		tail3.addBox(-1.0F, -1.0F, -5.0F, 2, 2, 5, 0.0F);
+		tail3.func_228301_a_(-1.0F, -1.0F, -5.0F, 2, 2, 5, 0.0F);
 		setRotateAngle(tail3, 0.03490658503988659F, 0.0F, 0.0F);
-		body_rear = new RendererModel(this, 26, 45);
+		body_rear = new ModelRenderer(this, 26, 45);
 		body_rear.setRotationPoint(0.0F, 6.0F, -6.0F);
-		body_rear.addBox(-4.5F, 0.0F, -6.0F, 9, 7, 7, 0.0F);
+		body_rear.func_228301_a_(-4.5F, 0.0F, -6.0F, 9, 7, 7, 0.0F);
 		setRotateAngle(body_rear, 0.3490658503988659F, 0.0F, 0.0F);
-		body_mid = new RendererModel(this, 28, 30);
+		body_mid = new ModelRenderer(this, 28, 30);
 		body_mid.setRotationPoint(0.0F, 0.0F, 0.0F);
-		body_mid.addBox(-3.5F, 0.0F, 0.5F, 7, 7, 7, 0.0F);
+		body_mid.func_228301_a_(-3.5F, 0.0F, 0.5F, 7, 7, 7, 0.0F);
 		setRotateAngle(body_mid, -0.5235987755982988F, 0.0F, 0.0F);
-		r_ear = new RendererModel(this, 94, 0);
+		r_ear = new ModelRenderer(this, 94, 0);
 		r_ear.setRotationPoint(0.0F, 0.0F, 0.0F);
-		r_ear.addBox(1.0F, -5.5F, 0.0F, 2, 3, 2, 0.0F);
-		l_ear = new RendererModel(this, 78, 0);
+		r_ear.func_228301_a_(1.0F, -5.5F, 0.0F, 2, 3, 2, 0.0F);
+		l_ear = new ModelRenderer(this, 78, 0);
 		l_ear.setRotationPoint(0.0F, 0.0F, 0.0F);
-		l_ear.addBox(-3.0F, -5.5F, 0.0F, 2, 3, 2, 0.0F);
+		l_ear.func_228301_a_(-3.0F, -5.5F, 0.0F, 2, 3, 2, 0.0F);
 
 		r_foreleg2.addChild(r_fore_paw);
 		head.addChild(lower_jaw);
@@ -167,7 +171,18 @@ public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 		head.addChild(r_ear);
 		head.addChild(l_ear);
 	}
+	
+	protected Iterable<ModelRenderer> func_225600_b_() {
+		return ImmutableList.of(this.body_rear);
+	}
 
+	@Override
+	public void func_225597_a_(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch) {
+		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
+		neck.rotateAngleY = heady;
+	}
+
+/*
 	@Override
 	public void render(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
 		body_rear.render(scale);
@@ -179,7 +194,7 @@ public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
 		neck.rotateAngleY = heady;
 	}
-
+*/
 	@Override
 	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
 		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
@@ -195,7 +210,7 @@ public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 		tail2.rotateAngleX = 0.10471975511965977F - animation * 3F;
 		tail3.rotateAngleX = 0.03490658503988659F - animation * 4F;
 
-		if(entity.posX == entity.lastTickPosX) {
+		if(entity.func_226277_ct_() == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = -0.6981317007977318F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 1.2217304763960306F  + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -0.5235987755982988F - animation2 * 18F + flap * 0.075F;
@@ -263,9 +278,15 @@ public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 
 	}
 
-	public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
+	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
+	}
+
+	@Override
+	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);});
 	}
 }

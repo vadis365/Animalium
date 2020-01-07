@@ -7,10 +7,6 @@ import animalium.client.render.entity.RenderPiranha;
 import animalium.client.render.entity.RenderRat;
 import animalium.client.render.entity.RenderWildDog;
 import animalium.configs.Config;
-import animalium.entities.EntityBear;
-import animalium.entities.EntityPiranha;
-import animalium.entities.EntityRat;
-import animalium.entities.EntityWildDog;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -55,10 +51,11 @@ public class Animalium {
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBear :: new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityWildDog.class, RenderWildDog :: new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPiranha.class, RenderPiranha::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityRat.class, RenderRat::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.BEAR, RenderBear::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.BEAR_TAMED, RenderBear::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.WILD_DOG, RenderWildDog::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.PIRANHA, RenderPiranha::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.RAT, RenderRat::new);
 	}
 
 	private void enqueueIMC(final InterModEnqueueEvent event) {}

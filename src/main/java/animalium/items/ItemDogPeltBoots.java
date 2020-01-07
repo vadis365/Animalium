@@ -39,7 +39,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 		if (entity instanceof PlayerEntity) {
 			ItemStack is = ((PlayerEntity) entity).getItemStackFromSlot(EquipmentSlotType.FEET);
-			if (!is.isEmpty() && is.getItem() == this && !entity.isSneaking()) {
+			if (!is.isEmpty() && is.getItem() == this && !entity.isCrouching()) {
 				if (entity.isSprinting() && entity.onGround) {
 					entity.fallDistance = 0.0F;
 					float f1 = entity.rotationYaw * ((float) Math.PI / 180F);
@@ -53,7 +53,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	public void onEntityJump(LivingJumpEvent e) {
 		if (e.getEntityLiving() instanceof PlayerEntity) {
 			ItemStack is = ((PlayerEntity) e.getEntityLiving()).getItemStackFromSlot(EquipmentSlotType.FEET);
-			if (!is.isEmpty() && is.getItem() == this && !e.getEntityLiving().isSneaking()) {
+			if (!is.isEmpty() && is.getItem() == this && !e.getEntityLiving().isCrouching()) {
 			      float f = 0.82F;
 			      Vec3d vec3d = e.getEntityLiving().getMotion();
 			      e.getEntityLiving().setMotion(vec3d.x, (double)f, vec3d.z);

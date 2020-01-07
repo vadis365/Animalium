@@ -3,7 +3,6 @@ package animalium.entities;
 import com.sun.istack.internal.Nullable;
 
 import animalium.ModItems;
-import animalium.configs.Config;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -13,7 +12,6 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -101,8 +99,8 @@ public class EntityNeutralBear extends EntityBear {
             }
 
             prevLimbSwingAmount = limbSwingAmount;
-            double d1 = posX - prevPosX;
-            double d0 = posZ - prevPosZ;
+            double d1 = func_226277_ct_() - prevPosX;
+            double d0 = func_226281_cx_() - prevPosZ;
             float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
             if (f2 > 1.0F)
@@ -150,7 +148,7 @@ public class EntityNeutralBear extends EntityBear {
 			double a = Math.toRadians(renderYawOffset);
 			double offSetX = -Math.sin(a) * 0.35D;
 			double offSetZ = Math.cos(a) * 0.35D;
-			entity.setPosition(posX - offSetX, posY + 1.9D + entity.getYOffset(), posZ - offSetZ);
+			entity.setPosition(func_226277_ct_() - offSetX, func_226278_cu_() + 1.65D + entity.getYOffset(), func_226281_cx_() - offSetZ);
 		}
 	}
 }

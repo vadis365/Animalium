@@ -1,16 +1,13 @@
 package animalium.client.render.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import animalium.client.model.ModelWildDog;
-import animalium.entities.EntityDogPart;
 import animalium.entities.EntityWildDog;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -23,11 +20,12 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
     }
 
 	@Override
-	protected void preRenderCallback(EntityWildDog entity, float partialTickTime) {
-		GlStateManager.translatef(0F, -0.06F, 0F);
-		GlStateManager.rotatef(180F, 0F, 1F, 0F);
+	protected void func_225620_a_(EntityWildDog entity, MatrixStack matrix, float partialTickTime) {
+		matrix.func_227861_a_(0F, -0.06F, 0F); // translation
+		matrix.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F)); //rotation
 	}
 
+/*
 	@Override
 	public void doRender(EntityWildDog entity, double x, double y, double z, float yaw, float partialTicks) {
 		super.doRender(entity, x, y, z, yaw, partialTicks);
@@ -40,12 +38,12 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
 		renderDebugBoundingBox(headPart, x, y, z, yaw, partialTicks, headPart.posX - entity.posX, headPart.posY - entity.posY, headPart.posZ - entity.posZ);
 		// }
 	}
-
+*/
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWildDog entity) {
+	public ResourceLocation getEntityTexture(EntityWildDog entity) {
 		return TEXTURE;
 	}
-
+/*
 	private void renderDebugBoundingBox(Entity entity, double x, double y, double z, float yaw, float partialTicks, double xOff, double yOff, double zOff) {
 		GlStateManager.depthMask(false);
 		GlStateManager.disableTexture();
@@ -61,5 +59,5 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
 		GlStateManager.disableBlend();
 		GlStateManager.depthMask(true);
 	}
-
+*/
 }

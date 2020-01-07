@@ -39,6 +39,6 @@ Some Aggro Beasts originally made for The Invasion Modpack.
 [[dependencies.animalium]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4]"
+    versionRange="[1.15.1]"
     ordering="NONE"
     side="BOTH"

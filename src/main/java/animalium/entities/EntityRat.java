@@ -146,7 +146,7 @@ public class EntityRat extends MonsterEntity {
 	}
 
 	public static boolean isValidLightLevel(IWorld world, BlockPos pos) {
-        if (world.getLightFor(LightType.BLOCK, pos) >= 8)
+        if (world.func_226658_a_(LightType.BLOCK, pos) >= 8)
             return false;
         return true;
     }
@@ -165,7 +165,7 @@ public class EntityRat extends MonsterEntity {
 
 	@Override
     public boolean isNotColliding(IWorldReader world) {
-		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
+		return !world.containsAnyLiquid(getBoundingBox()) && world.func_226668_i_(this);
     }
 
 	@Override
