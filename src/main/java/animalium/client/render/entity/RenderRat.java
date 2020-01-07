@@ -18,7 +18,7 @@ public class RenderRat extends MobRenderer<EntityRat, ModelRat<EntityRat>> {
 
 	public RenderRat(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new ModelRat<>(), 0.5F);
-       // this.addLayer(new RenderRatLayer(this));
+        this.addLayer(new RenderRatLayer(this));
     }
 
 	@Override

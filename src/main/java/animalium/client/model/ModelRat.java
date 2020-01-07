@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import animalium.entities.EntityRat;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -177,33 +178,27 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
         r_hindleg2.addChild(r_hindleg3);
         body_rear.addChild(body_mid);
     }
-    
-	protected Iterable<ModelRenderer> func_225600_b_() {
-		return ImmutableList.of(this.body_rear);
+
+	@Override
+	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            });
 	}
 
 	@Override
 	public void func_225597_a_(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch) {
 		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
-		neck.rotateAngleY = heady;
+		ItemStack stack = entity.getHeldItemMainhand();
+		if (!stack.isEmpty())
+			neck.rotateAngleY = 0F;
+		else
+			neck.rotateAngleY = heady;
 	}
 
-/*
-	@Override
-	public void render(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		body_rear.render(scale);
-	}
-
-	@Override
-	public void setRotationAngles(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel) {
-		super.setRotationAngles(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
-		//float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
-		//neck.rotateAngleY = heady;
-	}
-*/
 	@Override
 	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		
+
 		float animation = MathHelper.sin((limbSwing * 0.4F + 2) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.4F) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.4F + 4) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
@@ -223,7 +218,7 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
 			r_foreleg1.rotateAngleX = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 0.17453292519943295F  + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -0.17453292519943295F - animation2 * 18F + flap * 0.075F;
-			
+
 			l_foreleg1.rotateAngleX = 0.17453292519943295F + (animation * 8F) + flap * 0.05F;
 			l_foreleg2.rotateAngleX = 0.17453292519943295F  + (animation * 6F) - flap * 0.025F;
 			l_fore_paw.rotateAngleX = -0.17453292519943295F - (animation * 18F) + flap * 0.075F;
@@ -277,7 +272,6 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
 			body_rear.rotateAngleX = 0.6981317007977318F + animation2 * 2F;
 
 			neck.rotateAngleX = 0 + animation2 * 2.9F;
-
 		}
 
 		//if (!rat.onGround)
@@ -292,10 +286,4 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-
-	@Override
-	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
-		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
-            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);});
-	}
 }

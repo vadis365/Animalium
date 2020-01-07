@@ -154,23 +154,14 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 	        body_rear.addChild(r_hindleg1);
 	        r_hindleg1.addChild(r_hindleg2);
 	}
-/*
+
 	@Override
-	public void render(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		body_rear.render(scale);
+	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            });
 	}
-	*/
-	protected Iterable<ModelRenderer> func_225600_b_() {
-		return ImmutableList.of(this.body_rear);
-	}
-/*
-	@Override
-	public void setRotationAngles(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel) {
-		super.setRotationAngles(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
-		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
-		neck.rotateAngleY = heady;
-	}
-*/	
+
 	@Override
 	public void func_225597_a_(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch) {
 		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
@@ -261,7 +252,6 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 			else
 				lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;
 			}
-
 	}
 
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
@@ -269,11 +259,4 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-
-	@Override
-	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
-		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
-            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);});
-	}
-
 }

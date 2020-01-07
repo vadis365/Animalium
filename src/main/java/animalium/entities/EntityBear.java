@@ -42,10 +42,10 @@ public class EntityBear extends MonsterEntity {
 	private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
 	public float standingAngle, prevStandingAngle;
 	
-	   public EntityBear(EntityType<? extends EntityBear> type, World world) {
-		      super(type, world);
-				stepHeight = 2F;
-		   }
+	public EntityBear(EntityType<? extends EntityBear> type, World world) {
+		super(type, world);
+		stepHeight = 2F;
+	}
 
 	@Override
 	protected void registerData() {

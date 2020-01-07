@@ -104,43 +104,26 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 		finTailBottom.func_228300_a_(-0.5F, -1.5F, 0.5F, 1, 3, 5);
 		finTailBottom.setRotationPoint(0F, 0F, 2F);
 		setRotation(finTailBottom, -1.047198F, 0F, 0F);
-		
+
 		bodyMain.addChild(bodyBack);
 		bodyBack.addChild(tail);
 		tail.addChild(finTailTop);
 		tail.addChild(finTailBottom);
 	}
-/*
+
 	@Override
-	public void render(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		jawBottom.render(scale);
-		toothBL.render(scale);
-		toothBML.render(scale);
-		toothMBR.render(scale);
-		toothBR.render(scale);
-		head.render(scale);
-		toothTL.render(scale);
-		toothTM.render(scale);
-		toothTR.render(scale);
-		bodyMain.render(scale);
-		finDorsal.render(scale);
-		finR.render(scale);
-		finL.render(scale);
-	}
-*/
-	protected Iterable<ModelRenderer> func_225600_b_() {
-		return ImmutableList.of(jawBottom, toothBL, toothBML, toothMBR, toothBR, head, toothTL, toothTM, toothTR, bodyMain, finDorsal, finR, finL);
+	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
+		ImmutableList.of(jawBottom, toothBL, toothBML, toothMBR, toothBR, head, toothTL, toothTM, toothTR, bodyMain, finDorsal, finR, finL).forEach((p_228279_8_) -> {
+            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+            });
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+	@Override
+	public void func_225597_a_(T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
 	}
 
 	@Override
 	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-
             float flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 0.5F) * 0.6F;
             if (entity.isGrounded())
             	flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 1.5F) * 0.6F;
@@ -160,16 +143,10 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
     		finTailBottom.rotateAngleY = bodyMain.rotateAngleY * 1.6F;
     }
 
-	@Override
-	public void func_225597_a_(T p_225597_1_, float p_225597_2_, float p_225597_3_, float p_225597_4_, float p_225597_5_, float p_225597_6_) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void func_225598_a_(MatrixStack p_225598_1_, IVertexBuilder p_225598_2_, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_) {
-		ImmutableList.of(jawBottom, toothBL, toothBML, toothMBR, toothBR, head, toothTL, toothTM, toothTR, bodyMain, finDorsal, finR, finL).forEach((p_228279_8_) -> {
-            p_228279_8_.func_228309_a_(p_225598_1_, p_225598_2_, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);});
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
 	}
 
 }
