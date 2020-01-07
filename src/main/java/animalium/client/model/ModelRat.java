@@ -3,6 +3,7 @@ package animalium.client.model;
 import animalium.entities.EntityRat;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -182,8 +183,12 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
 	@Override
 	public void setRotationAngles(T entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel) {
 		super.setRotationAngles(entity, limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel);
-		//float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
-		//neck.rotateAngleY = heady;
+		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
+		ItemStack stack = entity.getHeldItemMainhand();
+		if (!stack.isEmpty())
+			neck.rotateAngleY = 0F;
+		else
+			neck.rotateAngleY = heady;
 	}
 
 	@Override
