@@ -31,7 +31,7 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
 	@Override
 	public void doRender(EntityWildDog entity, double x, double y, double z, float yaw, float partialTicks) {
 		super.doRender(entity, x, y, z, yaw, partialTicks);
-		// if (ConfigHandler.WILD_DOG_SHOW_HITBOX) {
+	/*	// if (ConfigHandler.WILD_DOG_SHOW_HITBOX) {
 		// Main Entity Hitbox
 		renderDebugBoundingBox(entity, x, y, z, yaw, partialTicks, 0, 0, 0);
 
@@ -39,6 +39,7 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
 		EntityDogPart headPart = (EntityDogPart) entity.dogPartHead;
 		renderDebugBoundingBox(headPart, x, y, z, yaw, partialTicks, headPart.posX - entity.posX, headPart.posY - entity.posY, headPart.posZ - entity.posZ);
 		// }
+	*/
 	}
 
 	@Override
