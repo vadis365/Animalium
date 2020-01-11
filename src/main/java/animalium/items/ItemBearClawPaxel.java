@@ -28,6 +28,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -50,7 +51,7 @@ public class ItemBearClawPaxel extends ToolItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.bear_claw_paxel"));
+		tooltip.add(new TranslationTextComponent("tooltip.bear_claw_paxel").applyTextStyle(TextFormatting.YELLOW));
 	}
 
 	@Override

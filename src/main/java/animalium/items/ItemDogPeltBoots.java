@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,7 +32,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots"));
+		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").applyTextStyle(TextFormatting.YELLOW));
 	}
 
 	@Override
