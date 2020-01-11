@@ -26,7 +26,7 @@ public class WildDogLeapAtTargetGoal extends Goal {
 			return false;
 		} else {
 			double d0 = leaper.getDistanceSq(leapTarget);
-			return d0 >= 9.0D && d0 <= 16.0D ? (!leaper.onGround ? false : leaper.getRNG().nextInt(2) == 0) : false;
+			return d0 >= 9.0D && d0 <= 16.0D ? (!leaper.onGround ? false : leaper.getRNG().nextInt(5) == 0) : false;
 		}
 	}
 

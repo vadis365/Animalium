@@ -1,7 +1,12 @@
 package animalium.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import animalium.ModArmourMaterials;
 import animalium.ModItems;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -9,6 +14,9 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,6 +27,12 @@ public class ItemDogPeltBoots extends ArmorItem {
 
 	public ItemDogPeltBoots(ModArmourMaterials material, EquipmentSlotType slot, Properties properties) {
 		super(material, slot, properties);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").applyTextStyle(TextFormatting.YELLOW));
 	}
 
 	@Override

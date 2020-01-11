@@ -1,6 +1,7 @@
 package animalium.items;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -15,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
@@ -25,7 +27,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 
 public class ItemBearClawPaxel extends ToolItem {
@@ -39,6 +46,12 @@ public class ItemBearClawPaxel extends ToolItem {
 				.addToolType(ToolType.SHOVEL, tier.getHarvestLevel())
 				.addToolType(ToolType.AXE, tier.getHarvestLevel())
 		));
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(new TranslationTextComponent("tooltip.bear_claw_paxel").applyTextStyle(TextFormatting.YELLOW));
 	}
 
 	@Override
