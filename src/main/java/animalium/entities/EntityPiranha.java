@@ -243,9 +243,9 @@ public class EntityPiranha extends MonsterEntity {
 					double distanceZ = getAttackTarget().func_226281_cx_() - func_226281_cx_();
 					float distanceSqrRoot = MathHelper.sqrt(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ);
 					double motionX = distanceX / distanceSqrRoot * 0.5D * 0.900000011920929D + getMotion().getX() * 0.70000000298023224D;
-					double motionY = 0.4D;
+					double motionY = 0.125D;
 					double motionZ = distanceZ / distanceSqrRoot * 0.5D * 0.900000011920929D + getMotion().getZ() * 0.70000000298023224D;
-					setMotion(getMotion().add(motionX, motionY, motionZ));
+					setMotion(getMotion().add(motionX * 0.25D, motionY, motionZ * 0.25D));
 					}
 			}
 		}

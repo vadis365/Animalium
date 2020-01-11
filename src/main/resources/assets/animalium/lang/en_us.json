@@ -17,16 +17,16 @@
 	"item.animalium.rat_spawn_egg": "Spawn Rat",
 	  
 	"_comment": "Tool Tips",
-	"tooltip.upper_1": "Works like an upside-down hopper.",
-	"tooltip.upper_2": "Sucks items up from block below.",
+	"tooltip.wild_dog_pelt_boots": "Jump High and Run Fast.",
+	"tooltip.bear_claw_paxel": "The Original Multi-tool",
 	
 	"_comment": "Creative Tabs",
 	"itemGroup.animalium": "Animalium",
 	
 	"_comment": "Entities",
-	"entity.piranha": "Piranha",
-	"entity.wild_dog": "Wild Dog",
-	"entity.bear": "Brown Bear",
-	"entity.bear_tamed": "Neutral Brown Bear",
-	"entity.rat": "Rat"
+	"entity.animalium.piranha": "Piranha",
+	"entity.animalium.wild_dog": "Wild Dog",
+	"entity.animalium.bear": "Brown Bear",
+	"entity.animalium.bear_tamed": "Neutral Brown Bear",
+	"entity.animalium.rat": "Rat"
 }
