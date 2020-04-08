@@ -1,0 +1,14 @@
+entity.piranha.name=Пиранья
+entity.wild_dog.name=Дикая собака
+entity.bear.name=Бурый медведь
+entity.bear_tamed.name=Нейтральный бурый медведь
+entity.rat.name=Крыса
+item.animalium.wild_dog_pelt.name=Шкура дикой собаки
+item.animalium.dog_boots.name=Ботинки из шкуры дикой собаки
+item.animalium.bear_meat.name=Сырое мясо медведя
+item.animalium.bear_meat_cooked.name=Приготовленное мясо медведя
+item.animalium.bear_claw.name=Коготь медведя
+item.animalium.bear_claw_paxel.name=Паксель из когтя медведя
+item.animalium.rat_meat.name=Сырое мясо крысы
+item.animalium.rat_meat_cooked.name=Приготовленное мясо крысы
+itemGroup.animalium=Animalium
