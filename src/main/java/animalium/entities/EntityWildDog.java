@@ -77,7 +77,7 @@ public class EntityWildDog extends MonsterEntity {
 	}
 
 	public static boolean isValidLightLevel(IWorld world, BlockPos pos) {
-        if (world.func_226658_a_(LightType.BLOCK, pos) >= 8)
+        if (world.getLightFor(LightType.BLOCK, pos) >= 8)
             return false;
         return true;
     }
@@ -136,7 +136,7 @@ public class EntityWildDog extends MonsterEntity {
 		double a = Math.toRadians(rotationYaw);
 		double offSetX = -Math.sin(a) * -0.75D;
 		double offSetZ = Math.cos(a) * -0.75D;
-		dogPartHead.setLocationAndAngles(func_226277_ct_() - offSetX, func_226278_cu_() + 0.7D, func_226281_cx_() - offSetZ, 0.0F, 0.0F);
+		dogPartHead.setLocationAndAngles(getPosX() - offSetX, getPosY() + 0.7D, getPosZ() - offSetZ, 0.0F, 0.0F);
     }
 
 	public boolean attackEntityFromPart(EntityDogPart dogPart, DamageSource source, float damage) {

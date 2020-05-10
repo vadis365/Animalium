@@ -21,24 +21,25 @@ public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>
 	public RenderRatLayer(IEntityRenderer <EntityRat, ModelRat<EntityRat>> entity) {
 		super(entity);
 	}
-
+	
 	@Override
-	public void func_225628_a_(MatrixStack matrix, IRenderTypeBuffer renderBuffer, int somethingInt, EntityRat entity, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
+	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entity.getHeldItemMainhand();
 		if (!stack.isEmpty())
-			this.renderHeldItem(matrix, renderBuffer, somethingInt, entity, stack);
+			this.renderHeldItem(matrixStackIn, bufferIn, packedLightIn, entity, stack);
 	}
 
 	@SuppressWarnings("deprecation")
-	private void renderHeldItem(MatrixStack matrix, IRenderTypeBuffer renderBuffer, int somethingInt, EntityRat entity, ItemStack stack) {
+	private void renderHeldItem(MatrixStack matrix, IRenderTypeBuffer renderBuffer, int packedLightIn, EntityRat entity, ItemStack stack) {
 		if (!stack.isEmpty()) {
-			matrix.func_227860_a_(); //push
+			matrix.push(); //push
 			float animation = MathHelper.sin((entity.limbSwing * 0.4F) * 1.5F) * 0.3F * entity.limbSwingAmount * 0.3F;
-			matrix.func_227861_a_(0.0F, 1F + animation, 1.5F); // translation
-			matrix.func_227863_a_(Vector3f.field_229179_b_.func_229187_a_(110.0F)); //rotation
-			matrix.func_227862_a_(1F, 1F, 1F); // scale
-			Minecraft.getInstance().getFirstPersonRenderer().func_228397_a_(entity, stack, ItemCameraTransforms.TransformType.GROUND, false, matrix, renderBuffer, somethingInt);
-			matrix.func_227865_b_(); //pop
+			matrix.translate(0.0F, 1F + animation, 1.5F); // translation
+			matrix.rotate(Vector3f.XP.rotationDegrees(110.0F)); //rotation
+			matrix.scale(1F, 1F, 1F); // scale
+			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(entity, stack, ItemCameraTransforms.TransformType.GROUND, false, matrix, renderBuffer, packedLightIn);
+			matrix.pop(); //pop
 		}
 	}
+
 }

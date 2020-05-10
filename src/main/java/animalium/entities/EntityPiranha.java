@@ -86,7 +86,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public boolean isGrounded() {
-		return !isInWater() && getEntityWorld().isAirBlock(new BlockPos(MathHelper.floor(func_226277_ct_()), MathHelper.floor(func_226278_cu_() + 1), MathHelper.floor(func_226281_cx_()))) && getEntityWorld().getBlockState(new BlockPos(MathHelper.floor(func_226277_ct_()), MathHelper.floor(func_226278_cu_() - 1), MathHelper.floor(func_226281_cx_()))).isSolid();
+		return !isInWater() && getEntityWorld().isAirBlock(new BlockPos(MathHelper.floor(getPosX()), MathHelper.floor(getPosY() + 1), MathHelper.floor(getPosZ()))) && getEntityWorld().getBlockState(new BlockPos(MathHelper.floor(getPosX()), MathHelper.floor(getPosY() - 1), MathHelper.floor(getPosZ()))).isSolid();
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class EntityPiranha extends MonsterEntity {
 			if (isInWater()) {
 				Vec3d vec3d = getLook(0.0F);
 				for (int i = 0; i < 2; ++i)
-					getEntityWorld().addParticle(ParticleTypes.BUBBLE, this.func_226277_ct_() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.x * 1.5D, this.func_226278_cu_() + this.rand.nextDouble() * (double)this.getHeight() - vec3d.y * 1.5D, this.func_226281_cx_() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.z * 1.5D, 0.0D, 0.0D, 0.0D);
+					getEntityWorld().addParticle(ParticleTypes.BUBBLE, getPosX() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.x * 1.5D, getPosY() + this.rand.nextDouble() * (double)this.getHeight() - vec3d.y * 1.5D, getPosZ() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.z * 1.5D, 0.0D, 0.0D, 0.0D);
 			}
 		}
 
@@ -192,7 +192,7 @@ public class EntityPiranha extends MonsterEntity {
 			onGround = false;
 			isAirBorne = true;
 			if(getEntityWorld().getGameTime()%5==0)
-				getEntityWorld().playSound(null, func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), SoundEvents.ENTITY_GUARDIAN_FLOP, SoundCategory.HOSTILE, 1F, 1F);
+				getEntityWorld().playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_GUARDIAN_FLOP, SoundCategory.HOSTILE, 1F, 1F);
 				this.damageEntity(DamageSource.DROWN, 0.5F);
 		}
 
@@ -233,14 +233,14 @@ public class EntityPiranha extends MonsterEntity {
 		if(getAttackTarget() != null && !getEntityWorld().containsAnyLiquid(getAttackTarget().getBoundingBox())) {
 			Double distance = (double) getDistance(getAttackTarget());
 			if (distance > 1.0F && distance < 6.0F) // && getAttackTarget().getEntityBoundingBox().maxY >= getEntityBoundingBox().minY && getAttackTarget().getEntityBoundingBox().minY <= getEntityBoundingBox().maxY && rand.nextInt(3) == 0)
-				if (isInWater() && getEntityWorld().isAirBlock(new BlockPos((int) func_226277_ct_(), (int) func_226278_cu_() + 1, (int) func_226281_cx_()))) {
+				if (isInWater() && getEntityWorld().isAirBlock(new BlockPos((int) getPosX(), (int) getPosY() + 1, (int) getPosZ()))) {
 					if(!isLeaping()) {
 						setIsLeaping(true);
-						getEntityWorld().playSound(null, func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.HOSTILE, 1F, 2F);
+						getEntityWorld().playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.HOSTILE, 1F, 2F);
 					}
-					double distanceX = getAttackTarget().func_226277_ct_() - func_226277_ct_();
-					double distanceY = getAttackTarget().func_226278_cu_() + (double)(getAttackTarget().getHeight() * 0.5F) - (this.func_226278_cu_() + (double)this.getEyeHeight());
-					double distanceZ = getAttackTarget().func_226281_cx_() - func_226281_cx_();
+					double distanceX = getAttackTarget().getPosX() - getPosX();
+					double distanceY = getAttackTarget().getPosY() + (double)(getAttackTarget().getHeight() * 0.5F) - (this.getPosY() + (double)this.getEyeHeight());
+					double distanceZ = getAttackTarget().getPosZ() - getPosZ();
 					float distanceSqrRoot = MathHelper.sqrt(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ);
 					double motionX = distanceX / distanceSqrRoot * 0.5D * 0.900000011920929D + getMotion().getX() * 0.70000000298023224D;
 					double motionY = 0.125D;
@@ -294,7 +294,7 @@ public class EntityPiranha extends MonsterEntity {
 
 		public void tick() {
 	         if (this.action == MovementController.Action.MOVE_TO && !this.piranha.getNavigator().noPath()) {
-	             Vec3d vec3d = new Vec3d(this.posX - this.piranha.func_226277_ct_(), this.posY - this.piranha.func_226278_cu_(), this.posZ - this.piranha.func_226281_cx_());
+	             Vec3d vec3d = new Vec3d(this.posX - this.piranha.getPosX(), this.posY - this.piranha.getPosY(), this.posZ - this.piranha.getPosZ());
 	             double d0 = vec3d.length();
 	             double d1 = vec3d.x / d0;
 	             double d2 = vec3d.y / d0;
@@ -311,9 +311,9 @@ public class EntityPiranha extends MonsterEntity {
 	             double d7 = Math.sin((double)(this.piranha.ticksExisted + this.piranha.getEntityId()) * 0.75D) * 0.05D;
 	             this.piranha.setMotion(this.piranha.getMotion().add(d4 * d5, d7 * (d6 + d5) * 0.25D + (double)f2 * d2 * 0.1D, d4 * d6));
 	             LookController lookcontroller = this.piranha.getLookController();
-	             double d8 = this.piranha.func_226277_ct_() + d1 * 2.0D;
-	             double d9 = (double)this.piranha.getEyeHeight() + this.piranha.func_226278_cu_() + d2 / d0;
-	             double d10 = this.piranha.func_226281_cx_() + d3 * 2.0D;
+	             double d8 = this.piranha.getPosX() + d1 * 2.0D;
+	             double d9 = (double)this.piranha.getEyeHeight() + this.piranha.getPosY() + d2 / d0;
+	             double d10 = this.piranha.getPosZ() + d3 * 2.0D;
 	             double d11 = lookcontroller.getLookPosX();
 	             double d12 = lookcontroller.getLookPosY();
 	             double d13 = lookcontroller.getLookPosZ();

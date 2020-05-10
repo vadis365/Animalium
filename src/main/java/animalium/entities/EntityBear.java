@@ -138,9 +138,9 @@ public class EntityBear extends MonsterEntity {
 	protected static boolean isValidLightLevel(IWorld world, BlockPos pos) {
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (world.getSkylightSubtracted() < 4)
-				if (world.func_226658_a_(LightType.BLOCK, pos) >= 6)
+				if (world.getLightFor(LightType.BLOCK, pos) >= 6)
 					return true;
-		} else if (world.func_226658_a_(LightType.BLOCK, pos) >= 8)
+		} else if (world.getLightFor(LightType.BLOCK, pos) >= 8)
 			return false;
 		return true;
 	}
@@ -190,7 +190,7 @@ public class EntityBear extends MonsterEntity {
 			if (hasHitTarget) {
 				entity.addVelocity(-MathHelper.sin(rotationYaw * 3.141593F / 180.0F) * 0.5F, 0.2D, MathHelper.cos(rotationYaw * 3.141593F / 180.0F) * 0.5F);
 				if (!getEntityWorld().isRemote)
-					getEntityWorld().playSound(null, func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), SoundEvents.ENTITY_POLAR_BEAR_WARNING, SoundCategory.HOSTILE, 1F, 1F);
+					getEntityWorld().playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_POLAR_BEAR_WARNING, SoundCategory.HOSTILE, 1F, 1F);
 			}
 			return hasHitTarget;
 		}

@@ -38,7 +38,7 @@ public class WildDogLeapAtTargetGoal extends Goal {
 	@Override
 	   public void startExecuting() {
 	      Vec3d vec3d = leaper.getMotion();
-	      Vec3d vec3d1 = new Vec3d(leapTarget.func_226277_ct_() - leaper.func_226277_ct_(), 0.0D, leapTarget.func_226281_cx_() - leaper.func_226281_cx_());
+	      Vec3d vec3d1 = new Vec3d(leapTarget.getPosX() - leaper.getPosX(), 0.0D, leapTarget.getPosZ() - leaper.getPosZ());
 	      if (vec3d1.lengthSquared() > 1.0E-7D) {
 	         vec3d1 = vec3d1.normalize().scale(0.4D).add(vec3d.scale(0.2D));
 	      }

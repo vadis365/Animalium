@@ -100,8 +100,8 @@ public class EntityNeutralBear extends EntityBear {
             }
 
             prevLimbSwingAmount = limbSwingAmount;
-            double d1 = func_226277_ct_() - prevPosX;
-            double d0 = func_226281_cx_() - prevPosZ;
+            double d1 = getPosX() - prevPosX;
+            double d0 = getPosZ() - prevPosZ;
             float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
             if (f2 > 1.0F)
@@ -149,7 +149,7 @@ public class EntityNeutralBear extends EntityBear {
 			double a = Math.toRadians(renderYawOffset);
 			double offSetX = -Math.sin(a) * 0.35D;
 			double offSetZ = Math.cos(a) * 0.35D;
-			entity.setPosition(func_226277_ct_() - offSetX, func_226278_cu_() + 1.65D + entity.getYOffset(), func_226281_cx_() - offSetZ);
+			entity.setPosition(getPosX() - offSetX, getPosY() + 1.65D + entity.getYOffset(), getPosZ() - offSetZ);
 		}
 	}
 }

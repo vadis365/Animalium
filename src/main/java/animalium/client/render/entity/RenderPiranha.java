@@ -20,11 +20,11 @@ public class RenderPiranha extends MobRenderer<EntityPiranha, ModelPiranha<Entit
     }
 
 	@Override
-	protected void func_225620_a_(EntityPiranha entity, MatrixStack matrix, float partialTickTime) {
+	protected void preRenderCallback(EntityPiranha entity, MatrixStack matrix, float partialTickTime) {
 		if (entity.isGrounded() && !entity.isLeaping()) {
-			matrix.func_227861_a_(0F, 0.5F, 0F); // translation
-			matrix.func_227863_a_(Vector3f.field_229183_f_.func_229187_a_(90.0F)); // rotation
-			matrix.func_227861_a_(-0.7F, 0.7F, 0F); // translation
+			matrix.translate(0F, 0.5F, 0F); // translation
+			matrix.rotate(Vector3f.ZP.rotationDegrees(90.0F)); // rotation
+			matrix.translate(-0.7F, 0.7F, 0F); // translation
 		}
 	}
 

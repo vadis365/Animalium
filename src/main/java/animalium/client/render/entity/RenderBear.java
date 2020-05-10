@@ -20,9 +20,9 @@ public class RenderBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
     }
 
 	@Override
-	protected void func_225620_a_(EntityBear entity, MatrixStack matrix, float partialTickTime) {
-		matrix.func_227862_a_(1.5F, 1.5F, 1.5F); // scale
-		matrix.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F)); //rotation
+	protected void preRenderCallback(EntityBear entity, MatrixStack matrix, float partialTickTime) {
+		matrix.scale(1.5F, 1.5F, 1.5F); // scale
+		matrix.rotate(Vector3f.YP.rotationDegrees(180.0F)); //rotation
 	}
 
 	@Override

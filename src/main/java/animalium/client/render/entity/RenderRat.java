@@ -22,10 +22,10 @@ public class RenderRat extends MobRenderer<EntityRat, ModelRat<EntityRat>> {
     }
 
 	@Override
-	protected void func_225620_a_(EntityRat entity, MatrixStack matrix, float partialTickTime) {
-		matrix.func_227862_a_(0.5F, 0.5F, 0.5F); // scale
-		matrix.func_227861_a_(0F, -0.0625F, 0F); // translation
-		matrix.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F)); //rotation
+	protected void preRenderCallback(EntityRat entity, MatrixStack matrix, float partialTickTime) {
+		matrix.scale(0.5F, 0.5F, 0.5F); // scale
+		matrix.translate(0F, -0.0625F, 0F); // translation
+		matrix.rotate(Vector3f.YP.rotationDegrees(180.0F)); //rotation
 	}
 
 	@Override

@@ -20,9 +20,9 @@ public class RenderWildDog extends MobRenderer<EntityWildDog, ModelWildDog<Entit
     }
 
 	@Override
-	protected void func_225620_a_(EntityWildDog entity, MatrixStack matrix, float partialTickTime) {
-		matrix.func_227861_a_(0F, -0.06F, 0F); // translation
-		matrix.func_227863_a_(Vector3f.field_229181_d_.func_229187_a_(180.0F)); //rotation
+	protected void preRenderCallback(EntityWildDog entity, MatrixStack matrix, float partialTickTime) {
+		matrix.translate(0F, -0.06F, 0F); // translation
+		matrix.rotate(Vector3f.YP.rotationDegrees(180.0F)); //rotation
 	}
 
 /*
