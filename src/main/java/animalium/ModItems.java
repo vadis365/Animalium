@@ -79,7 +79,7 @@ public class ModItems {
 	BEAR_CLAW_PAXEL = new ItemBearClawPaxel(ModToolMaterials.TOOL_BEAR_CLAW_PAXEL, p -> p.group(Animalium.TAB));//hmmmmm
 	BEAR_CLAW_PAXEL.setRegistryName(Reference.MOD_ID, "bear_claw_paxel");
 
-	WILD_DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(1).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
+	WILD_DOG_PELT_BOOTS = new ItemDogPeltBoots(ModArmourMaterials.ARMOUR_DOG_PELT, EquipmentSlotType.FEET, new Item.Properties().group(Animalium.TAB).maxStackSize(1).maxDamage(256).defaultMaxDamage(ModArmourMaterials.ARMOUR_DOG_PELT.getDurability(EquipmentSlotType.FEET)));
 	WILD_DOG_PELT_BOOTS.setRegistryName(Reference.MOD_ID, "wild_dog_pelt_boots");
 	}
 

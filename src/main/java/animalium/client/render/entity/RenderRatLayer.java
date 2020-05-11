@@ -10,18 +10,20 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+@SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
 public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>> {
 
 	public RenderRatLayer(IEntityRenderer <EntityRat, ModelRat<EntityRat>> entity) {
 		super(entity);
 	}
-	
+
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		ItemStack stack = entity.getHeldItemMainhand();
@@ -29,7 +31,6 @@ public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>
 			this.renderHeldItem(matrixStackIn, bufferIn, packedLightIn, entity, stack);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void renderHeldItem(MatrixStack matrix, IRenderTypeBuffer renderBuffer, int packedLightIn, EntityRat entity, ItemStack stack) {
 		if (!stack.isEmpty()) {
 			matrix.push(); //push
@@ -37,7 +38,8 @@ public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>
 			matrix.translate(0.0F, 1F + animation, 1.5F); // translation
 			matrix.rotate(Vector3f.XP.rotationDegrees(110.0F)); //rotation
 			matrix.scale(1F, 1F, 1F); // scale
-			Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(entity, stack, ItemCameraTransforms.TransformType.GROUND, false, matrix, renderBuffer, packedLightIn);
+			Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+			Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.GROUND, false, matrix, renderBuffer, packedLightIn, packedLightIn, Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, null, null));
 			matrix.pop(); //pop
 		}
 	}
