@@ -47,7 +47,7 @@ public class Animalium {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		ModEntities.registerEntitySpawns();
-		MinecraftForge.EVENT_BUS.register(ModItems.WILD_DOG_PELT_BOOTS);
+		MinecraftForge.EVENT_BUS.register(new ModEvents());
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
