@@ -120,7 +120,7 @@ public class EntityPiranha extends MonsterEntity {
 
 	@Override
 	public boolean isNotColliding(IWorldReader world) {
-		return world.func_226668_i_(this);
+		return world.checkNoEntityCollision(this);
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {

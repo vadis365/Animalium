@@ -90,7 +90,7 @@ public class EntityWildDog extends MonsterEntity {
 
 	@Override
 	public boolean isNotColliding(IWorldReader world) {
-		return !world.containsAnyLiquid(getBoundingBox()) && world.func_226668_i_(this);
+		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
 	}
 
 	public static boolean isDimBlacklisted(int dimensionIn) {
