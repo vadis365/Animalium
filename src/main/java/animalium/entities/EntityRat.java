@@ -152,7 +152,7 @@ public class EntityRat extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.getDimension().getType().getId()))
+		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
 			return false;
         return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
 	}

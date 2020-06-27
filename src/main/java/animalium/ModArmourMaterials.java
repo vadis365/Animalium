@@ -62,5 +62,11 @@ public enum ModArmourMaterials implements IArmorMaterial {
     public float getToughness() {
         return armorToughness;
     }
+
+	@Override
+	public float func_230304_f_() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 

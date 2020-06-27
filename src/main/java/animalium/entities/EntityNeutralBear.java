@@ -3,6 +3,7 @@ package animalium.entities;
 
 import javax.annotation.Nullable;
 
+
 import animalium.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,9 +16,10 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class EntityNeutralBear extends EntityBear {
@@ -50,7 +52,7 @@ public class EntityNeutralBear extends EntityBear {
 	}
 
 	@Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
 		ItemStack is = player.getHeldItem(hand);
 		float healingBuff = 0.0F;
 		if (!getEntityWorld().isRemote && !is.isEmpty() && is.getItem() == ModItems.RAT_MEAT) {
@@ -61,19 +63,19 @@ public class EntityNeutralBear extends EntityBear {
 					player.swingArm(hand);
 					is.shrink(1);
 				}
-				return true;
+				return ActionResultType.SUCCESS;
 			}
 
 		if (!getEntityWorld().isRemote && is.isEmpty()) {
 			player.startRiding(this, true);
-			return true;
+			return ActionResultType.SUCCESS;
 		}
 		 else
-			return super.processInteract(player, hand);
+			return super.func_230254_b_(player, hand);
 	}
 
 	@Override
-    public void travel(Vec3d travel_vector) {
+    public void travel(Vector3d travel_vector) {
         if (isBeingRidden() && canBeSteered()) {
             LivingEntity entitylivingbase = (LivingEntity)getControllingPassenger();
             rotationYaw = entitylivingbase.rotationYaw;
@@ -92,11 +94,11 @@ public class EntityNeutralBear extends EntityBear {
 
             if (canPassengerSteer()) {
                 setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-                super.travel(new Vec3d((double)strafe, travel_vector.y, (double)forward));
+                super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
             else if (entitylivingbase instanceof PlayerEntity) {
             	setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-            	super.travel(new Vec3d((double)strafe, travel_vector.y, (double)forward));
+            	super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
 
             prevLimbSwingAmount = limbSwingAmount;

@@ -260,7 +260,7 @@ public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 
 		}
 
-		if (!entity.onGround)
+		if (!entity.func_233570_aj_())//onGround
 			lower_jaw.rotateAngleX = -0.9F;
 		else
 			lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;

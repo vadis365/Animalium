@@ -41,7 +41,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class EntityBear extends MonsterEntity {
 	private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
 	public float standingAngle, prevStandingAngle;
-	
 	public EntityBear(EntityType<? extends EntityBear> type, World world) {
 		super(type, world);
 		stepHeight = 2F;
@@ -146,7 +145,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.getDimension().getType().getId()))
+		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
 			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (world.getSkylightSubtracted() < 4)

@@ -15,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +34,7 @@ public class ModItems {
 	public static Item PIRANHA_STEAK;
 	public static Item PIRANHA_STEAK_COOKED;
 	
+	@SuppressWarnings("deprecation")
 	public static void init() {
 	WILD_DOG_PELT = new Item(new Item.Properties().group(Animalium.TAB));
 	WILD_DOG_PELT.setRegistryName(Reference.MOD_ID, "wild_dog_pelt");
@@ -51,7 +53,7 @@ public class ModItems {
 
 	RAT_MEAT = new Item((new Item.Properties().group(Animalium.TAB).food((new Food.Builder()).hunger(2).saturation(0.3F).effect(new EffectInstance(Effects.HUNGER, 600, 0), 0.3F).meat().build()))) {
 		@Override
-		public boolean itemInteractionForEntity(ItemStack stack, PlayerEntity player, LivingEntity target, Hand hand) {
+		public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity player, LivingEntity target, Hand hand) {
 			if (target instanceof EntityBear) {
 				if (!player.getEntityWorld().isRemote) {
 					EntityBear bear = (EntityBear) target;
@@ -61,9 +63,9 @@ public class ModItems {
 					player.getEntityWorld().addEntity(tamedBear);
 				}
 				stack.shrink(1);
-				return true;
+			      return ActionResultType.SUCCESS;
 			} else {
-				return false;
+			      return ActionResultType.PASS;
 			}
 		}
 	};

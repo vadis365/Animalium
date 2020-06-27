@@ -3,6 +3,7 @@ package animalium.entities;
 import java.util.List;
 import java.util.Random;
 
+
 import animalium.ModEntities;
 import animalium.ModItems;
 import animalium.configs.Config;
@@ -41,7 +42,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -124,7 +125,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.getDimension().getType().getId()))
+		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
 			return false;
 		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;
@@ -176,7 +177,7 @@ public class EntityPiranha extends MonsterEntity {
 	public void livingTick() {
 		if (getEntityWorld().isRemote) {
 			if (isInWater()) {
-				Vec3d vec3d = getLook(0.0F);
+				Vector3d vec3d = getLook(0.0F);
 				for (int i = 0; i < 2; ++i)
 					getEntityWorld().addParticle(ParticleTypes.BUBBLE, getPosX() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.x * 1.5D, getPosY() + this.rand.nextDouble() * (double)this.getHeight() - vec3d.y * 1.5D, getPosZ() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth() - vec3d.z * 1.5D, 0.0D, 0.0D, 0.0D);
 			}
@@ -200,7 +201,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 	
 	@Override
-    public void travel(Vec3d travel_vector) {
+    public void travel(Vector3d travel_vector) {
 		if (isServerWorld()) {
 			if (isInWater()) {
 				moveRelative(0.1F, travel_vector);
@@ -294,7 +295,7 @@ public class EntityPiranha extends MonsterEntity {
 
 		public void tick() {
 	         if (this.action == MovementController.Action.MOVE_TO && !this.piranha.getNavigator().noPath()) {
-	             Vec3d vec3d = new Vec3d(this.posX - this.piranha.getPosX(), this.posY - this.piranha.getPosY(), this.posZ - this.piranha.getPosZ());
+	             Vector3d vec3d = new Vector3d(this.posX - this.piranha.getPosX(), this.posY - this.piranha.getPosY(), this.posZ - this.piranha.getPosZ());
 	             double d0 = vec3d.length();
 	             double d1 = vec3d.x / d0;
 	             double d2 = vec3d.y / d0;
