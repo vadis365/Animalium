@@ -29,7 +29,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").applyTextStyle(TextFormatting.YELLOW));
+		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").func_240699_a_(TextFormatting.YELLOW));//applyTextStyle
 	}
 
 	@Override

@@ -9,8 +9,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -81,7 +82,7 @@ public class EntityRat extends MonsterEntity {
 		if (Config.RAT_ATTACK_CREATURES.get())
 			targetSelector.addGoal(2, new EntityRat.TargetGoal<>(this, LivingEntity.class));
 	}
-
+/*
 	@Override
 	   protected void registerAttributes() {
 		super.registerAttributes();
@@ -89,6 +90,14 @@ public class EntityRat extends MonsterEntity {
 		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5D);
 		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
 		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+	}
+*/
+	public static AttributeModifierMap.MutableAttribute registerAttributes() {
+		return MonsterEntity.func_234295_eP_()
+				.func_233815_a_(Attributes.field_233818_a_, 5D) //health
+				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
+				.func_233815_a_(Attributes.field_233821_d_, (double) 0.65F) //move speed
+				.func_233815_a_(Attributes.field_233823_f_, 1D); //attack damage	
 	}
 
 	@Override

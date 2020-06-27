@@ -3,12 +3,11 @@ package animalium.entities;
 
 import javax.annotation.Nullable;
 
-
 import animalium.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -93,11 +92,11 @@ public class EntityNeutralBear extends EntityBear {
             jumpMovementFactor = getAIMoveSpeed() * 0.1F;
 
             if (canPassengerSteer()) {
-                setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                setAIMoveSpeed((float)getAttribute(Attributes.field_233821_d_).getValue());
                 super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
             else if (entitylivingbase instanceof PlayerEntity) {
-            	setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+            	setAIMoveSpeed((float)getAttribute(Attributes.field_233821_d_).getValue());
             	super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
 

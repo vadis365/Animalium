@@ -34,7 +34,7 @@ public class ModEntities {
 	public static EntityType<EntityRat> RAT;
 
 	public static void init() {
-		
+
 		BEAR = EntityType.Builder.create(EntityBear::new, EntityClassification.MONSTER).size(2F, 2F).build(getEntityResource("bear").toString());
 		EntitySpawnPlacementRegistry.register(BEAR, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityBear::canSpawnHere);
 		

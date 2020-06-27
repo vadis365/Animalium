@@ -3,7 +3,6 @@ package animalium.entities;
 import java.util.List;
 import java.util.Random;
 
-
 import animalium.ModEntities;
 import animalium.ModItems;
 import animalium.configs.Config;
@@ -13,8 +12,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -99,7 +99,7 @@ public class EntityPiranha extends MonsterEntity {
 	 public void read(CompoundNBT nbt) {
 		super.read(nbt);
 	}
-
+/*
 	@Override
 	protected void registerAttributes() {
 		super.registerAttributes();
@@ -108,7 +108,15 @@ public class EntityPiranha extends MonsterEntity {
 		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
 		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
 	}
-
+*/
+	public static AttributeModifierMap.MutableAttribute registerAttributes() {
+		return MonsterEntity.func_234295_eP_()
+				.func_233815_a_(Attributes.field_233818_a_, 10D) //health
+				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
+				.func_233815_a_(Attributes.field_233821_d_, (double) 0.8F) //move speed
+				.func_233815_a_(Attributes.field_233823_f_, 2D); //attack damage	
+	}
+	
 	@Override
 	public CreatureAttribute getCreatureAttribute() {
 		return CreatureAttribute.WATER;
@@ -169,6 +177,7 @@ public class EntityPiranha extends MonsterEntity {
 		playSound(isInWater() ? SoundEvents.ENTITY_GENERIC_SWIM : SoundEvents.ENTITY_GUARDIAN_FLOP, 0.5F, 2F);
     }
 
+	@SuppressWarnings("deprecation")
 	public float getBlockPathWeight(BlockPos pos, IWorldReader world) {
 		return world.getFluidState(pos).isTagged(FluidTags.WATER) ? 10.0F + world.getBrightness(pos) - 0.5F : super.getBlockPathWeight(pos, world);
 	}
@@ -303,7 +312,7 @@ public class EntityPiranha extends MonsterEntity {
 	             float f = (float)(MathHelper.atan2(vec3d.z, vec3d.x) * (double)(180F / (float)Math.PI)) - 90.0F;
 	             this.piranha.rotationYaw = this.limitAngle(this.piranha.rotationYaw, f, 90.0F);
 	             this.piranha.renderYawOffset = this.piranha.rotationYaw;
-	             float f1 = (float)(this.speed * this.piranha.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+	             float f1 = (float)(this.speed * this.piranha.getAttribute(Attributes.field_233821_d_).getValue());
 	             float f2 = MathHelper.lerp(0.125F, this.piranha.getAIMoveSpeed(), f1);
 	             this.piranha.setAIMoveSpeed(f2);
 	             double d4 = Math.sin((double)(this.piranha.ticksExisted + this.piranha.getEntityId()) * 0.5D) * 0.05D;

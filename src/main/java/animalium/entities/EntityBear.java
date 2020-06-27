@@ -9,8 +9,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -75,15 +76,24 @@ public class EntityBear extends MonsterEntity {
 		if (Config.BEAR_ATTACK_CREATURES.get())
 			targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
 	}
-
+/*
 	@Override
 	   protected void registerAttributes() {
 	      super.registerAttributes();
-	      getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
+	      getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);//
 	      getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
-	      getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-	      getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+	      getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);//
+	      getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);//
 	      getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.75D);
+	}
+*/
+	public static AttributeModifierMap.MutableAttribute registerAttributes() {
+		return MonsterEntity.func_234295_eP_()
+				.func_233815_a_(Attributes.field_233818_a_, 50D) //health
+				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
+				.func_233815_a_(Attributes.field_233820_c_, 0.75D) //knockback resistance
+				.func_233815_a_(Attributes.field_233821_d_, (double) 0.6F) //move speed
+				.func_233815_a_(Attributes.field_233823_f_, 6D); //attack damage	
 	}
 
 	@Override
@@ -184,7 +194,7 @@ public class EntityBear extends MonsterEntity {
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		if (canEntityBeSeen(entity)) {
-			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue()));
+			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(Attributes.field_233823_f_).getBaseValue()));
 
 			if (hasHitTarget) {
 				entity.addVelocity(-MathHelper.sin(rotationYaw * 3.141593F / 180.0F) * 0.5F, 0.2D, MathHelper.cos(rotationYaw * 3.141593F / 180.0F) * 0.5F);
