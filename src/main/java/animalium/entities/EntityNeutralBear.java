@@ -1,50 +1,59 @@
 package animalium.entities;
 
+
 import javax.annotation.Nullable;
 
-import animalium.Animalium;
+import animalium.ModItems;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityNeutralBear extends EntityBear {
 
-	public EntityNeutralBear(World world) {
-		super(world);
-		setSize(2F, 2F);
+	public EntityNeutralBear(EntityType<? extends EntityNeutralBear> type, World world) {
+		super(type, world);
 	}
 
 	@Override
-	protected void initEntityAI() {
-		tasks.addTask(1, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityBear.AIBearAttack(this));
-		tasks.addTask(3, new EntityAIWander(this, 0.6D));
-		tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		tasks.addTask(5, new EntityAILookIdle(this));
-		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+	protected void registerGoals() {
+		goalSelector.addGoal(1, new SwimGoal(this));
+		goalSelector.addGoal(2, new EntityBear.AttackGoal(this));
+		goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
+		goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		goalSelector.addGoal(5, new LookRandomlyGoal(this));
+		targetSelector.addGoal(1, new HurtByTargetGoal(this));
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public boolean canAttackClass(Class entity) {
-		return EntityPlayer.class != entity;
+	public boolean canAttack(EntityType<?> typeIn) {
+		return typeIn!= EntityType.PLAYER;
 	}
 
 	@Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+	public void setAttackTarget(LivingEntity entity) {
+		if (entity instanceof PlayerEntity)
+			super.setAttackTarget(null);
+		else
+			super.setAttackTarget(entity);
+	}
+
+	@Override
+    public boolean processInteract(PlayerEntity player, Hand hand) {
 		ItemStack is = player.getHeldItem(hand);
 		float healingBuff = 0.0F;
-		if (!getEntityWorld().isRemote && !is.isEmpty() && is.getItem() == Animalium.RAT_MEAT) {
+		if (!getEntityWorld().isRemote && !is.isEmpty() && is.getItem() == ModItems.RAT_MEAT) {
 				healingBuff = 2.0F;
 
 				if (getHealth() < getMaxHealth()) {
@@ -64,17 +73,17 @@ public class EntityNeutralBear extends EntityBear {
 	}
 
 	@Override
-    public void moveEntityWithHeading(float strafe, float forward) {
+    public void travel(Vec3d travel_vector) {
         if (isBeingRidden() && canBeSteered()) {
-            EntityLivingBase entitylivingbase = (EntityLivingBase)getControllingPassenger();
+            LivingEntity entitylivingbase = (LivingEntity)getControllingPassenger();
             rotationYaw = entitylivingbase.rotationYaw;
             prevRotationYaw = rotationYaw;
             rotationPitch = entitylivingbase.rotationPitch * 0.5F;
             setRotation(rotationYaw, rotationPitch);
             renderYawOffset = rotationYaw;
             rotationYawHead = renderYawOffset;
-            strafe = entitylivingbase.moveStrafing * 0.4F;
-            forward = entitylivingbase.moveForward * 0.4F;
+            float strafe = entitylivingbase.moveStrafing * 0.4F;
+            float forward = entitylivingbase.moveForward * 0.4F;
 
             if (forward <= 0.0F) 
                 forward *= 0.25F;
@@ -82,17 +91,17 @@ public class EntityNeutralBear extends EntityBear {
             jumpMovementFactor = getAIMoveSpeed() * 0.1F;
 
             if (canPassengerSteer()) {
-                setAIMoveSpeed((float)getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-                super.moveEntityWithHeading(strafe, forward);
+                setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                super.travel(new Vec3d((double)strafe, travel_vector.y, (double)forward));
             }
-            else if (entitylivingbase instanceof EntityPlayer) {
-            	setAIMoveSpeed((float)getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
-                super.moveEntityWithHeading(strafe, forward);
+            else if (entitylivingbase instanceof PlayerEntity) {
+            	setAIMoveSpeed((float)getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+            	super.travel(new Vec3d((double)strafe, travel_vector.y, (double)forward));
             }
 
             prevLimbSwingAmount = limbSwingAmount;
-            double d1 = posX - prevPosX;
-            double d0 = posZ - prevPosZ;
+            double d1 = getPosX() - prevPosX;
+            double d0 = getPosZ() - prevPosZ;
             float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
             if (f2 > 1.0F)
@@ -103,12 +112,12 @@ public class EntityNeutralBear extends EntityBear {
         }
         else {
             jumpMovementFactor = 0.02F;
-            super.moveEntityWithHeading(strafe, forward);
+            super.travel(travel_vector);
         }
     }
 
 	@Override
-	public boolean canDespawn() {
+	public boolean canDespawn(double distanceToClosestPlayer) {
 		return false;
 	}
 
@@ -119,13 +128,13 @@ public class EntityNeutralBear extends EntityBear {
 
 	@Override
     public boolean canBeSteered() {
-        return this.getControllingPassenger() instanceof EntityLivingBase;
+        return this.getControllingPassenger() instanceof LivingEntity;
     }
 
 	@Override
     public boolean canPassengerSteer() {
         Entity entity = this.getControllingPassenger();
-        return entity instanceof EntityPlayer ? ((EntityPlayer)entity).isUser() : !this.world.isRemote;
+        return entity instanceof PlayerEntity ? ((PlayerEntity)entity).isUser() : !this.world.isRemote;
     }
 
     @Nullable
@@ -136,11 +145,11 @@ public class EntityNeutralBear extends EntityBear {
 	@Override
 	public void updatePassenger(Entity entity) {
 		super.updatePassenger(entity);
-		if (entity instanceof EntityLivingBase) {
+		if (entity instanceof LivingEntity) {
 			double a = Math.toRadians(renderYawOffset);
 			double offSetX = -Math.sin(a) * 0.35D;
 			double offSetZ = Math.cos(a) * 0.35D;
-			entity.setPosition(posX - offSetX, posY + 1.9D + entity.getYOffset(), posZ - offSetZ);
+			entity.setPosition(getPosX() - offSetX, getPosY() + 1.65D + entity.getYOffset(), getPosZ() - offSetZ);
 		}
 	}
 }

@@ -1,34 +1,36 @@
 package animalium.entities;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.EntitySize;
+import net.minecraft.entity.Pose;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDogPart extends Entity {
-	/** The dog entity this dog part belongs to */
-	public IEntityMultiPartDog entityDogObj;
-	public String partName;
 
-	public EntityDogPart(IEntityMultiPartDog parent, String partName, float base, float sizeHeight) {
-		super(parent.getWorld());
-		setSize(base, sizeHeight);
-		entityDogObj = parent;
+	public final EntityWildDog dog;
+	public final String partName;
+	private final EntitySize entitySize;
+
+	public EntityDogPart(EntityWildDog dog, String partName, float sizeWidth, float sizeHeight) {
+		super(dog.getType(), dog.getEntityWorld());
+		this.entitySize = EntitySize.flexible(sizeWidth, sizeHeight);
+		this.recalculateSize();
+		this.dog = dog;
 		this.partName = partName;
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readAdditional(CompoundNBT compound) {
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeAdditional(CompoundNBT compound) {
 	}
 
 	@Override
@@ -41,29 +43,22 @@ public class EntityDogPart extends Entity {
 		return true;
 	}
 
-	@SideOnly(Side.CLIENT)
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return getEntityBoundingBox();
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBox(Entity entityIn) {
-		return getEntityBoundingBox();
-	}
-
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox() {
-		return getEntityBoundingBox();
-	}
-
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		return isEntityInvulnerable(source) ? false : entityDogObj.attackEntityFromPart(this, source, amount);
+		return isInvulnerableTo(source) ? false : dog.attackEntityFromPart(this, source, amount);
 	}
 
 	@Override
 	public boolean isEntityEqual(Entity entityIn) {
-		return this == entityIn || entityDogObj == entityIn;
+		return this == entityIn || dog == entityIn;
+	}
+
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		throw new UnsupportedOperationException();
+	}
+
+	public EntitySize getSize(Pose poseIn) {
+		return entitySize;
 	}
 }

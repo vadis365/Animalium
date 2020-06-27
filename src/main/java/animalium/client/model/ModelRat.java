@@ -1,16 +1,19 @@
 package animalium.client.model;
 
-import animalium.entities.EntityRat;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-@SideOnly(Side.CLIENT)
-public class ModelRat extends ModelBase {
+import animalium.entities.EntityRat;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class ModelRat<T extends EntityRat> extends EntityModel<T> {
     ModelRenderer body_rear;
     ModelRenderer body_mid;
     ModelRenderer r_hindleg1;
@@ -175,26 +178,31 @@ public class ModelRat extends ModelBase {
         r_hindleg2.addChild(r_hindleg3);
         body_rear.addChild(body_mid);
     }
-
+ 
 	@Override
-	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		body_rear.render(scale);
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity) {
-		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
-		//float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
-		//neck.rotateAngleY = heady;
+	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float heady = MathHelper.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
+		ItemStack stack = entity.getHeldItemMainhand();
+		if (!stack.isEmpty())
+			neck.rotateAngleY = 0F;
+		else
+			neck.rotateAngleY = heady;
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		EntityRat rat = (EntityRat) entity;
+	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
+
 		float animation = MathHelper.sin((limbSwing * 0.4F + 2) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.4F) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.4F + 4) * 1.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((rat.ticksExisted) * 0.2F) * 0.6F;
+		float flap = MathHelper.sin((entity.ticksExisted) * 0.2F) * 0.6F;
 
 		tail1.rotateAngleY = flap *0.2F;
 		tail2.rotateAngleY = tail1.rotateAngleY * 1.5F;
@@ -206,11 +214,11 @@ public class ModelRat extends ModelBase {
 		tail3.rotateAngleX = -0.08726646259971647F - animation * 1F;
 		tail4.rotateAngleX = -0.08726646259971647F - animation * 1.25F;
 
-		if(rat.posX == rat.lastTickPosX) {
+		if(entity.getPosX() == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 0.17453292519943295F  + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -0.17453292519943295F - animation2 * 18F + flap * 0.075F;
-			
+
 			l_foreleg1.rotateAngleX = 0.17453292519943295F + (animation * 8F) + flap * 0.05F;
 			l_foreleg2.rotateAngleX = 0.17453292519943295F  + (animation * 6F) - flap * 0.025F;
 			l_fore_paw.rotateAngleX = -0.17453292519943295F - (animation * 18F) + flap * 0.075F;
@@ -264,7 +272,6 @@ public class ModelRat extends ModelBase {
 			body_rear.rotateAngleX = 0.6981317007977318F + animation2 * 2F;
 
 			neck.rotateAngleX = 0 + animation2 * 2.9F;
-
 		}
 
 		//if (!rat.onGround)

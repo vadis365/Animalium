@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "animalium:wild_dog_pelt",
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "minecraft:leather"
+  }
+}

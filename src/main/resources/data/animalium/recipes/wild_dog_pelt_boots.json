@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RPR",
+    "PLP",
+    "SPS"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "animalium:wild_dog_pelt"
+    },
+    "L": {
+      "item": "minecraft:leather_boots"
+    },
+    "S": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "result": {
+    "item": "animalium:wild_dog_pelt_boots"
+  }
+}

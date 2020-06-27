@@ -1,16 +1,18 @@
 package animalium.client.model;
 
-import animalium.entities.EntityBear;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-@SideOnly(Side.CLIENT)
-public class ModelBear extends ModelBase {
+import animalium.entities.EntityBear;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 	ModelRenderer body_rear;
 	ModelRenderer body_mid;
 	ModelRenderer r_hindleg1;
@@ -154,28 +156,28 @@ public class ModelBear extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		body_rear.render(scale);
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity) {
-		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
-		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
+	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float heady = MathHelper.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
 		neck.rotateAngleY = heady;
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		
-		EntityBear bear = (EntityBear) entity;
+	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
+
 		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((bear.ticksExisted) * 0.3F) * 0.8F;
-		float standingAngle = bear.smoothedAngle(partialRenderTicks);
+		float flap = MathHelper.sin((entity.ticksExisted) * 0.3F) * 0.8F;
+		float standingAngle = entity.smoothedAngle(partialRenderTicks);
 
-		if (bear.posX == bear.lastTickPosX) {
+		if (entity.getPosX() == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 0.17453292519943295F + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -(standingAngle*1.25F) -0.17453292519943295F - animation2 * 18F + flap * 0.05F;
@@ -242,7 +244,7 @@ public class ModelBear extends ModelBase {
 			head.rotateAngleZ = -(standingAngle * 0.1F * flap * 6F);
 		}
 
-		if (!bear.onGround)
+		if (!entity.onGround)
 			lower_jaw.rotateAngleX = -0.9F;
 		else {
 			if(standingAngle > 0)
@@ -250,7 +252,6 @@ public class ModelBear extends ModelBase {
 			else
 				lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;
 			}
-
 	}
 
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

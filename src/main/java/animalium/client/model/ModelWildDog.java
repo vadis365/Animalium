@@ -1,16 +1,18 @@
 package animalium.client.model;
 
-import animalium.entities.EntityWildDog;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-@SideOnly(Side.CLIENT)
-public class ModelWildDog extends ModelBase {
+import animalium.entities.EntityWildDog;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class ModelWildDog<T extends EntityWildDog> extends EntityModel<T> {
 
 	ModelRenderer body_rear;
 	ModelRenderer body_mid;
@@ -171,24 +173,23 @@ public class ModelWildDog extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float scale) {
-		body_rear.render(scale);
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
+            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);});
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity) {
-		super.setRotationAngles(limbSwing, limbSwingAngle, entityTickTime, rotationYaw, rotationPitch, unitPixel, entity);
-		float heady = MathHelper.sin((rotationYaw / (180F / (float) Math.PI)) * 0.5F);
+	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float heady = MathHelper.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
 		neck.rotateAngleY = heady;
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		EntityWildDog dog = (EntityWildDog) entity;
+	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
 		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation2 = MathHelper.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
 		float animation3 = MathHelper.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((dog.ticksExisted) * 0.2F) * 0.6F;
+		float flap = MathHelper.sin((entity.ticksExisted) * 0.2F) * 0.6F;
 
 		tail1.rotateAngleY = flap * 0.2F;
 		tail2.rotateAngleY = tail1.rotateAngleY * 1.2F;
@@ -198,7 +199,7 @@ public class ModelWildDog extends ModelBase {
 		tail2.rotateAngleX = 0.10471975511965977F - animation * 3F;
 		tail3.rotateAngleX = 0.03490658503988659F - animation * 4F;
 
-		if(dog.posX == dog.lastTickPosX) {
+		if(entity.getPosX() == entity.lastTickPosX) {
 			r_foreleg1.rotateAngleX = -0.6981317007977318F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.rotateAngleX = 1.2217304763960306F  + (animation2 * 6F) - flap * 0.025F;
 			r_fore_paw.rotateAngleX = -0.5235987755982988F - animation2 * 18F + flap * 0.075F;
@@ -259,7 +260,7 @@ public class ModelWildDog extends ModelBase {
 
 		}
 
-		if (!dog.onGround)
+		if (!entity.onGround)
 			lower_jaw.rotateAngleX = -0.9F;
 		else
 			lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;

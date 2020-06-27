@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "animalium:rat_meat"
+  },
+  "result": "animalium:rat_meat_cooked",
+  "experience": 0.35,
+  "cookingtime": 200
+}

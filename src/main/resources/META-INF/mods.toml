@@ -1,0 +1,44 @@
+# This is an example mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[28,)" #mandatory
+issueTrackerURL="https://github.com/vadis365/Animalium/issues"
+displayURL="https://github.com/vadis365/Animalium"
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]] #mandatory
+    # The modid of the mod
+    modId="animalium" #mandatory
+    # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+    version="0.5.3" #mandatory
+     # A display name for the mod
+    displayName="Animalium" #mandatory
+    credits="Thanks to people and stuff." #optional
+    authors="vadis365" #optional
+    # The description text for the mod (multi line!) (#mandatory)
+    description='''
+Some Aggro Beasts originally made for The Invasion Modpack.
+'''
+
+[[dependencies.animalium]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[28,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+
+[[dependencies.animalium]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2]"
+    ordering="NONE"
+    side="BOTH"

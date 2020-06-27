@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XS ",
+    "XS "
+  ],
+  "key": {
+    "X": {
+      "item": "animalium:bear_claw"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "animalium:bear_claw_paxel"
+  }
+}

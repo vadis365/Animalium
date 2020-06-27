@@ -1,16 +1,18 @@
 package animalium.client.model;
 
-import animalium.entities.EntityPiranha;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-@SideOnly(Side.CLIENT)
-public class ModelPiranha extends ModelBase {
+import animalium.entities.EntityPiranha;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 
 	ModelRenderer jawBottom;
 	ModelRenderer toothBL;
@@ -102,42 +104,29 @@ public class ModelPiranha extends ModelBase {
 		finTailBottom.addBox(-0.5F, -1.5F, 0.5F, 1, 3, 5);
 		finTailBottom.setRotationPoint(0F, 0F, 2F);
 		setRotation(finTailBottom, -1.047198F, 0F, 0F);
-		
+
 		bodyMain.addChild(bodyBack);
 		bodyBack.addChild(tail);
 		tail.addChild(finTailTop);
 		tail.addChild(finTailBottom);
 	}
 
-	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel) {
-		jawBottom.render(unitPixel);
-		toothBL.render(unitPixel);
-		toothBML.render(unitPixel);
-		toothMBR.render(unitPixel);
-		toothBR.render(unitPixel);
-		head.render(unitPixel);
-		toothTL.render(unitPixel);
-		toothTM.render(unitPixel);
-		toothTR.render(unitPixel);
-		bodyMain.render(unitPixel);
-		finDorsal.render(unitPixel);
-		finR.render(unitPixel);
-		finL.render(unitPixel);
+	@Override
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		ImmutableList.of(jawBottom, toothBL, toothBML, toothMBR, toothBR, head, toothTL, toothTM, toothTR, bodyMain, finDorsal, finR, finL).forEach((p_228279_8_) -> {
+            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+	@Override
+	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 	}
 
-    @Override
-    public void setLivingAnimations(EntityLivingBase entity, float swing, float speed, float partialRenderTicks) {
-        EntityPiranha piranha = (EntityPiranha) entity;
-
-            float flap = MathHelper.sin((piranha.ticksExisted + partialRenderTicks) * 0.5F) * 0.6F;
-            if (piranha.isGrounded())
-            	flap = MathHelper.sin((piranha.ticksExisted + partialRenderTicks) * 1.5F) * 0.6F;
+	@Override
+	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
+            float flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 0.5F) * 0.6F;
+            if (entity.isGrounded())
+            	flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 1.5F) * 0.6F;
             jawBottom.rotateAngleX = 0.5F + flap;
     		jawBottom.rotateAngleX = 0.5F + flap;
     		toothBL.rotateAngleX = 0.5F + flap;
@@ -153,5 +142,11 @@ public class ModelPiranha extends ModelBase {
     		finTailTop.rotateAngleY = bodyMain.rotateAngleY * 1.6F;
     		finTailBottom.rotateAngleY = bodyMain.rotateAngleY * 1.6F;
     }
+
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
 
 }

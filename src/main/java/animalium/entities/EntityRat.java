@@ -1,54 +1,55 @@
 package animalium.entities;
 
-import animalium.Animalium;
-import animalium.configs.ConfigHandler;
-import net.minecraft.block.Block;
+import java.util.Random;
+
+import animalium.ModEntities;
+import animalium.ModItems;
+import animalium.configs.Config;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
-public class EntityRat extends EntityMob {
+public class EntityRat extends MonsterEntity {
 
-	private EntityAIAttackMelee aiAttack;
-	private EntityAIAvoidEntity<EntityLivingBase> aiRunAway;
-	private EntityAINearestAttackableTarget<EntityPlayer> aiTarget;
+	private AttackGoal aiAttack;
+	private AvoidEntityGoal<LivingEntity> aiRunAway;
+	private NearestAttackableTargetGoal<PlayerEntity> aiTarget;
 	private static final DataParameter<Boolean> CAN_ATTACK = EntityDataManager.createKey(EntityRat.class, DataSerializers.BOOLEAN);
 
-	public EntityRat(World world) {
-		super(world);
-		setSize(0.9F, 0.9F);
-		if (world != null && !world.isRemote) {
-			if (ConfigHandler.RAT_ATTACK_MOBS)
-				targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityMob.class, 0, true, true, null));
-			if (ConfigHandler.RAT_ATTACK_CREATURES)
-				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, true, null));
-		}
+	public EntityRat(EntityType<? extends EntityRat> type, World world) {
+		super(type, world);
 	}
 
 	@Override
-	protected void entityInit() {
-		super.entityInit();
+	protected void registerData() {
+		super.registerData();
 		dataManager.register(CAN_ATTACK, false);
 	}
 
@@ -61,47 +62,51 @@ public class EntityRat extends EntityMob {
 	}
 
 	@Override
-	protected void initEntityAI() {
-		aiAttack =  new EntityRat.AIRatAttack(this);
-		aiRunAway = new EntityAIAvoidEntity<EntityLivingBase>(this, EntityLivingBase.class, 10.0F, 0.6D, 0.6D);
-		aiTarget =  new EntityRat.AIRatTarget(this, EntityPlayer.class);
+	protected void registerGoals() {
+		aiAttack =  new AttackGoal(this);
+		aiRunAway = new AvoidEntityGoal<LivingEntity>(this, LivingEntity.class, 10.0F, 0.6D, 0.6D);
+		aiTarget =  new EntityRat.TargetGoal<>(this, PlayerEntity.class);
 
-		tasks.addTask(0, aiAttack);
-		tasks.addTask(1, aiRunAway);
-		tasks.addTask(2, new EntityAISwimming(this));
-		tasks.addTask(3, new EntityRat.AIRatAttack(this));
-		tasks.addTask(4, new EntityAIWander(this, 0.65D));
-		tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		tasks.addTask(6, new EntityAILookIdle(this));
-		targetTasks.addTask(0, aiTarget);
-		targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+		goalSelector.addGoal(0, aiAttack);
+		goalSelector.addGoal(1, aiRunAway);
+		goalSelector.addGoal(2, new SwimGoal(this));
+		goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this,  0.65D));
+		goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		goalSelector.addGoal(6, new LookRandomlyGoal(this));
+		targetSelector.addGoal(0, aiTarget);
+		targetSelector.addGoal(3, new HurtByTargetGoal(this));
+		
+		if (Config.RAT_ATTACK_MOBS.get())
+			targetSelector.addGoal(1, new EntityRat.TargetGoal<>(this, MonsterEntity.class));
+		if (Config.RAT_ATTACK_CREATURES.get())
+			targetSelector.addGoal(2, new EntityRat.TargetGoal<>(this, LivingEntity.class));
 	}
 
 	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
-		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5D);
-		getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-		getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
+	   protected void registerAttributes() {
+		super.registerAttributes();
+		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
+		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5D);
+		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	   public void tick() {
+		super.tick();
 
 		if (!getEntityWorld().isRemote) {
-			if (getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty() && !getCanAttack()) {
-				tasks.removeTask(aiRunAway);
-				tasks.addTask(0, aiAttack);
-				targetTasks.addTask(0, aiTarget);
+			if (getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty() && !getCanAttack()) {
+				goalSelector.removeGoal(aiRunAway);
+				goalSelector.addGoal(0, aiAttack);
+				targetSelector.addGoal(0, aiTarget);
 				setCanAttack(true);
 			}
 
-			if (!getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty() && getCanAttack()) {
-				tasks.removeTask(aiAttack);
-				targetTasks.removeTask(aiTarget);
-				tasks.addTask(1, aiRunAway);
+			if (!getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty() && getCanAttack()) {
+				goalSelector.removeGoal(aiAttack);
+				targetSelector.removeGoal(aiTarget);
+				goalSelector.addGoal(1, aiRunAway);
 				setCanAttack(false);
 			}
 		}
@@ -112,17 +117,17 @@ public class EntityRat extends EntityMob {
 		if (canEntityBeSeen(entity)) {
 			boolean attacked;
 			if (attacked = super.attackEntityAsMob(entity)) {
-				if (entity instanceof EntityPlayer && getRNG().nextInt(1) == 0) {
-					EntityPlayer player = (EntityPlayer) entity;
+				if (entity instanceof PlayerEntity && getRNG().nextInt(Config.RAT_STEALS_PROBABILITY.get()) == 0 && Config.RAT_STEALS_ITEMS.get()) {
+					PlayerEntity player = (PlayerEntity) entity;
 					if (!getEntityWorld().isRemote && getCanAttack()) {
 						ItemStack stack = player.getHeldItemMainhand();
 						if (!stack.isEmpty()) {
 							ItemStack stack2 = stack.copy();
-							if (stack.hasTagCompound())
-								stack2.setTagCompound(stack.getTagCompound());
-							stack2.splitStack(stack.getCount() - 1);
-							setItemStackToSlot(EntityEquipmentSlot.MAINHAND, stack2);
-							setDropChance(EntityEquipmentSlot.MAINHAND, 0F);
+							if (stack.hasTag())
+								stack2.setTag(stack.getTag());
+							stack2.split(stack.getCount() - 1);
+							setItemStackToSlot(EquipmentSlotType.MAINHAND, stack2);
+							setDropChance(EquipmentSlotType.MAINHAND, 0F);
 							stack.shrink(1);
 							if (stack.isEmpty())
 								player.inventory.deleteStack(stack);
@@ -136,47 +141,51 @@ public class EntityRat extends EntityMob {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public boolean canAttackClass(Class entity) {
-		return EntityRat.class != entity;
+	public boolean canAttack(EntityType<?> typeIn) {
+		return typeIn!= ModEntities.RAT;
 	}
 
-	@Override
-    protected boolean isValidLightLevel() {
-		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        if (this.getEntityWorld().getLightFor(EnumSkyBlock.BLOCK, blockpos) >= 8)
+	public static boolean isValidLightLevel(IWorld world, BlockPos pos) {
+        if (world.getLightFor(LightType.BLOCK, pos) >= 8)
             return false;
         return true;
     }
 
+	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
+		if(isDimBlacklisted(world.getDimension().getType().getId()))
+			return false;
+        return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
+	}
+
+	public static boolean isDimBlacklisted(int dimensionIn) {
+		if(Config.RAT_BLACKLISTED_DIMS.get().contains(dimensionIn))
+			return true;
+		return false;
+	}
+
 	@Override
-    public boolean getCanSpawnHere() {
-        return getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL && isValidLightLevel() && isNotColliding() && posY <= ConfigHandler.RAT_SPAWN_Y_HEIGHT;
+    public boolean isNotColliding(IWorldReader world) {
+		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
     }
 
 	@Override
-    public boolean isNotColliding() {
-        return !getEntityWorld().containsAnyLiquid(getEntityBoundingBox()) && getEntityWorld().getCollisionBoxes(this, getEntityBoundingBox()).isEmpty() && getEntityWorld().checkNoEntityCollision(getEntityBoundingBox(), this);
-    }
-
-	@Override
-	protected boolean canDespawn() {
-		if(!getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty())
+	public boolean canDespawn(double distanceToClosestPlayer) {
+		if(!getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty())
 			return false;
 		else
 			return true;
 	}
 
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting) {
-		if(!getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).isEmpty()) {
-			ItemStack stack = getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+	protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
+		if(!getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty()) {
+			ItemStack stack = getItemStackFromSlot(EquipmentSlotType.MAINHAND);
 			entityDropItem(stack, 1F);
 		}
 		if (getEntityWorld().rand.nextInt(5) == 0) {
-			ItemStack stack = new ItemStack(Animalium.RAT_MEAT);
+			ItemStack stack = new ItemStack(ModItems.RAT_MEAT);
 			if (isBurning())
-				stack = new ItemStack(Animalium.RAT_MEAT_COOKED);
+				stack = new ItemStack(ModItems.RAT_MEAT_COOKED);
 			entityDropItem(stack, 1.0F);
 		}
 	}
@@ -187,7 +196,7 @@ public class EntityRat extends EntityMob {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, Block block) {
+	protected void playStepSound(BlockPos pos, BlockState state) {
 		playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
 	}
 
@@ -197,7 +206,7 @@ public class EntityRat extends EntityMob {
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() {
+	protected SoundEvent getHurtSound(DamageSource source) {
 		return SoundEvents.ENTITY_RABBIT_HURT;
 	}
 
@@ -206,11 +215,23 @@ public class EntityRat extends EntityMob {
 		return SoundEvents.ENTITY_RABBIT_DEATH;
 	}
 
-	static class AIRatAttack extends EntityAIAttackMelee {
-		private final EntityRat rat;
+	static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
+		public TargetGoal(EntityRat rat, Class<T> classTarget) {
+			super(rat, classTarget, true);
+		}
 
-		public AIRatAttack(EntityRat rat) {
-			super(rat, 0.65D, false);
+		@Override
+		public boolean shouldExecute() {
+			float f = goalOwner.getBrightness();
+			return f >= 0.5F ? false : super.shouldExecute();
+		}
+	}
+
+	static class AttackGoal extends MeleeAttackGoal {
+		private final EntityRat rat;
+		
+		public AttackGoal(EntityRat rat) {
+			super(rat, 0.6D, false);
 			this.rat = rat;
 		}
 
@@ -220,32 +241,20 @@ public class EntityRat extends EntityMob {
 		}
 
 		@Override
-		public boolean continueExecuting() {
-			float f = attacker.getBrightness(1.0F);
+		public boolean shouldContinueExecuting() {
+			float f = attacker.getBrightness();
 
 			if (f >= 0.5F && attacker.getRNG().nextInt(100) == 0 || !rat.getCanAttack()) {
-				attacker.setAttackTarget((EntityLivingBase) null);
+				attacker.setAttackTarget((LivingEntity) null);
 				return false;
 			} else {
-				return super.continueExecuting();
+				return super.shouldContinueExecuting();
 			}
 		}
 
 		@Override
-		protected double getAttackReachSqr(EntityLivingBase attackTarget) {
-			return (double) (4.0F + attackTarget.width);
-		}
-	}
-
-	static class AIRatTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
-		public AIRatTarget(EntityRat rat, Class<T> classTarget) {
-			super(rat, classTarget, true);
-		}
-
-		@Override
-		public boolean shouldExecute() {
-			float f = taskOwner.getBrightness(1.0F);
-			return f >= 0.5F ? false : super.shouldExecute();
+		protected double getAttackReachSqr(LivingEntity attackTarget) {
+			return (double) (4.0F + attackTarget.getWidth());
 		}
 	}
 
