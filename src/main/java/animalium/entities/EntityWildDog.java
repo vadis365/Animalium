@@ -63,16 +63,7 @@ public class EntityWildDog extends MonsterEntity {
 		if (Config.WILD_DOG_ATTACK_CREATURES.get())
 			targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, LivingEntity.class, true));
 	}
-/*
-	@Override
-	   protected void registerAttributes() {
-	    super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20D);
-		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-	}
-*/
+
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
 				.func_233815_a_(Attributes.field_233818_a_, 20D) //health

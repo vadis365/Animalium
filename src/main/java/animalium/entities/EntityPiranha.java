@@ -100,16 +100,7 @@ public class EntityPiranha extends MonsterEntity {
 	 public void read(CompoundNBT nbt) {
 		super.read(nbt);
 	}
-/*
-	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10D);
-		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-	}
-*/
+
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
 				.func_233815_a_(Attributes.field_233818_a_, 10D) //health

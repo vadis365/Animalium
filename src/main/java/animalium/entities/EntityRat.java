@@ -83,16 +83,7 @@ public class EntityRat extends MonsterEntity {
 		if (Config.RAT_ATTACK_CREATURES.get())
 			targetSelector.addGoal(2, new EntityRat.TargetGoal<>(this, LivingEntity.class));
 	}
-/*
-	@Override
-	   protected void registerAttributes() {
-		super.registerAttributes();
-		getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
-		getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5D);
-		getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-		getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);
-	}
-*/
+
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
 				.func_233815_a_(Attributes.field_233818_a_, 5D) //health

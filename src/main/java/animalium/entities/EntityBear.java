@@ -61,7 +61,7 @@ public class EntityBear extends MonsterEntity {
 	private void setIsStanding(boolean standing) {
 		dataManager.set(IS_STANDING, standing);
 	}
-	
+
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(1, new SwimGoal(this));
@@ -77,17 +77,7 @@ public class EntityBear extends MonsterEntity {
 		if (Config.BEAR_ATTACK_CREATURES.get())
 			targetSelector.addGoal(2, new EntityBear.TargetGoal<>(this, LivingEntity.class));
 	}
-/*
-	@Override
-	   protected void registerAttributes() {
-	      super.registerAttributes();
-	      getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);//
-	      getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
-	      getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);//
-	      getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(32.0D);//
-	      getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.75D);
-	}
-*/
+
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
 				.func_233815_a_(Attributes.field_233818_a_, 50D) //health
@@ -134,10 +124,10 @@ public class EntityBear extends MonsterEntity {
 
 	      super.tick();
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
     public float smoothedAngle(float partialTicks) {
-        return standingAngle + (standingAngle - prevStandingAngle) * partialTicks;
+        return prevStandingAngle + (standingAngle - prevStandingAngle) * partialTicks;
     }
 
 	@Override
