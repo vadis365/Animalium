@@ -37,21 +37,17 @@ public class ModEntities {
 	public static void init() {
 
 		BEAR = EntityType.Builder.create(EntityBear::new, EntityClassification.MONSTER).size(2F, 2F).build(getEntityResource("bear").toString());
-		//GlobalEntityTypeAttributes.put(BEAR, EntityBear.registerAttributes().func_233813_a_());
 		EntitySpawnPlacementRegistry.register(BEAR, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityBear::canSpawnHere);
-		
+
 		PIRANHA = EntityType.Builder.create(EntityPiranha::new, EntityClassification.MONSTER).size(0.9F, 0.9F).build(getEntityResource("piranha").toString());
-		//GlobalEntityTypeAttributes.put(PIRANHA, EntityPiranha.registerAttributes().func_233813_a_());
 		EntitySpawnPlacementRegistry.register(PIRANHA, PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityPiranha::canSpawnHere);
-		
+
 		WILD_DOG = EntityType.Builder.create(EntityWildDog::new, EntityClassification.MONSTER).size(0.9F, 1.2F).build(getEntityResource("wild_dog").toString());
-		//GlobalEntityTypeAttributes.put(WILD_DOG, EntityWildDog.registerAttributes().func_233813_a_());
 		EntitySpawnPlacementRegistry.register(WILD_DOG, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityWildDog::canSpawnHere);
-		
+
 		BEAR_TAMED = EntityType.Builder.create(EntityNeutralBear::new, EntityClassification.MONSTER).size(2F, 2F).build(getEntityResource("bear_tamed").toString());
-		
+
 		RAT = EntityType.Builder.create(EntityRat::new, EntityClassification.MONSTER).size(0.9F, 0.9F).build(getEntityResource("rat").toString());
-		//GlobalEntityTypeAttributes.put(RAT, EntityRat.registerAttributes().func_233813_a_());
 		EntitySpawnPlacementRegistry.register(RAT, PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityRat::canSpawnHere);
 	}
 
@@ -90,7 +86,9 @@ public class ModEntities {
 					allBiomes.getSpawns(EntityClassification.MONSTER).add(new SpawnListEntry(RAT, Config.RAT_SPAWN_PROBABILITY.get(), Config.RAT_MIN_SPAWN_SIZE.get(), Config.RAT_MAX_SPAWN_SIZE.get()));
 				}
 	        }
+	}
 
+	public static void registerEntityAttributes() {
 		GlobalEntityTypeAttributes.put(BEAR, EntityBear.registerAttributes().func_233813_a_());
 		GlobalEntityTypeAttributes.put(BEAR_TAMED, EntityBear.registerAttributes().func_233813_a_());
 		GlobalEntityTypeAttributes.put(PIRANHA, EntityPiranha.registerAttributes().func_233813_a_());

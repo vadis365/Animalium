@@ -46,6 +46,7 @@ public class Animalium {
 
 	private void setup(final FMLCommonSetupEvent event) {
 		ModEntities.registerEntitySpawns();
+		ModEntities.registerEntityAttributes();
 		MinecraftForge.EVENT_BUS.register(new ModEvents());
 	}
 
