@@ -29,26 +29,26 @@ public class Config {
     public static ForgeConfigSpec.IntValue PIRANHA_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_SPAWN_PROBABILITY;
-	public static ConfigValue<List<? extends Integer>> PIRANHA_BLACKLISTED_DIMS;
+	public static ConfigValue<List<? extends String>> PIRANHA_BLACKLISTED_DIMS;
 	
 	public static ForgeConfigSpec.IntValue WILD_DOG_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_Y_HEIGHT;
-	public static ConfigValue<List<? extends Integer>> WILD_DOG_BLACKLISTED_DIMS;
+	public static ConfigValue<List<? extends String>> WILD_DOG_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue BEAR_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_Y_HEIGHT;
 	public static ForgeConfigSpec.BooleanValue BEAR_SPAWN_ONLY_AT_DAY;
-	public static ConfigValue<List<? extends Integer>> BEAR_BLACKLISTED_DIMS;
+	public static ConfigValue<List<? extends String>> BEAR_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue RAT_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_Y_HEIGHT;
-	public static ConfigValue<List<? extends Integer>> RAT_BLACKLISTED_DIMS;
+	public static ConfigValue<List<? extends String>> RAT_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_MOBS;
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_CREATURES;
@@ -66,10 +66,10 @@ public class Config {
 	public static ForgeConfigSpec.BooleanValue RAT_STEALS_ITEMS;
 	public static ForgeConfigSpec.IntValue RAT_STEALS_PROBABILITY;
 
-	static List<Integer> blacklistedDimsPiranha = new ArrayList<>();
-	static List<Integer> blacklistedDimsBear = new ArrayList<>();
-	static List<Integer> blacklistedDimsWildDog = new ArrayList<>();
-	static List<Integer> blacklistedDimsRat = new ArrayList<>();
+	static List<String> blacklistedDimsPiranha = new ArrayList<>();
+	static List<String> blacklistedDimsBear = new ArrayList<>();
+	static List<String> blacklistedDimsWildDog = new ArrayList<>();
+	static List<String> blacklistedDimsRat = new ArrayList<>();
 	
     static {
         COMMON_BUILDER.comment("Animal Spawn Settings").push(CATEGORY_SPAWNS);
@@ -77,26 +77,26 @@ public class Config {
         PIRANHA_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Minimum Size").defineInRange("piranha_min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		PIRANHA_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Piranha Spawn Group Maximum Size").defineInRange("piranha_max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		PIRANHA_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Piranha Spawn Chance Probability").defineInRange("piranha_chance", 10, 1, Integer.MAX_VALUE);
-		PIRANHA_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Piranha Spawn Dimension Blacklist").defineList("piranha_dimensions", blacklistedDimsPiranha, p-> isSafeInteger((int) p));
+		PIRANHA_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Piranha Spawn Dimension Blacklist").defineList("piranha_dimensions", blacklistedDimsPiranha, p-> isPointless());
 		
 		WILD_DOG_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Minimum Size").defineInRange("wild_dog_min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		WILD_DOG_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Wild Dog Spawn Group Maximum Size").defineInRange("wild_dog_max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		WILD_DOG_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Wild Dog Spawn Chance Probability").defineInRange("wild_dog_chance", 10, 1, Integer.MAX_VALUE);
 		WILD_DOG_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Wild Dog Max Y Spawn Height").defineInRange("wild_dog_max_y", 256, 1, 256);
-		WILD_DOG_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Wild Dog Spawn Dimension Blacklist").defineList("wild_dog_dimensions", blacklistedDimsWildDog, p-> isSafeInteger((int) p));
+		WILD_DOG_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Wild Dog Spawn Dimension Blacklist").defineList("wild_dog_dimensions", blacklistedDimsWildDog, p-> isPointless());
 
 		BEAR_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Minimum Size").defineInRange("bear_min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		BEAR_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Bear Spawn Group Maximum Size").defineInRange("bear_max_spawn_size", 1, 1, Integer.MAX_VALUE);
 		BEAR_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Bear Spawn Chance Probability").defineInRange("bear_chance", 1, 1, Integer.MAX_VALUE);
 		BEAR_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Bear Max Y Spawn Height").defineInRange("bear_max_y", 256, 1, 256);
 		BEAR_SPAWN_ONLY_AT_DAY = COMMON_BUILDER.comment("Bears Spawn Only During Day").define("bear_only_day_spawns", true);
-		BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").defineList("bear_dog_dimensions", blacklistedDimsBear, p-> isSafeInteger((int) p));
+		BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").defineList("bear_dog_dimensions", blacklistedDimsBear, p-> isPointless());
 
 		RAT_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Minimum Size").defineInRange("rat_min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		RAT_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Maximum Size").defineInRange("rat_max_spawn_size", 3, 1, Integer.MAX_VALUE);
 		RAT_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Rat Spawn Chance Probability").defineInRange("rat_chance", 10, 1, Integer.MAX_VALUE);
 		RAT_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Rat Max Y Spawn Height").defineInRange("rat_max_y", 256, 1, 256);
-		RAT_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Rat Spawn Dimension Blacklist").defineList("rat_dimensions", blacklistedDimsRat, p-> isSafeInteger((int) p));
+		RAT_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Rat Spawn Dimension Blacklist").defineList("rat_dimensions", blacklistedDimsRat, p-> isPointless());
         COMMON_BUILDER.pop();
 
         COMMON_BUILDER.comment("Animal Attack Settings").push(CATEGORY_ATTACKS);
@@ -123,6 +123,10 @@ public class Config {
 
 	public static boolean isSafeInteger(int checkNum) {
 		return checkNum >= Integer.MIN_VALUE && checkNum <= Integer.MAX_VALUE;
+	}
+
+	public static boolean isPointless() {
+		return true;
 	}
 
     public static void loadConfig(ForgeConfigSpec spec, Path path) {

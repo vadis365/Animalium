@@ -37,6 +37,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -133,7 +134,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
+		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
 			return false;
 		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;
@@ -145,10 +146,14 @@ public class EntityPiranha extends MonsterEntity {
 		return 3;
 	}
 
-	public static boolean isDimBlacklisted(int dimensionIn) {
+	public static boolean isDimBlacklisted(String dimensionIn) {
 		if(Config.PIRANHA_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
+	}
+
+	public static String getDimensionRegName(RegistryKey<World> reg) {
+		return reg.func_240901_a_().toString();
 	}
 
 	@Override

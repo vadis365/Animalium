@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -92,7 +93,7 @@ public class EntityWildDog extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
+		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
 			return false;
         return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
 	}
@@ -102,10 +103,14 @@ public class EntityWildDog extends MonsterEntity {
 		return !world.containsAnyLiquid(getBoundingBox()) && world.checkNoEntityCollision(this);
 	}
 
-	public static boolean isDimBlacklisted(int dimensionIn) {
+	public static boolean isDimBlacklisted(String dimensionIn) {
 		if(Config.WILD_DOG_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
+	}
+
+	public static String getDimensionRegName(RegistryKey<World> reg) {
+		return reg.func_240901_a_().toString();
 	}
 
 	@Override

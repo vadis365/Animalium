@@ -28,6 +28,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -161,15 +162,19 @@ public class EntityRat extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(world.func_230315_m_().func_241513_m_())) //getDimension().getType().getId()????
+		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
 			return false;
         return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
 	}
 
-	public static boolean isDimBlacklisted(int dimensionIn) {
+	public static boolean isDimBlacklisted(String dimensionIn) {
 		if(Config.RAT_BLACKLISTED_DIMS.get().contains(dimensionIn))
 			return true;
 		return false;
+	}
+
+	public static String getDimensionRegName(RegistryKey<World> reg) {
+		return reg.func_240901_a_().toString();
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class ModItems {
 					player.getEntityWorld().addEntity(tamedBear);
 				}
 				stack.shrink(1);
-			      return ActionResultType.SUCCESS;
+			    return ActionResultType.SUCCESS;
 			} else {
 			      return ActionResultType.PASS;
 			}
