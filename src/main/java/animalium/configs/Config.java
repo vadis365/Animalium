@@ -90,7 +90,7 @@ public class Config {
 		BEAR_SPAWN_PROBABILITY = COMMON_BUILDER.comment("Bear Spawn Chance Probability").defineInRange("bear_chance", 1, 1, Integer.MAX_VALUE);
 		BEAR_SPAWN_Y_HEIGHT = COMMON_BUILDER.comment("Bear Max Y Spawn Height").defineInRange("bear_max_y", 256, 1, 256);
 		BEAR_SPAWN_ONLY_AT_DAY = COMMON_BUILDER.comment("Bears Spawn Only During Day").define("bear_only_day_spawns", true);
-		BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").defineList("bear_dog_dimensions", blacklistedDimsBear, p-> isPointless());
+		BEAR_BLACKLISTED_DIMS = COMMON_BUILDER.comment("Bear Spawn Dimension Blacklist").defineList("bear_dimensions", blacklistedDimsBear, p-> isPointless());
 
 		RAT_MIN_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Minimum Size").defineInRange("rat_min_spawn_size", 1, 1, Integer.MAX_VALUE);
 		RAT_MAX_SPAWN_SIZE = COMMON_BUILDER.comment("Rat Spawn Group Maximum Size").defineInRange("rat_max_spawn_size", 3, 1, Integer.MAX_VALUE);
