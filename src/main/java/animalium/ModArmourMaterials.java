@@ -64,9 +64,8 @@ public enum ModArmourMaterials implements IArmorMaterial {
     }
 
 	@Override
-	public float func_230304_f_() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float func_230304_f_() { //knock back resistance?
+		return 0F;
 	}
 }
 
