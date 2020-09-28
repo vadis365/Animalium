@@ -15,10 +15,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -73,19 +71,21 @@ public class ModEntities {
 	}
 
 	public static void registerEntitySpawns() {
-	    for (Biome allBiomes : ForgeRegistries.BIOMES.getValues()) {
-	    	if (BiomeDictionary.hasType(allBiomes, Type.OCEAN) || BiomeDictionary.hasType(allBiomes, Type.SWAMP) || BiomeDictionary.hasType(allBiomes, Type.RIVER))
+		// TODO No idea how this shit works now.
+	  /*  for (Biome allBiomes : ForgeRegistries.BIOMES.getValues()) {
+	    	if (allBiomes.getCategory() == Biome.Category.OCEAN || allBiomes.getCategory() == Biome.Category.SWAMP || allBiomes.getCategory() == Biome.Category.RIVER)
 				if(Config.PIRANHA_SPAWN_PROBABILITY.get() > 0 && Config.PIRANHA_MIN_SPAWN_SIZE.get() > 0 && Config.PIRANHA_MAX_SPAWN_SIZE.get() > 0)
-					allBiomes.getSpawns(EntityClassification.MONSTER).add(new SpawnListEntry(PIRANHA, Config.PIRANHA_SPAWN_PROBABILITY.get(), Config.PIRANHA_MIN_SPAWN_SIZE.get(), Config.PIRANHA_MAX_SPAWN_SIZE.get()));
-	    	if (!BiomeDictionary.hasType(allBiomes, Type.OCEAN) && !BiomeDictionary.hasType(allBiomes, Type.RIVER)) {
+					allBiomes.func_242433_b().func_242559_a(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(PIRANHA, Config.PIRANHA_SPAWN_PROBABILITY.get(), Config.PIRANHA_MIN_SPAWN_SIZE.get(), Config.PIRANHA_MAX_SPAWN_SIZE.get()));
+	    	if (allBiomes.getCategory() != Biome.Category.OCEAN && allBiomes.getCategory() != Biome.Category.RIVER) {
 				if(Config.WILD_DOG_SPAWN_PROBABILITY.get() > 0 && Config.WILD_DOG_MIN_SPAWN_SIZE.get() > 0 && Config.WILD_DOG_MAX_SPAWN_SIZE.get() > 0)
-					allBiomes.getSpawns(EntityClassification.MONSTER).add(new SpawnListEntry(WILD_DOG, Config.WILD_DOG_SPAWN_PROBABILITY.get(), Config.WILD_DOG_MIN_SPAWN_SIZE.get(), Config.WILD_DOG_MAX_SPAWN_SIZE.get()));
+					allBiomes.func_242433_b().func_242559_a(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(WILD_DOG, Config.WILD_DOG_SPAWN_PROBABILITY.get(), Config.WILD_DOG_MIN_SPAWN_SIZE.get(), Config.WILD_DOG_MAX_SPAWN_SIZE.get()));
 				if(Config.BEAR_SPAWN_PROBABILITY.get() > 0 && Config.BEAR_MIN_SPAWN_SIZE.get() > 0 && Config.BEAR_MAX_SPAWN_SIZE.get() > 0)
-					allBiomes.getSpawns(EntityClassification.MONSTER).add(new SpawnListEntry(BEAR, Config.BEAR_SPAWN_PROBABILITY.get(), Config.BEAR_MIN_SPAWN_SIZE.get(), Config.BEAR_MAX_SPAWN_SIZE.get()));
+					allBiomes.func_242433_b().func_242559_a(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(BEAR, Config.BEAR_SPAWN_PROBABILITY.get(), Config.BEAR_MIN_SPAWN_SIZE.get(), Config.BEAR_MAX_SPAWN_SIZE.get()));
 				if(Config.RAT_SPAWN_PROBABILITY.get() > 0 && Config.RAT_MIN_SPAWN_SIZE.get() > 0 && Config.RAT_MAX_SPAWN_SIZE.get() > 0)
-					allBiomes.getSpawns(EntityClassification.MONSTER).add(new SpawnListEntry(RAT, Config.RAT_SPAWN_PROBABILITY.get(), Config.RAT_MIN_SPAWN_SIZE.get(), Config.RAT_MAX_SPAWN_SIZE.get()));
+					allBiomes.func_242433_b().func_242559_a(EntityClassification.MONSTER).add(new MobSpawnInfo.Spawners(RAT, Config.RAT_SPAWN_PROBABILITY.get(), Config.RAT_MIN_SPAWN_SIZE.get(), Config.RAT_MAX_SPAWN_SIZE.get()));
 				}
 	        }
+	        */
 	}
 
 	public static void registerEntityAttributes() {

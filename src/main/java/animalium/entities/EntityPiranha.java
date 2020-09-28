@@ -125,7 +125,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
 			return false;
 		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;

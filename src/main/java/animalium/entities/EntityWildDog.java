@@ -84,7 +84,7 @@ public class EntityWildDog extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
 			return false;
         return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
 	}

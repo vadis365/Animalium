@@ -146,7 +146,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(world.getWorld().func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
 			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (world.getSkylightSubtracted() < 4)
