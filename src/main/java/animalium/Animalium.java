@@ -16,8 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -26,8 +24,6 @@ public class Animalium {
 
 	public Animalium () {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -57,8 +53,4 @@ public class Animalium {
 		RenderingRegistry.registerEntityRenderingHandler(ModEntities.PIRANHA, RenderPiranha::new);
 		RenderingRegistry.registerEntityRenderingHandler(ModEntities.RAT, RenderRat::new);
 	}
-
-	private void enqueueIMC(final InterModEnqueueEvent event) {}
-
-	private void processIMC(final InterModProcessEvent event) {}
 }
