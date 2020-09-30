@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "animalium:bear_meat"
+  },
+  "result": "animalium:bear_meat_cooked",
+  "experience": 0.35,
+  "cookingtime": 100
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "animalium:piranha_steak"
+  },
+  "result": "animalium:piranha_steak_cooked",
+  "experience": 0.35,
+  "cookingtime": 100
+}
