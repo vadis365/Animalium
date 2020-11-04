@@ -26,13 +26,13 @@ public class WildDogLeapAtTargetGoal extends Goal {
 			return false;
 		} else {
 			double d0 = leaper.getDistanceSq(leapTarget);
-			return d0 >= 9.0D && d0 <= 16.0D ? (!leaper.func_233570_aj_() ? false : leaper.getRNG().nextInt(5) == 0) : false;
+			return d0 >= 9.0D && d0 <= 16.0D ? (!leaper.isOnGround() ? false : leaper.getRNG().nextInt(5) == 0) : false;
 		}
 	}
 
 	@Override
 	public boolean shouldContinueExecuting() {
-		return !leaper.func_233570_aj_(); //onGround
+		return !leaper.isOnGround(); //onGround
 	}
 
 	@Override

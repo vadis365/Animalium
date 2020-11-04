@@ -51,7 +51,7 @@ public class ItemBearClawPaxel extends ToolItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.bear_claw_paxel").func_240699_a_(TextFormatting.YELLOW));//applyTextStyle
+		tooltip.add(new TranslationTextComponent("tooltip.bear_claw_paxel").mergeStyle(TextFormatting.YELLOW));//applyTextStyle
 	}
 
 	@Override

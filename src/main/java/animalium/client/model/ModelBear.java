@@ -244,7 +244,7 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 			head.rotateAngleZ = -(standingAngle * 0.1F * flap * 6F);
 		}
 
-		if (!entity.func_233570_aj_())//onGround
+		if (!entity.isOnGround())//onGround
 			lower_jaw.rotateAngleX = -0.9F;
 		else {
 			if(standingAngle > 0)
