@@ -144,7 +144,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static String getDimensionRegName(RegistryKey<World> reg) {
-		return reg.getRegistryName().toString();
+		return reg.getLocation().toString();
 	}
 
 	@Override
