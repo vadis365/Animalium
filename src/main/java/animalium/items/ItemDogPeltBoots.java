@@ -29,7 +29,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	   public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").func_240699_a_(TextFormatting.YELLOW));//applyTextStyle
+		tooltip.add(new TranslationTextComponent("tooltip.wild_dog_pelt_boots").mergeStyle(TextFormatting.YELLOW));//applyTextStyle
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class ItemDogPeltBoots extends ArmorItem {
 			ItemStack is = ((PlayerEntity) entity).getItemStackFromSlot(EquipmentSlotType.FEET);
 			if (!is.isEmpty() && is.getItem() == this && !entity.isCrouching()) {
 				entity.fallDistance = 0.0F;
-				if (entity.isSprinting() && entity.func_233570_aj_()) {//onGround
+				if (entity.isSprinting() && entity.isOnGround()) {//onGround
 					float f1 = entity.rotationYaw * ((float) Math.PI / 180F);
 					entity.setMotion(entity.getMotion().add((double) (-MathHelper.sin(f1) * 0.3F), 0.0D, (double) (MathHelper.cos(f1) * 0.3F)));
 				}

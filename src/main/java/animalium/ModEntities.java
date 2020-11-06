@@ -67,11 +67,11 @@ public class ModEntities {
 	}
 
 	public static void registerEntityAttributes() {
-		GlobalEntityTypeAttributes.put(BEAR, EntityBear.registerAttributes().func_233813_a_());
-		GlobalEntityTypeAttributes.put(BEAR_TAMED, EntityBear.registerAttributes().func_233813_a_());
-		GlobalEntityTypeAttributes.put(PIRANHA, EntityPiranha.registerAttributes().func_233813_a_());
-		GlobalEntityTypeAttributes.put(WILD_DOG, EntityWildDog.registerAttributes().func_233813_a_());
-		GlobalEntityTypeAttributes.put(RAT, EntityRat.registerAttributes().func_233813_a_());
+		GlobalEntityTypeAttributes.put(BEAR, EntityBear.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(BEAR_TAMED, EntityBear.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(PIRANHA, EntityPiranha.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(WILD_DOG, EntityWildDog.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(RAT, EntityRat.registerAttributes().create());
 	}
 
 	private static ResourceLocation getEntityResource(String entityName) {

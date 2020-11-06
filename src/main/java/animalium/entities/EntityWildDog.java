@@ -66,10 +66,10 @@ public class EntityWildDog extends MonsterEntity {
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
-				.func_233815_a_(Attributes.field_233818_a_, 20D) //health
-				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
-				.func_233815_a_(Attributes.field_233821_d_, (double) 0.6F) //move speed
-				.func_233815_a_(Attributes.field_233823_f_, 4D); //attack damage	
+				.createMutableAttribute(Attributes.MAX_HEALTH, 20D) //health
+				.createMutableAttribute(Attributes.FOLLOW_RANGE, 32D) //follow range
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.6F) //move speed
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 4D); //attack damage	
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class EntityWildDog extends MonsterEntity {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).getDimensionKey())))
 			return false;
         return world.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(world, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
 	}
@@ -101,7 +101,7 @@ public class EntityWildDog extends MonsterEntity {
 	}
 
 	public static String getDimensionRegName(RegistryKey<World> reg) {
-		return reg.func_240901_a_().toString();
+		return reg.getLocation().toString();
 	}
 
 	@Override

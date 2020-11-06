@@ -103,10 +103,10 @@ public class EntityPiranha extends MonsterEntity {
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
-				.func_233815_a_(Attributes.field_233818_a_, 10D) //health
-				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
-				.func_233815_a_(Attributes.field_233821_d_, (double) 0.8F) //move speed
-				.func_233815_a_(Attributes.field_233823_f_, 2D); //attack damage	
+				.createMutableAttribute(Attributes.MAX_HEALTH, 10D) //health
+				.createMutableAttribute(Attributes.FOLLOW_RANGE, 32D) //follow range
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.8F) //move speed
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 2D); //attack damage	
 	}
 	
 	@Override
@@ -125,7 +125,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).getDimensionKey())))
 			return false;
 		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;
@@ -144,7 +144,7 @@ public class EntityPiranha extends MonsterEntity {
 	}
 
 	public static String getDimensionRegName(RegistryKey<World> reg) {
-		return reg.func_240901_a_().toString();
+		return reg.getLocation().toString();
 	}
 
 	@Override
@@ -308,7 +308,7 @@ public class EntityPiranha extends MonsterEntity {
 	             float f = (float)(MathHelper.atan2(vec3d.z, vec3d.x) * (double)(180F / (float)Math.PI)) - 90.0F;
 	             this.piranha.rotationYaw = this.limitAngle(this.piranha.rotationYaw, f, 90.0F);
 	             this.piranha.renderYawOffset = this.piranha.rotationYaw;
-	             float f1 = (float)(this.speed * this.piranha.getAttribute(Attributes.field_233821_d_).getValue());
+	             float f1 = (float)(this.speed * this.piranha.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
 	             float f2 = MathHelper.lerp(0.125F, this.piranha.getAIMoveSpeed(), f1);
 	             this.piranha.setAIMoveSpeed(f2);
 	             double d4 = Math.sin((double)(this.piranha.ticksExisted + this.piranha.getEntityId()) * 0.5D) * 0.05D;

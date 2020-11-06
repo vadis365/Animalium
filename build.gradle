@@ -13,14 +13,14 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '0.6.1'
+version = '0.6.1b'
 group = 'some people' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Animalium'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200514-1.16'
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     //accessTransformer = file('my_at.cfg')
@@ -63,7 +63,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.42'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -73,7 +73,7 @@ jar {
                     "Specification-Vendor": "vadis365",
                     "Specification-Version": "1", // We are version 1 of the modlauncher specification
                     "Implementation-Title": project.name,
-                    "Implementation-Version": "0.6.1",
+                    "Implementation-Version": "0.6.1b",
                     "Implementation-Vendor" :"vadis365",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }

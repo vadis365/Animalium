@@ -1,7 +1,7 @@
 package animalium.entities;
 
 
-import javax.annotation.Nullable;
+import com.sun.istack.internal.Nullable;
 
 import animalium.ModItems;
 import net.minecraft.entity.Entity;
@@ -92,11 +92,11 @@ public class EntityNeutralBear extends EntityBear {
             jumpMovementFactor = getAIMoveSpeed() * 0.1F;
 
             if (canPassengerSteer()) {
-                setAIMoveSpeed((float)getAttribute(Attributes.field_233821_d_).getValue());
+                setAIMoveSpeed((float)getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
             else if (entitylivingbase instanceof PlayerEntity) {
-            	setAIMoveSpeed((float)getAttribute(Attributes.field_233821_d_).getValue());
+            	setAIMoveSpeed((float)getAttribute(Attributes.MOVEMENT_SPEED).getValue());
             	super.travel(new Vector3d((double)strafe, travel_vector.y, (double)forward));
             }
 

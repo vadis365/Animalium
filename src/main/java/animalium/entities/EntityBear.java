@@ -80,11 +80,11 @@ public class EntityBear extends MonsterEntity {
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_()
-				.func_233815_a_(Attributes.field_233818_a_, 50D) //health
-				.func_233815_a_(Attributes.field_233819_b_, 32D) //follow range
-				.func_233815_a_(Attributes.field_233820_c_, 0.75D) //knockback resistance
-				.func_233815_a_(Attributes.field_233821_d_, (double) 0.6F) //move speed
-				.func_233815_a_(Attributes.field_233823_f_, 6D); //attack damage	
+				.createMutableAttribute(Attributes.MAX_HEALTH, 50D) //health
+				.createMutableAttribute(Attributes.FOLLOW_RANGE, 32D) //follow range
+				.createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.75D) //knockback resistance
+				.createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.6F) //move speed
+				.createMutableAttribute(Attributes.ATTACK_DAMAGE, 6D); //attack damage	
 	}
 
 	@Override
@@ -146,7 +146,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, IWorld world, SpawnReason spawn_reason, BlockPos pos, Random random) {
-		if(isDimBlacklisted(getDimensionRegName(((World) world).func_234923_W_())))
+		if(isDimBlacklisted(getDimensionRegName(((World) world).getDimensionKey())))
 			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (world.getSkylightSubtracted() < 4)
@@ -174,7 +174,7 @@ public class EntityBear extends MonsterEntity {
 	}
 
 	public static String getDimensionRegName(RegistryKey<World> reg) {
-		return reg.func_240901_a_().toString();
+		return reg.getLocation().toString();
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class EntityBear extends MonsterEntity {
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		if (canEntityBeSeen(entity)) {
-			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(Attributes.field_233823_f_).getBaseValue()));
+			boolean hasHitTarget = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
 			if (hasHitTarget) {
 				entity.addVelocity(-MathHelper.sin(rotationYaw * 3.141593F / 180.0F) * 0.5F, 0.2D, MathHelper.cos(rotationYaw * 3.141593F / 180.0F) * 0.5F);
@@ -237,5 +237,5 @@ public class EntityBear extends MonsterEntity {
 			return (double) (4.0F + attackTarget.getWidth());
 		}
 	}
-
 }
+
