@@ -5,3 +5,5 @@ bin/
 gradle/
 .classpath
 .project
+logs/debug.log
+logs/latest.log

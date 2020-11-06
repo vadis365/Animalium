@@ -1,7 +1,8 @@
 package animalium.entities;
 
 
-import com.sun.istack.internal.Nullable;
+
+import javax.annotation.Nullable;
 
 import animalium.ModItems;
 import net.minecraft.entity.Entity;
