@@ -7,14 +7,14 @@ import java.util.List;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
-import animalium.Reference;
+import animalium.utils.Util;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Util.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
 
     public static final String CATEGORY_SPAWNS = "Animal Spawn Settings";
@@ -29,26 +29,26 @@ public class Config {
     public static ForgeConfigSpec.IntValue PIRANHA_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue PIRANHA_SPAWN_PROBABILITY;
-	public static ConfigValue<List<? extends String>> PIRANHA_BLACKLISTED_DIMS;
+	public static ForgeConfigSpec.ConfigValue<List<? extends String>> PIRANHA_BLACKLISTED_DIMS;
 	
 	public static ForgeConfigSpec.IntValue WILD_DOG_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue WILD_DOG_SPAWN_Y_HEIGHT;
-	public static ConfigValue<List<? extends String>> WILD_DOG_BLACKLISTED_DIMS;
+	public static ForgeConfigSpec.ConfigValue<List<? extends String>> WILD_DOG_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue BEAR_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue BEAR_SPAWN_Y_HEIGHT;
 	public static ForgeConfigSpec.BooleanValue BEAR_SPAWN_ONLY_AT_DAY;
-	public static ConfigValue<List<? extends String>> BEAR_BLACKLISTED_DIMS;
+	public static ForgeConfigSpec.ConfigValue<List<? extends String>> BEAR_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.IntValue RAT_MIN_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_MAX_SPAWN_SIZE;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_PROBABILITY;
 	public static ForgeConfigSpec.IntValue RAT_SPAWN_Y_HEIGHT;
-	public static ConfigValue<List<? extends String>> RAT_BLACKLISTED_DIMS;
+	public static ForgeConfigSpec.ConfigValue<List<? extends String>> RAT_BLACKLISTED_DIMS;
 
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_MOBS;
 	public static ForgeConfigSpec.BooleanValue PIRANHA_ATTACK_CREATURES;
@@ -142,12 +142,12 @@ public class Config {
     }
 
     @SubscribeEvent
-    public static void onLoad(final ModConfig.Loading configEvent) {
+    public static void onLoad(final ModConfigEvent.Loading configEvent) {
 
     }
 
     @SubscribeEvent
-    public static void onReload(final ModConfig.Reloading configEvent) {
+    public static void onReload(final ModConfigEvent.Reloading configEvent) {
     }
 }
 

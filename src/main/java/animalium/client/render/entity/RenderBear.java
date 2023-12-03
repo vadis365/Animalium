@@ -1,13 +1,13 @@
 package animalium.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
+import animalium.client.ClientEvents;
 import animalium.client.model.ModelBear;
-import animalium.entities.EntityBear;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import animalium.common.entities.EntityBear;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,18 +15,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RenderBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/bear.png");
 
-	public RenderBear(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ModelBear<>(), 1.5F);
+	public RenderBear(EntityRendererProvider.Context context) {
+        super(context, new ModelBear(context.bakeLayer(ClientEvents.BEAR)), 1.5F);
     }
 
 	@Override
-	protected void preRenderCallback(EntityBear entity, MatrixStack matrix, float partialTickTime) {
+	protected void scale(EntityBear entity, PoseStack matrix, float partialTickTime) {
 		matrix.scale(1.5F, 1.5F, 1.5F); // scale
-		matrix.rotate(Vector3f.YP.rotationDegrees(180.0F)); //rotation
+		matrix.mulPose(Axis.YP.rotationDegrees(180.0F)); //rotation
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(EntityBear entity) {
+	public ResourceLocation getTextureLocation(EntityBear entity) {
 		return TEXTURE;
 	}
 }

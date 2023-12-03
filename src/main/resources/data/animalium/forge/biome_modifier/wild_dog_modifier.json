@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "forest",
+    "desert",
+    "plains"
+  ],
+  "spawners": {
+    "type": "animalium:wild_dog",
+    "maxCount": 4,
+    "minCount": 1,
+    "weight": 10
+  }
+}

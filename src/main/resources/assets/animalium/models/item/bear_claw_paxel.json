@@ -1,6 +1,6 @@
 {
-    "parent": "item/handheld",
+    "parent": "minecraft:item/handheld",
     "textures": {
-        "layer0": "animalium:items/bear_claw_paxel"
+        "layer0": "animalium:item/bear_claw_paxel"
     }
 }
