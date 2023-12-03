@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "forest",
+    "jungle",
+    "swamp"
+  ],
+  "spawners": {
+    "type": "animalium:piranha",
+    "maxCount": 4,
+    "minCount": 1,
+    "weight": 10
+  }
+}

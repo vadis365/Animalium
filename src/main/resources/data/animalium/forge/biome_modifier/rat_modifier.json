@@ -1,0 +1,14 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": [
+    "forest",
+    "desert",
+    "plains"
+  ],
+  "spawners": {
+    "type": "animalium:rat",
+    "maxCount": 3,
+    "minCount": 1,
+    "weight": 10
+  }
+}

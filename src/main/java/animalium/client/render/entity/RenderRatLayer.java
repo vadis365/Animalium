@@ -1,47 +1,45 @@
 package animalium.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
 import animalium.client.model.ModelRat;
-import animalium.entities.EntityRat;
+import animalium.common.entities.EntityRat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
-public class RenderRatLayer extends LayerRenderer<EntityRat, ModelRat<EntityRat>> {
+public class RenderRatLayer extends RenderLayer<EntityRat, ModelRat<EntityRat>> {
 
-	public RenderRatLayer(IEntityRenderer <EntityRat, ModelRat<EntityRat>> entity) {
-		super(entity);
-	}
+    public RenderRatLayer(RenderLayerParent<EntityRat, ModelRat<EntityRat>> entity) {
+        super(entity);
+    }
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		ItemStack stack = entity.getHeldItemMainhand();
-		if (!stack.isEmpty())
-			this.renderHeldItem(matrixStackIn, bufferIn, packedLightIn, entity, stack);
-	}
+    @Override
+    public void render(PoseStack poseStackIn, MultiBufferSource bufferIn, int packedLightIn, EntityRat entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        ItemStack stack = entity.getMainHandItem();
+        if (!stack.isEmpty())
+            this.renderHeldItem(poseStackIn, bufferIn, packedLightIn, entity, stack);
+    }
 
-	private void renderHeldItem(MatrixStack matrix, IRenderTypeBuffer renderBuffer, int packedLightIn, EntityRat entity, ItemStack stack) {
-		if (!stack.isEmpty()) {
-			matrix.push(); //push
-			float animation = MathHelper.sin((entity.limbSwing * 0.4F) * 1.5F) * 0.3F * entity.limbSwingAmount * 0.3F;
-			matrix.translate(0.0F, 1F + animation, 1.5F); // translation
-			matrix.rotate(Vector3f.XP.rotationDegrees(110.0F)); //rotation
-			matrix.scale(1F, 1F, 1F); // scale
-			Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-			Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.GROUND, false, matrix, renderBuffer, packedLightIn, packedLightIn, Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(stack, null, null));
-			matrix.pop(); //pop
-		}
-	}
-
+    private void renderHeldItem(PoseStack poseStack, MultiBufferSource renderBuffer, int packedLightIn, EntityRat entity, ItemStack stack) {
+        if (!stack.isEmpty()) {
+            poseStack.pushPose(); //push
+            float animation = Mth.sin((entity.walkAnimation.position() * 0.4F) * 1.5F) * 0.3F * entity.walkAnimation.speed() * 0.3F;
+            poseStack.translate(0.0F, 1F + animation, 1.5F); // translation
+            poseStack.mulPose(Axis.XP.rotationDegrees(110.0F)); //rotation
+            poseStack.scale(1F, 1F, 1F); // scale
+            Minecraft.getInstance().getTextureManager().bindForSetup(TextureAtlas.LOCATION_BLOCKS);
+            Minecraft.getInstance().getItemRenderer().render(stack, ItemDisplayContext.GROUND, false, poseStack, renderBuffer, packedLightIn, packedLightIn, Minecraft.getInstance().getItemRenderer().getModel(stack, null, null, 0));
+            poseStack.popPose(); //pop
+        }
+    }
 }

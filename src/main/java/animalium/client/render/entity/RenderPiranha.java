@@ -1,13 +1,14 @@
 package animalium.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import animalium.client.ClientEvents;
 
 import animalium.client.model.ModelPiranha;
-import animalium.entities.EntityPiranha;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import animalium.common.entities.EntityPiranha;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,21 +16,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RenderPiranha extends MobRenderer<EntityPiranha, ModelPiranha<EntityPiranha>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/piranha.png");
 
-	public RenderPiranha(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new ModelPiranha<>(), 0.5F);
+	public RenderPiranha(EntityRendererProvider.Context context) {
+        super(context, new ModelPiranha(context.bakeLayer(ClientEvents.PIRANHA)), 0.5F);
     }
 
 	@Override
-	protected void preRenderCallback(EntityPiranha entity, MatrixStack matrix, float partialTickTime) {
+	protected void scale(EntityPiranha entity, PoseStack matrix, float partialTickTime) {
 		if (entity.isGrounded() && !entity.isLeaping()) {
 			matrix.translate(0F, 0.5F, 0F); // translation
-			matrix.rotate(Vector3f.ZP.rotationDegrees(90.0F)); // rotation
+			matrix.mulPose(Axis.ZP.rotationDegrees(90.0F)); // rotation
 			matrix.translate(-0.7F, 0.7F, 0F); // translation
 		}
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(EntityPiranha entity) {
+	public ResourceLocation getTextureLocation(EntityPiranha entity) {
 		return TEXTURE;
 	}
 }

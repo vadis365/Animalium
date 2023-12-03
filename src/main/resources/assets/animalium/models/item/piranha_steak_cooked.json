@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "animalium:items/piranha_steak_cooked"
+        "layer0": "animalium:item/piranha_steak_cooked"
     }
 }

@@ -1,152 +1,132 @@
 package animalium.client.model;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import animalium.entities.EntityPiranha;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import animalium.common.entities.EntityPiranha;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 
-	ModelRenderer jawBottom;
-	ModelRenderer toothBL;
-	ModelRenderer toothBML;
-	ModelRenderer toothMBR;
-	ModelRenderer toothBR;
-	ModelRenderer head;
-	ModelRenderer toothTL;
-	ModelRenderer toothTM;
-	ModelRenderer toothTR;
-	ModelRenderer bodyMain;
-	ModelRenderer finDorsal;
-	ModelRenderer finR;
-	ModelRenderer finL;
-	ModelRenderer bodyBack;
-	ModelRenderer tail;
-	ModelRenderer finTailTop;
-	ModelRenderer finTailBottom;
+	private final ModelPart jawBottom;
+	private final ModelPart toothBL;
+	private final ModelPart toothBML;
+	private final ModelPart toothMBR;
+	private final ModelPart toothBR;
+	private final ModelPart head;
+	private final ModelPart toothTL;
+	private final ModelPart toothTM;
+	private final ModelPart toothTR;
+	private final ModelPart bodyMain;
+	private final ModelPart finDorsal;
+	private final ModelPart finR;
+	private final ModelPart finL;
+	private final ModelPart bodyBack;
+	private final ModelPart tail;
+	private final ModelPart finTailTop;
+	private final ModelPart finTailBottom;
 
-	public ModelPiranha() {
-		textureWidth = 64;
-		textureHeight = 128;
 
-		jawBottom = new ModelRenderer(this, 6, 0);
-		jawBottom.addBox(-4F, 0F, -5F, 8, 3, 6);
-		jawBottom.setRotationPoint(0F, 19F, -5F);
-		setRotation(jawBottom, 0.3717861F, 0F, 0F);
-		toothBL = new ModelRenderer(this, 6, 0);
-		toothBL.addBox(2.8F, -1F, -4.8F, 1, 1, 1);
-		toothBL.setRotationPoint(0F, 19F, -5F);
-		setRotation(toothBL, 0.3717861F, 0F, 0F);
-		toothBML = new ModelRenderer(this, 6, 0);
-		toothBML.addBox(0.5F, -1F, -4.8F, 1, 1, 1);
-		toothBML.setRotationPoint(0F, 19F, -5F);
-		setRotation(toothBML, 0.3717861F, 0F, 0F);
-		toothMBR = new ModelRenderer(this, 6, 0);
-		toothMBR.addBox(-1.5F, -1F, -4.8F, 1, 1, 1);
-		toothMBR.setRotationPoint(0F, 19F, -5F);
-		setRotation(toothMBR, 0.3717861F, 0F, 0F);
-		toothBR = new ModelRenderer(this, 6, 0);
-		toothBR.addBox(-3.8F, -1F, -4.8F, 1, 1, 1);
-		toothBR.setRotationPoint(0F, 19F, -5F);
-		setRotation(toothBR, 0.3717861F, 0F, 0F);
-		head = new ModelRenderer(this, 9, 10);
-		head.addBox(-3F, -5F, -4F, 6, 7, 5);
-		head.setRotationPoint(0F, 18F, -5F);
-		setRotation(head, -0.7853982F, 0F, 0F);
-		toothTL = new ModelRenderer(this, 6, 0);
-		toothTL.addBox(1.7F, 2F, -3.8F, 1, 1, 1);
-		toothTL.setRotationPoint(0F, 18F, -5F);
-		setRotation(toothTL, -0.7853982F, 0F, 0F);
-		toothTM = new ModelRenderer(this, 6, 0);
-		toothTM.addBox(-0.5F, 2F, -3.8F, 1, 1, 1);
-		toothTM.setRotationPoint(0F, 18F, -5F);
-		setRotation(toothTM, -0.7853982F, 0F, 0F);
-		toothTR = new ModelRenderer(this, 6, 0);
-		toothTR.addBox(-2.7F, 2F, -3.75F, 1, 1, 1);
-		toothTR.setRotationPoint(0F, 18F, -5F);
-		setRotation(toothTR, -0.7853982F, 0F, 0F);
-		bodyMain = new ModelRenderer(this, 4, 23);
-		bodyMain.addBox(-3.5F, -4.5F, 0F, 7, 11, 9);
-		bodyMain.setRotationPoint(0F, 16F, -5F);
-		setRotation(bodyMain, 0F, 0F, 0F);
-		finDorsal = new ModelRenderer(this, 0, 44);
-		finDorsal.addBox(-0.5F, -0.5F, 5.4F, 1, 3, 4);
-		finDorsal.setRotationPoint(0F, 16F, -5F);
-		setRotation(finDorsal, 0.8726646F, 0F, 0F);
-		finR = new ModelRenderer(this, 28, 23);
-		finR.addBox(-0.5F, -1.5F, -0.5F, 1, 3, 5);
-		finR.setRotationPoint(-3.5F, 21F, -3F);
-		setRotation(finR, -0.1745329F, -0.4363323F, 0F);
-		finL = new ModelRenderer(this, 0, 23);
-		finL.addBox(-0.5F, -1.5F, -0.5F, 1, 3, 5);
-		finL.setRotationPoint(3.5F, 21F, -3F);
-		setRotation(finL, -0.1745329F, 0.4363323F, 0F);
-		bodyBack = new ModelRenderer(this, 11, 44);
-		bodyBack.addBox(-2.5F, -4F, -1F, 5, 8, 4);
-		bodyBack.setRotationPoint(0F, 0F, 9F);
-		setRotation(bodyBack, 0F, 0F, 0F);
-		tail = new ModelRenderer(this, 13, 57);
-		tail.addBox(-1.5F, -2F, -1F, 3, 4, 4);
-		tail.setRotationPoint(0F, 0F, 3F);
-		setRotation(tail, 0F, 0F, 0F);
-		finTailTop = new ModelRenderer(this, 14, 66);
-		finTailTop.addBox(-0.5F, -1.5F, 0.5F, 1, 3, 5);
-		finTailTop.setRotationPoint(0F, 0F, 2F);
-		setRotation(finTailTop, 1.047198F, 0F, 0F);
-		finTailBottom = new ModelRenderer(this, 14, 75);
-		finTailBottom.addBox(-0.5F, -1.5F, 0.5F, 1, 3, 5);
-		finTailBottom.setRotationPoint(0F, 0F, 2F);
-		setRotation(finTailBottom, -1.047198F, 0F, 0F);
 
-		bodyMain.addChild(bodyBack);
-		bodyBack.addChild(tail);
-		tail.addChild(finTailTop);
-		tail.addChild(finTailBottom);
+	public ModelPiranha(ModelPart root) {
+		this.jawBottom = root.getChild("jawBottom");
+		this.toothBL = root.getChild("toothBL");
+		this.toothBML = root.getChild("toothBML");
+		this.toothMBR = root.getChild("toothMBR");
+		this.toothBR = root.getChild("toothBR");
+		this.head = root.getChild("head");
+		this.toothTL = root.getChild("toothTL");
+		this.toothTM = root.getChild("toothTM");
+		this.toothTR = root.getChild("toothTR");
+		this.bodyMain = root.getChild("bodyMain");
+		this.finDorsal = root.getChild("finDorsal");
+		this.finR = root.getChild("finR");
+		this.finL = root.getChild("finL");
+		this.bodyBack = bodyMain.getChild("bodyBack");
+		this.tail = bodyBack.getChild("tail");
+		this.finTailTop = tail.getChild("finTailTop");
+		this.finTailBottom = tail.getChild("finTailBottom");
+	}
+
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition jawBottom = partdefinition.addOrReplaceChild("jawBottom", CubeListBuilder.create().texOffs(6, 0).addBox(-4.0F, 0.0F, -5.0F, 8.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.0F, -5.0F, 0.3718F, 0.0F, 0.0F));
+
+		PartDefinition toothBL = partdefinition.addOrReplaceChild("toothBL", CubeListBuilder.create().texOffs(6, 0).addBox(2.8F, -1.0F, -4.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.0F, -5.0F, 0.3718F, 0.0F, 0.0F));
+
+		PartDefinition toothBML = partdefinition.addOrReplaceChild("toothBML", CubeListBuilder.create().texOffs(6, 0).addBox(0.5F, -1.0F, -4.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.0F, -5.0F, 0.3718F, 0.0F, 0.0F));
+
+		PartDefinition toothMBR = partdefinition.addOrReplaceChild("toothMBR", CubeListBuilder.create().texOffs(6, 0).addBox(-1.5F, -1.0F, -4.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.0F, -5.0F, 0.3718F, 0.0F, 0.0F));
+
+		PartDefinition toothBR = partdefinition.addOrReplaceChild("toothBR", CubeListBuilder.create().texOffs(6, 0).addBox(-3.8F, -1.0F, -4.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.0F, -5.0F, 0.3718F, 0.0F, 0.0F));
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(9, 10).addBox(-3.0F, -5.0F, -4.0F, 6.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.0F, -5.0F, -0.7854F, 0.0F, 0.0F));
+
+		PartDefinition toothTL = partdefinition.addOrReplaceChild("toothTL", CubeListBuilder.create().texOffs(6, 0).addBox(1.7F, 2.0F, -3.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.0F, -5.0F, -0.7854F, 0.0F, 0.0F));
+
+		PartDefinition toothTM = partdefinition.addOrReplaceChild("toothTM", CubeListBuilder.create().texOffs(6, 0).addBox(-0.5F, 2.0F, -3.8F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.0F, -5.0F, -0.7854F, 0.0F, 0.0F));
+
+		PartDefinition toothTR = partdefinition.addOrReplaceChild("toothTR", CubeListBuilder.create().texOffs(6, 0).addBox(-2.7F, 2.0F, -3.75F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.0F, -5.0F, -0.7854F, 0.0F, 0.0F));
+
+		PartDefinition bodyMain = partdefinition.addOrReplaceChild("bodyMain", CubeListBuilder.create().texOffs(4, 23).addBox(-3.5F, -4.5F, 0.0F, 7.0F, 11.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 16.0F, -5.0F));
+
+		PartDefinition bodyBack = bodyMain.addOrReplaceChild("bodyBack", CubeListBuilder.create().texOffs(11, 44).addBox(-2.5F, -4.0F, -1.0F, 5.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 9.0F));
+
+		PartDefinition tail = bodyBack.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(13, 57).addBox(-1.5F, -2.0F, -1.0F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
+
+		PartDefinition finTailTop = tail.addOrReplaceChild("finTailTop", CubeListBuilder.create().texOffs(14, 66).addBox(-0.5F, -1.5F, 0.5F, 1.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 1.0472F, 0.0F, 0.0F));
+
+		PartDefinition finTailBottom = tail.addOrReplaceChild("finTailBottom", CubeListBuilder.create().texOffs(14, 75).addBox(-0.5F, -1.5F, 0.5F, 1.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, -1.0472F, 0.0F, 0.0F));
+
+		PartDefinition finDorsal = partdefinition.addOrReplaceChild("finDorsal", CubeListBuilder.create().texOffs(0, 44).addBox(-0.5F, -0.5F, 5.4F, 1.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 16.0F, -5.0F, 0.8727F, 0.0F, 0.0F));
+
+		PartDefinition finR = partdefinition.addOrReplaceChild("finR", CubeListBuilder.create().texOffs(28, 23).addBox(-0.5F, -1.5F, -0.5F, 1.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.5F, 21.0F, -3.0F, -0.1745F, -0.4363F, 0.0F));
+
+		PartDefinition finL = partdefinition.addOrReplaceChild("finL", CubeListBuilder.create().texOffs(0, 23).addBox(-0.5F, -1.5F, -0.5F, 1.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, 21.0F, -3.0F, -0.1745F, 0.4363F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 128);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer consumer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		ImmutableList.of(jawBottom, toothBL, toothBML, toothMBR, toothBR, head, toothTL, toothTM, toothTR, bodyMain, finDorsal, finR, finL).forEach((p_228279_8_) -> {
-            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            p_228279_8_.render(matrixStackIn, consumer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             });
 	}
 
 	@Override
-	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	 public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 	}
+
 
 	@Override
-	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-            float flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 0.5F) * 0.6F;
+	public void prepareMobModel(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
+            float flap = Mth.sin((entity.tickCount + partialRenderTicks) * 0.5F) * 0.6F;
             if (entity.isGrounded())
-            	flap = MathHelper.sin((entity.ticksExisted + partialRenderTicks) * 1.5F) * 0.6F;
-            jawBottom.rotateAngleX = 0.5F + flap;
-    		jawBottom.rotateAngleX = 0.5F + flap;
-    		toothBL.rotateAngleX = 0.5F + flap;
-    		toothBML.rotateAngleX = 0.5F + flap;
-    		toothMBR.rotateAngleX = 0.5F + flap;
-    		toothBR.rotateAngleX = 0.5F + flap;
+            	flap = Mth.sin((entity.tickCount + partialRenderTicks) * 1.5F) * 0.6F;
+    		jawBottom.xRot = 0.5F + flap;
+    		toothBL.xRot = 0.5F + flap;
+    		toothBML.xRot = 0.5F + flap;
+    		toothMBR.xRot = 0.5F + flap;
+    		toothBR.xRot = 0.5F + flap;
 
-    		finDorsal.rotateAngleY = bodyMain.rotateAngleY = -0.05F + flap * 0.2F;
-    		finR.rotateAngleY = -0.5F - flap;
-    		finL.rotateAngleY = 0.5F + flap;
-    		bodyBack.rotateAngleY = bodyMain.rotateAngleY * 1.2F;
-    		tail.rotateAngleY = bodyMain.rotateAngleY * 1.4F;
-    		finTailTop.rotateAngleY = bodyMain.rotateAngleY * 1.6F;
-    		finTailBottom.rotateAngleY = bodyMain.rotateAngleY * 1.6F;
+    		finDorsal.yRot = bodyMain.yRot = -0.05F + flap * 0.2F;
+    		finR.yRot = -0.5F - flap;
+    		finL.yRot = 0.5F + flap;
+    		bodyBack.yRot = bodyMain.yRot * 1.2F;
+    		tail.yRot = bodyMain.yRot * 1.4F;
+    		finTailTop.yRot = bodyMain.yRot * 1.6F;
+    		finTailBottom.yRot = bodyMain.yRot * 1.6F;
     }
-
-	private void setRotation(ModelRenderer model, float x, float y, float z) {
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
-	}
 
 }

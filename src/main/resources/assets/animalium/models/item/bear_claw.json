@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "animalium:items/bear_claw"
+        "layer0": "animalium:item/bear_claw"
     },
      "display": {
         "fixed": {

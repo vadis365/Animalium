@@ -1,262 +1,225 @@
 package animalium.client.model;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import animalium.entities.EntityBear;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.util.math.MathHelper;
+import animalium.common.entities.EntityBear;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelBear<T extends EntityBear> extends EntityModel<T> {
-	ModelRenderer body_rear;
-	ModelRenderer body_mid;
-	ModelRenderer r_hindleg1;
-	ModelRenderer l_hindleg1;
-	ModelRenderer body_front;
-	ModelRenderer neck;
-	ModelRenderer l_foreleg1;
-	ModelRenderer r_foreleg1;
-	ModelRenderer head;
-	ModelRenderer lower_jaw;
-	ModelRenderer upper_jaw;
-	ModelRenderer l_ear;
-	ModelRenderer r_ear;
-	ModelRenderer l_foreleg2;
-	ModelRenderer l_fore_paw;
-	ModelRenderer r_foreleg2;
-	ModelRenderer r_fore_paw;
-	ModelRenderer r_hindleg2;
-	ModelRenderer r_hindleg3;
-	ModelRenderer r_hind_paw;
-	ModelRenderer l_hindleg2;
-	ModelRenderer l_hindleg3;
-	ModelRenderer l_hind_paw;
+	private final ModelPart body_rear;
+	private final ModelPart body_mid;
+	private final ModelPart r_hindleg1;
+	private final ModelPart l_hindleg1;
+	private final ModelPart body_front;
+	private final ModelPart neck;
+	private final ModelPart l_foreleg1;
+	private final ModelPart r_foreleg1;
+	private final ModelPart head;
+	private final ModelPart lower_jaw;
+	private final ModelPart upper_jaw;
+	private final ModelPart l_ear;
+	private final ModelPart r_ear;
+	private final ModelPart l_foreleg2;
+	private final ModelPart l_fore_paw;
+	private final ModelPart r_foreleg2;
+	private final ModelPart r_fore_paw;
+	private final ModelPart r_hindleg2;
+	private final ModelPart r_hindleg3;
+	private final ModelPart r_hind_paw;
+	private final ModelPart l_hindleg2;
+	private final ModelPart l_hindleg3;
+	private final ModelPart l_hind_paw;
 
-	public ModelBear() {
-		 textureWidth = 128;
-	        textureHeight = 128;
-	        l_hind_paw = new ModelRenderer(this, 1, 85);
-	        l_hind_paw.setRotationPoint(0.0F, 4.5F, 0.0F);
-	        l_hind_paw.addBox(-2.5F, -1.5F, -1.5F, 5, 3, 6, 0.0F);
-	        setRotateAngle(l_hind_paw, -0.6981317007977318F, 0.0F, 0.0F);
-	        upper_jaw = new ModelRenderer(this, 105, 9);
-	        upper_jaw.setRotationPoint(0.0F, 0.0F, 0.0F);
-	        upper_jaw.addBox(-2.5F, -1.8F, 5.7F, 5, 3, 4, 0.0F);
-	        setRotateAngle(upper_jaw, -0.17453292519943295F, 0.0F, 0.0F);
-	        l_hindleg2 = new ModelRenderer(this, 3, 60);
-	        l_hindleg2.setRotationPoint(-2.0F, 5.0F, -1.5F);
-	        l_hindleg2.addBox(-2.0F, -3.0F, -1.5F, 4, 8, 5, 0.0F);
-	        setRotateAngle(l_hindleg2, -1.2217304763960306F, -0.0F, 0.0F);
-	        neck = new ModelRenderer(this, 35, 0);
-	        neck.setRotationPoint(0.0F, 4.2F, 11.5F);
-	        neck.addBox(-3.5F, -3.5F, -3.0F, 7, 7, 7, 0.0F);
-	        lower_jaw = new ModelRenderer(this, 104, 0);
-	        lower_jaw.setRotationPoint(0.0F, 3.0F, 4.0F);
-	        lower_jaw.addBox(-2.0F, -1.0F, -1.0F, 4, 2, 6, 0.0F);
-	        setRotateAngle(lower_jaw, -0.7740535232594852F, 0.0F, 0.0F);
-	        l_foreleg1 = new ModelRenderer(this, 2, 0);
-	        l_foreleg1.setRotationPoint(-5.5F, 3.5F, 6.0F);
-	        l_foreleg1.addBox(-2.5F, -4.5F, -2.5F, 4, 11, 6, 0.0F);
-	        setRotateAngle(l_foreleg1, 0.17453292519943295F, 0.0F, 0.17453292519943295F);
-	        l_hindleg1 = new ModelRenderer(this, 0, 42);
-	        l_hindleg1.setRotationPoint(-5.5F, 4.5F, -5.0F);
-	        l_hindleg1.addBox(-4.5F, -2.5F, -3.5F, 5, 10, 7, 0.0F);
-	        setRotateAngle(l_hindleg1, -0.3490658503988659F, 0.0F, 0.0F);
-	        l_hindleg3 = new ModelRenderer(this, 5, 74);
-	        l_hindleg3.setRotationPoint(0.0F, 4.0F, 0.5F);
-	        l_hindleg3.addBox(-1.5F, -1.0F, -1.5F, 3, 6, 4, 0.0F);
-	        setRotateAngle(l_hindleg3, 1.5707963267948966F, -0.0F, 0.0F);
-	        l_fore_paw = new ModelRenderer(this, 1, 32);
-	        l_fore_paw.setRotationPoint(0.5F, 7.0F, 0.0F);
-	        l_fore_paw.addBox(-2.5F, -1.5F, -2.0F, 5, 3, 6, 0.0F);
-	        setRotateAngle(l_fore_paw, -0.17453292519943295F, 0.0F, 0.0F);
-	        l_foreleg2 = new ModelRenderer(this, 4, 18);
-	        l_foreleg2.setRotationPoint(-0.5F, 6.0F, 0.0F);
-	        l_foreleg2.addBox(-1.5F, -2.0F, -1.5F, 4, 9, 4, 0.0F);
-	        setRotateAngle(l_foreleg2, 0.17453292519943295F, 0.0F, -0.17453292519943295F);
-	        r_fore_paw = new ModelRenderer(this, 75, 32);
-	        r_fore_paw.setRotationPoint(-0.5F, 7.0F, 0.0F);
-	        r_fore_paw.addBox(-2.5F, -1.5F, -2.0F, 5, 3, 6, 0.0F);
-	        setRotateAngle(r_fore_paw, -0.17453292519943295F, 0.0F, 0.0F);
-	        r_foreleg2 = new ModelRenderer(this, 78, 18);
-	        r_foreleg2.setRotationPoint(0.5F, 6.0F, 0.0F);
-	        r_foreleg2.addBox(-2.5F, -2.0F, -2.0F, 4, 9, 4, 0.0F);
-	        setRotateAngle(r_foreleg2, 0.17453292519943295F, 0.0F, 0.17453292519943295F);
-	        r_hindleg3 = new ModelRenderer(this, 79, 74);
-	        r_hindleg3.setRotationPoint(0.0F, 4.0F, 0.5F);
-	        r_hindleg3.addBox(-1.5F, -1.0F, -1.5F, 3, 6, 4, 0.0F);
-	        setRotateAngle(r_hindleg3, 1.5707963267948966F, 0.0F, 0.0F);
-	        r_foreleg1 = new ModelRenderer(this, 76, 0);
-	        r_foreleg1.setRotationPoint(5.5F, 3.5F, 6.0F);
-	        r_foreleg1.addBox(-1.5F, -4.5F, -2.5F, 4, 11, 6, 0.0F);
-	        setRotateAngle(r_foreleg1, 0.17453292519943295F, 0.0F, -0.17453292519943295F);
-	        body_mid = new ModelRenderer(this, 32, 40);
-	        body_mid.setRotationPoint(0.0F, 0.0F, 0.0F);
-	        body_mid.addBox(-5.0F, 0.0F, 0.0F, 10, 10, 7, 0.0F);
-	        setRotateAngle(body_mid, -0.6981317007977318F, 0.0F, 0.0F);
-	        r_hind_paw = new ModelRenderer(this, 75, 85);
-	        r_hind_paw.setRotationPoint(0.0F, 4.5F, 0.0F);
-	        r_hind_paw.addBox(-2.5F, -1.5F, -1.5F, 5, 3, 6, 0.0F);
-	        setRotateAngle(r_hind_paw, -0.6981317007977318F, -0.0F, 0.0F);
-	        l_ear = new ModelRenderer(this, 100, 0);
-	        l_ear.setRotationPoint(0.0F, 0.0F, 0.0F);
-	        l_ear.addBox(-3.0F, -6.0F, 0.0F, 2, 2, 2, 0.0F);
-	        setRotateAngle(l_ear, 0.0F, 0.0F, -0.3490658503988659F);
-	        body_rear = new ModelRenderer(this, 27, 58);
-	        body_rear.setRotationPoint(0.0F, 4.0F, -6.0F);
-	        body_rear.addBox(-5.5F, 0.0F, -11.0F, 11, 11, 11, 0.0F);
-	        setRotateAngle(body_rear, 0.6981317007977318F, 0.0F, 0.0F);
-	        body_front = new ModelRenderer(this, 26, 15);
-	        body_front.setRotationPoint(0.0F, 1.0F, 7.0F);
-	        body_front.addBox(-5.5F, -1.1F, -0.5F, 11, 12, 12, 0.0F);
-	        setRotateAngle(body_front, -0.17453292519943295F, 0.0F, 0.0F);
-	        head = new ModelRenderer(this, 100, 17);
-	        head.setRotationPoint(0.0F, 0.0F, 2.0F);
-	        head.addBox(-4.0F, -4.0F, 0.0F, 8, 8, 6, 0.0F);
-	        setRotateAngle(head, 0.17453292519943295F, 0.0F, 0.0F);
-	        r_ear = new ModelRenderer(this, 120, 0);
-	        r_ear.setRotationPoint(0.0F, 0.0F, 0.0F);
-	        r_ear.addBox(1.0F, -6.0F, 0.0F, 2, 2, 2, 0.0F);
-	        setRotateAngle(r_ear, 0.0F, 0.0F, 0.3490658503988659F);
-	        r_hindleg1 = new ModelRenderer(this, 74, 42);
-	        r_hindleg1.setRotationPoint(5.5F, 4.5F, -5.5F);
-	        r_hindleg1.addBox(-0.5F, -2.5F, -3.5F, 5, 10, 7, 0.0F);
-	        setRotateAngle(r_hindleg1, -0.3490658503988659F, 0.0F, 0.0F);
-	        r_hindleg2 = new ModelRenderer(this, 77, 60);
-	        r_hindleg2.setRotationPoint(2.0F, 5.0F, -1.5F);
-	        r_hindleg2.addBox(-2.0F, -3.0F, -1.5F, 4, 8, 5, 0.0F);
-	        setRotateAngle(r_hindleg2, -1.2217304763960306F, 0.0F, 0.0F);
-	        l_hindleg3.addChild(l_hind_paw);
-	        head.addChild(upper_jaw);
-	        l_hindleg1.addChild(l_hindleg2);
-	        body_front.addChild(neck);
-	        head.addChild(lower_jaw);
-	        body_front.addChild(l_foreleg1);
-	        body_rear.addChild(l_hindleg1);
-	        l_hindleg2.addChild(l_hindleg3);
-	        l_foreleg2.addChild(l_fore_paw);
-	        l_foreleg1.addChild(l_foreleg2);
-	        r_foreleg2.addChild(r_fore_paw);
-	        r_foreleg1.addChild(r_foreleg2);
-	        r_hindleg2.addChild(r_hindleg3);
-	        body_front.addChild(r_foreleg1);
-	        body_rear.addChild(body_mid);
-	        r_hindleg3.addChild(r_hind_paw);
-	        head.addChild(l_ear);
-	        body_mid.addChild(body_front);
-	        neck.addChild(head);
-	        head.addChild(r_ear);
-	        body_rear.addChild(r_hindleg1);
-	        r_hindleg1.addChild(r_hindleg2);
+	public ModelBear(ModelPart root) {
+		this.body_rear = root.getChild("body_rear");
+		l_hindleg1 = body_rear.getChild("l_hindleg1");
+		l_hindleg2 = l_hindleg1.getChild("l_hindleg2");
+		l_hindleg3 = l_hindleg2.getChild("l_hindleg3");
+		l_hind_paw = l_hindleg3.getChild("l_hind_paw");
+		body_mid = body_rear.getChild("body_mid");
+		body_front = body_mid.getChild("body_front");
+		neck = body_front.getChild("neck");
+		head = neck.getChild("head");
+		upper_jaw = head.getChild("upper_jaw");
+		lower_jaw = head.getChild("lower_jaw");
+		l_ear = head.getChild("l_ear");
+		r_ear = head.getChild("r_ear");
+		l_foreleg1 = body_front.getChild("l_foreleg1");
+		l_foreleg2 = l_foreleg1.getChild("l_foreleg2");
+		l_fore_paw = l_foreleg2.getChild("l_fore_paw");
+		r_foreleg1 = body_front.getChild("r_foreleg1");
+		r_foreleg2 = r_foreleg1.getChild("r_foreleg2");
+		r_fore_paw = r_foreleg2.getChild("r_fore_paw");
+		r_hindleg1 = body_rear.getChild("r_hindleg1");
+		r_hindleg2 = r_hindleg1.getChild("r_hindleg2");
+		r_hindleg3 = r_hindleg2.getChild("r_hindleg3");
+		r_hind_paw = r_hindleg3.getChild("r_hind_paw");
 	}
 
-	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition body_rear = partdefinition.addOrReplaceChild("body_rear", CubeListBuilder.create().texOffs(27, 58).addBox(-5.5F, 0.0F, -11.0F, 11.0F, 11.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 4.0F, -6.0F, 0.6981F, 0.0F, 0.0F));
+
+		PartDefinition l_hindleg1 = body_rear.addOrReplaceChild("l_hindleg1", CubeListBuilder.create().texOffs(0, 42).addBox(-4.5F, -2.5F, -3.5F, 5.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5F, 4.5F, -5.0F, -0.0873F, 0.0F, 0.0F));
+
+		PartDefinition l_hindleg2 = l_hindleg1.addOrReplaceChild("l_hindleg2", CubeListBuilder.create().texOffs(3, 60).addBox(-2.0F, -3.0F, -1.5F, 4.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, 5.1567F, -1.7677F, -1.3963F, 0.0F, 0.0F));
+
+		PartDefinition l_hindleg3 = l_hindleg2.addOrReplaceChild("l_hindleg3", CubeListBuilder.create().texOffs(5, 74).addBox(-1.5F, -1.0F, -1.5F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.2929F, 1.2071F, 1.5708F, 0.0F, 0.0F));
+
+		PartDefinition l_hind_paw = l_hindleg3.addOrReplaceChild("l_hind_paw", CubeListBuilder.create().texOffs(1, 85).addBox(-2.5F, -1.5F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.0F, 5.4622F, 0.7448F, -0.7854F, 0.0F, 0.0F));
+
+		PartDefinition body_mid = body_rear.addOrReplaceChild("body_mid", CubeListBuilder.create().texOffs(32, 40).addBox(-5.0F, 0.0F, 0.0F, 10.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.6981F, 0.0F, 0.0F));
+
+		PartDefinition body_front = body_mid.addOrReplaceChild("body_front", CubeListBuilder.create().texOffs(26, 15).addBox(-5.5F, -1.1F, -0.5F, 11.0F, 12.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 7.0F, -0.1745F, 0.0F, 0.0F));
+
+		PartDefinition neck = body_front.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(35, 0).addBox(-3.5F, 0.3227F, -7.4031F, 7.0F, 7.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.2F, 17.5F));
+
+		PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(100, 17).addBox(-4.0F, -4.0F, -2.0F, 8.0F, 8.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.8227F, -2.4031F, 0.1745F, 0.0F, 0.0F));
+
+		PartDefinition upper_jaw = head.addOrReplaceChild("upper_jaw", CubeListBuilder.create().texOffs(105, 9).addBox(-2.5F, -1.5693F, -1.3673F, 5.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.8F, 5.0F, -0.0873F, 0.0F, 0.0F));
+
+		PartDefinition lower_jaw = head.addOrReplaceChild("lower_jaw", CubeListBuilder.create().texOffs(104, 0).addBox(-2.0F, -1.0F, -1.0F, 4.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.8F, 2.5F, -0.1196F, 0.0F, 0.0F));
+
+		PartDefinition l_ear = head.addOrReplaceChild("l_ear", CubeListBuilder.create().texOffs(100, 0).addBox(-4.7956F, -1.0666F, 16.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.2F, -18.5F, 0.0F, 0.0F, -0.3491F));
+
+		PartDefinition r_ear = head.addOrReplaceChild("r_ear", CubeListBuilder.create().texOffs(120, 0).addBox(1.0F, -6.0F, -2.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.3491F));
+
+		PartDefinition l_foreleg1 = body_front.addOrReplaceChild("l_foreleg1", CubeListBuilder.create().texOffs(2, 0).addBox(-2.5F, -4.5F, -2.5F, 4.0F, 11.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5F, 3.149F, 8.5817F, 0.1745F, 0.0F, 0.1745F));
+
+		PartDefinition l_foreleg2 = l_foreleg1.addOrReplaceChild("l_foreleg2", CubeListBuilder.create().texOffs(4, 18).addBox(-1.5F, -2.0F, -1.5F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 6.0F, 0.0F, 0.1745F, 0.0F, -0.1745F));
+
+		PartDefinition l_fore_paw = l_foreleg2.addOrReplaceChild("l_fore_paw", CubeListBuilder.create().texOffs(1, 32).addBox(-2.5F, -1.5F, -3.0F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.596F, 7.2352F, 0.681F, -0.1745F, 0.0F, 0.0F));
+
+		PartDefinition r_foreleg1 = body_front.addOrReplaceChild("r_foreleg1", CubeListBuilder.create().texOffs(76, 0).addBox(-2.1336F, -1.5546F, -6.4904F, 4.0F, 11.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.5F, -0.5F, 12.0F, 0.1745F, 0.0F, -0.1745F));
+
+		PartDefinition r_foreleg2 = r_foreleg1.addOrReplaceChild("r_foreleg2", CubeListBuilder.create().texOffs(78, 18).addBox(-2.3962F, 3.4391F, 0.099F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 5.0F, -7.0F, 0.1745F, 0.0F, 0.1745F));
+
+		PartDefinition r_fore_paw = r_foreleg2.addOrReplaceChild("r_fore_paw", CubeListBuilder.create().texOffs(75, 32).addBox(-2.2515F, -2.0006F, -2.0088F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6972F, 11.9816F, 2.012F, -0.1745F, 0.0F, 0.0F));
+
+		PartDefinition r_hindleg1 = body_rear.addOrReplaceChild("r_hindleg1", CubeListBuilder.create().texOffs(74, 42).addBox(-0.5F, -2.5F, -3.5F, 5.0F, 10.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.5F, 4.5F, -5.5F, -0.0873F, 0.0F, 0.0F));
+
+		PartDefinition r_hindleg2 = r_hindleg1.addOrReplaceChild("r_hindleg2", CubeListBuilder.create().texOffs(77, 60).addBox(-2.0F, -3.0F, -1.5F, 4.0F, 8.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 5.0F, -1.5F, -1.3963F, 0.0F, 0.0F));
+
+		PartDefinition r_hindleg3 = r_hindleg2.addOrReplaceChild("r_hindleg3", CubeListBuilder.create().texOffs(79, 74).addBox(-1.5F, -1.0F, -1.5F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.2302F, 1.517F, 1.4835F, 0.0F, 0.0F));
+
+		PartDefinition r_hind_paw = r_hindleg3.addOrReplaceChild("r_hind_paw", CubeListBuilder.create().texOffs(75, 85).addBox(-2.5F, -1.75F, -1.5F, 5.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 4.5F, 0.0F, -0.6981F, 0.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 128, 128);
+	}
+
+												  @Override
+	public void renderToBuffer(PoseStack poseStackIn, VertexConsumer consumer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		ImmutableList.of(this.body_rear).forEach((p_228279_8_) -> {
-            p_228279_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            p_228279_8_.render(poseStackIn, consumer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             });
 	}
 
 	@Override
-	 public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		float heady = MathHelper.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
-		neck.rotateAngleY = heady;
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float heady = Mth.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
+		//neck.yRot = heady;
 	}
 
 	@Override
-	public void setLivingAnimations(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
+	public void prepareMobModel(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
 
-		float animation = MathHelper.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float animation2 = MathHelper.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float animation3 = MathHelper.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
-		float flap = MathHelper.sin((entity.ticksExisted) * 0.3F) * 0.8F;
+		float animation = Mth.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float animation2 = Mth.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float animation3 = Mth.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float flap = Mth.sin((entity.tickCount) * 0.3F) * 0.8F;
 		float standingAngle = entity.smoothedAngle(partialRenderTicks);
 
-		if (entity.getPosX() == entity.lastTickPosX) {
-			r_foreleg1.rotateAngleX = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
-			r_foreleg2.rotateAngleX = 0.17453292519943295F + (animation2 * 6F) - flap * 0.025F;
-			r_fore_paw.rotateAngleX = -(standingAngle*1.25F) -0.17453292519943295F - animation2 * 18F + flap * 0.05F;
+		if (entity.getX() == entity.xOld) {
+			r_foreleg1.xRot = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
+			r_foreleg2.xRot = 0.17453292519943295F + (animation2 * 6F) - flap * 0.025F;
+			r_fore_paw.xRot = -(standingAngle*1.25F) -0.17453292519943295F - animation2 * 18F + flap * 0.05F;
 
-			l_foreleg1.rotateAngleX = 0.17453292519943295F + (animation * 8F) + flap * 0.05F;
-			l_foreleg2.rotateAngleX = 0.17453292519943295F + (animation * 6F) - flap * 0.025F;
-			l_fore_paw.rotateAngleX = -(standingAngle * 1.25F) -0.17453292519943295F - (animation * 18F) + flap * 0.05F;
+			l_foreleg1.xRot = 0.17453292519943295F + (animation * 8F) + flap * 0.05F;
+			l_foreleg2.xRot = 0.17453292519943295F + (animation * 6F) - flap * 0.025F;
+			l_fore_paw.xRot = -(standingAngle * 1.25F) -0.17453292519943295F - (animation * 18F) + flap * 0.05F;
 
-			r_hindleg1.rotateAngleX = -(standingAngle * 0.75F) -0.1F - (animation2 * 6F) - flap * 0.05F;
-			l_hindleg1.rotateAngleX = -(standingAngle * 0.75F) -0.1F - (animation3 * 6F) - flap * 0.05F;
+			r_hindleg1.xRot = -(standingAngle * 0.75F) -0.1F - (animation2 * 6F) - flap * 0.05F;
+			l_hindleg1.xRot = -(standingAngle * 0.75F) -0.1F - (animation3 * 6F) - flap * 0.05F;
 
-			r_hindleg2.rotateAngleX = standingAngle -1.2217304763960306F + (r_hindleg1.rotateAngleX + animation2) + flap * 0.05F;
-			l_hindleg2.rotateAngleX = standingAngle -1.2217304763960306F + (l_hindleg1.rotateAngleX + animation3) + flap * 0.05F;
+			r_hindleg2.xRot = standingAngle -1.2217304763960306F + (r_hindleg1.xRot + animation2) + flap * 0.05F;
+			l_hindleg2.xRot = standingAngle -1.2217304763960306F + (l_hindleg1.xRot + animation3) + flap * 0.05F;
 
-			r_hindleg3.rotateAngleX = -standingAngle +1.5707963267948966F + flap * 0.025F;
-			l_hindleg3.rotateAngleX = -standingAngle +1.5707963267948966F + flap * 0.025F;
+			r_hindleg3.xRot = -standingAngle +1.5707963267948966F + flap * 0.025F;
+			l_hindleg3.xRot = -standingAngle +1.5707963267948966F + flap * 0.025F;
 
-			r_hind_paw.rotateAngleX = -(standingAngle * 0.5F) -0.9981317007977318F - (r_hindleg1.rotateAngleX * 1.25F) - flap * 0.05F;
-			l_hind_paw.rotateAngleX = -(standingAngle * 0.5F) -0.9981317007977318F - (l_hindleg1.rotateAngleX * 1.25F) - flap * 0.05F;
+			r_hind_paw.xRot = -(standingAngle * 0.5F) -0.9981317007977318F - (r_hindleg1.xRot * 1.25F) - flap * 0.05F;
+			l_hind_paw.xRot = -(standingAngle * 0.5F) -0.9981317007977318F - (l_hindleg1.xRot * 1.25F) - flap * 0.05F;
 
-			body_front.rotateAngleX = -0.17453292519943295F - (animation2 * 3F) - flap * 0.025F;
-			body_front.rotateAngleZ = 0F - animation2 * 1.5F;
+			body_front.xRot = -0.17453292519943295F - (animation2 * 3F) - flap * 0.025F;
+			body_front.zRot = 0F - animation2 * 1.5F;
 
-			body_mid.rotateAngleX = -0.6981317007977318F - (animation2 * 2F) - flap * 0.025F;
+			body_mid.xRot = -0.6981317007977318F - (animation2 * 2F) - flap * 0.025F;
 
-			body_rear.rotateAngleX = standingAngle + 0.6981317007977318F + (animation2 * 2F) + flap * 0.025F;
+			body_rear.xRot = standingAngle + 0.6981317007977318F + (animation2 * 2F) + flap * 0.025F;
 
-			neck.rotateAngleX = -(standingAngle * 0.5F) -0.17453292519943295F + (animation2 * 2.9F) + flap * 0.025F;
-			head.rotateAngleX = -(standingAngle * 0.5F) + 0.17453292519943295F;
-			head.rotateAngleZ = -(standingAngle * 0.1F * flap * 6F);
-			
+			neck.xRot = -(standingAngle * 0.5F) -0.17453292519943295F + (animation2 * 2.9F) + flap * 0.025F;
+			head.xRot = -(standingAngle * 0.5F) + 0.17453292519943295F;
+			head.zRot = -(standingAngle * 0.1F * flap * 6F);
+
 		} else {
-			r_foreleg1.rotateAngleX = 0.17453292519943295F + (standingAngle * 0.5F * flap) + animation2 * 6F;
-			l_foreleg1.rotateAngleX = 0.17453292519943295F - (standingAngle * 0.5F * flap) + animation * 6F;
-			
-			r_foreleg2.rotateAngleX = 0.17453292519943295F + animation2 * 5F;
-			l_foreleg2.rotateAngleX = 0.17453292519943295F + animation * 5F;
+			r_foreleg1.xRot = 0.17453292519943295F + (standingAngle * 0.5F * flap) + animation2 * 6F;
+			l_foreleg1.xRot = 0.17453292519943295F - (standingAngle * 0.5F * flap) + animation * 6F;
 
-			r_fore_paw.rotateAngleX = -(standingAngle * 1.25F) -0.17453292519943295F - animation2 * 12F;
-			l_fore_paw.rotateAngleX = -(standingAngle * 1.25F) -0.17453292519943295F - animation * 12F;
+			r_foreleg2.xRot = 0.17453292519943295F + animation2 * 5F;
+			l_foreleg2.xRot = 0.17453292519943295F + animation * 5F;
 
-			r_hindleg1.rotateAngleX = -(standingAngle * 0.75F) -0.1F - animation2 * 6F;
-			l_hindleg1.rotateAngleX = -(standingAngle * 0.75F) -0.1F - animation3 * 6F;
+			r_fore_paw.xRot = -(standingAngle * 1.25F) -0.17453292519943295F - animation2 * 12F;
+			l_fore_paw.xRot = -(standingAngle * 1.25F) -0.17453292519943295F - animation * 12F;
 
-			r_hindleg2.rotateAngleX = standingAngle -1.2217304763960306F + (r_hindleg1.rotateAngleX + animation2);
-			l_hindleg2.rotateAngleX = standingAngle -1.2217304763960306F + (l_hindleg1.rotateAngleX + animation3);
+			r_hindleg1.xRot = -(standingAngle * 0.75F) -0.1F - animation2 * 6F;
+			l_hindleg1.xRot = -(standingAngle * 0.75F) -0.1F - animation3 * 6F;
 
-			r_hindleg3.rotateAngleX = -standingAngle + 1.5707963267948966F;
-			l_hindleg3.rotateAngleX = -standingAngle + 1.5707963267948966F;
+			r_hindleg2.xRot = standingAngle -1.2217304763960306F + (r_hindleg1.xRot + animation2);
+			l_hindleg2.xRot = standingAngle -1.2217304763960306F + (l_hindleg1.xRot + animation3);
 
-			r_hind_paw.rotateAngleX = -(standingAngle * 0.5F) -0.9981317007977318F - r_hindleg1.rotateAngleX * 1.25F;
-			l_hind_paw.rotateAngleX = -(standingAngle * 0.5F) -0.9981317007977318F - l_hindleg1.rotateAngleX * 1.25F;
+			r_hindleg3.xRot = -standingAngle + 1.5707963267948966F;
+			l_hindleg3.xRot = -standingAngle + 1.5707963267948966F;
 
-			body_front.rotateAngleX = -0.17453292519943295F - animation2 * 3F;
+			r_hind_paw.xRot = -(standingAngle * 0.5F) -0.9981317007977318F - r_hindleg1.xRot * 1.25F;
+			l_hind_paw.xRot = -(standingAngle * 0.5F) -0.9981317007977318F - l_hindleg1.xRot * 1.25F;
 
-			body_front.rotateAngleZ = (standingAngle * 0.5F * flap);
+			body_front.xRot = -0.17453292519943295F - animation2 * 3F;
 
-			body_mid.rotateAngleX = -0.6981317007977318F - animation2 * 2F;
+			body_front.zRot = (standingAngle * 0.5F * flap);
 
-			body_rear.rotateAngleX = standingAngle + 0.6981317007977318F + animation2 * 2F;
+			body_mid.xRot = -0.6981317007977318F - animation2 * 2F;
 
-			neck.rotateAngleX = -(standingAngle * 0.5F) -0.17453292519943295F + animation2 * 2.9F;
-			head.rotateAngleX = -(standingAngle * 0.5F) + 0.17453292519943295F;
-			head.rotateAngleZ = -(standingAngle * 0.1F * flap * 6F);
+			body_rear.xRot = standingAngle + 0.6981317007977318F + animation2 * 2F;
+
+			neck.xRot = -(standingAngle * 0.5F) -0.17453292519943295F + animation2 * 2.9F;
+			head.xRot = -(standingAngle * 0.5F) + 0.17453292519943295F;
+			head.zRot = -(standingAngle * 0.1F * flap * 6F);
 		}
 
-		if (!entity.isOnGround())//onGround
-			lower_jaw.rotateAngleX = -0.9F;
+		if (!entity.onGround())//onGround
+			lower_jaw.xRot = -0.9F;
 		else {
 			if(standingAngle > 0)
-				lower_jaw.rotateAngleX = -0.5F + flap * 0.75F;
+				lower_jaw.xRot = -0.5F + flap * 0.75F;
 			else
-				lower_jaw.rotateAngleX = -0.2490658503988659F + flap * 0.2F;
+				lower_jaw.xRot = -0.2490658503988659F + flap * 0.2F;
 			}
 	}
 
-	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+	public void setRotateAngle(ModelPart ModelPart, float x, float y, float z) {
+		ModelPart.xRot = x;
+		ModelPart.yRot = y;
+		ModelPart.zRot = z;
 	}
 }
