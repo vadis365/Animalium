@@ -19,29 +19,29 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 	public ModelPart root;
-	private final ModelPart body_rear;
-	private final ModelPart body_mid;
-	private final ModelPart r_hindleg1;
-	private final ModelPart l_hindleg1;
-	private final ModelPart body_front;
-	private final ModelPart neck;
-	private final ModelPart l_foreleg1;
-	private final ModelPart r_foreleg1;
-	private final ModelPart head;
-	private final ModelPart lower_jaw;
-	private final ModelPart upper_jaw;
-	private final ModelPart l_ear;
-	private final ModelPart r_ear;
-	private final ModelPart l_foreleg2;
-	private final ModelPart l_fore_paw;
-	private final ModelPart r_foreleg2;
-	private final ModelPart r_fore_paw;
-	private final ModelPart r_hindleg2;
-	private final ModelPart r_hindleg3;
-	private final ModelPart r_hind_paw;
-	private final ModelPart l_hindleg2;
-	private final ModelPart l_hindleg3;
-	private final ModelPart l_hind_paw;
+	public ModelPart body_rear;
+	public ModelPart body_mid;
+	public ModelPart r_hindleg1;
+	public ModelPart l_hindleg1;
+	public ModelPart body_front;
+	public ModelPart neck;
+	public ModelPart l_foreleg1;
+	public ModelPart r_foreleg1;
+	public ModelPart head;
+	public ModelPart lower_jaw;
+	public ModelPart upper_jaw;
+	public ModelPart l_ear;
+	public ModelPart r_ear;
+	public ModelPart l_foreleg2;
+	public ModelPart l_fore_paw;
+	public ModelPart r_foreleg2;
+	public ModelPart r_fore_paw;
+	public ModelPart r_hindleg2;
+	public ModelPart r_hindleg3;
+	public ModelPart r_hind_paw;
+	public ModelPart l_hindleg2;
+	public ModelPart l_hindleg3;
+	public ModelPart l_hind_paw;
 
 	public ModelBear(ModelPart root) {
 		this.root = root;
@@ -102,7 +102,7 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		root().render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	@Override
@@ -201,9 +201,5 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 		ModelPart.xRot = x;
 		ModelPart.yRot = y;
 		ModelPart.zRot = z;
-	}
-
-	public ModelPart root() {
-		return root;
 	}
 }

@@ -19,43 +19,43 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 	public ModelPart root;
-	private final ModelPart jawBottom;
-	private final ModelPart toothBL;
-	private final ModelPart toothBML;
-	private final ModelPart toothMBR;
-	private final ModelPart toothBR;
-	private final ModelPart head;
-	private final ModelPart toothTL;
-	private final ModelPart toothTM;
-	private final ModelPart toothTR;
-	private final ModelPart bodyMain;
-	private final ModelPart finDorsal;
-	private final ModelPart finR;
-	private final ModelPart finL;
-	private final ModelPart bodyBack;
-	private final ModelPart tail;
-	private final ModelPart finTailTop;
-	private final ModelPart finTailBottom;
+	public ModelPart jawBottom;
+	public ModelPart toothBL;
+	public ModelPart toothBML;
+	public ModelPart toothMBR;
+	public ModelPart toothBR;
+	public ModelPart head;
+	public ModelPart toothTL;
+	public ModelPart toothTM;
+	public ModelPart toothTR;
+	public ModelPart bodyMain;
+	public ModelPart finDorsal;
+	public ModelPart finR;
+	public ModelPart finL;
+	public ModelPart bodyBack;
+	public ModelPart tail;
+	public ModelPart finTailTop;
+	public ModelPart finTailBottom;
 
 	public ModelPiranha(ModelPart root) {
 		this.root = root;
-		this.jawBottom = root.getChild("root").getChild("jawBottom");
-		this.toothBL = root.getChild("toothBL");
-		this.toothBML = root.getChild("toothBML");
-		this.toothMBR = root.getChild("toothMBR");
-		this.toothBR = root.getChild("toothBR");
-		this.head = root.getChild("head");
-		this.toothTL = root.getChild("toothTL");
-		this.toothTM = root.getChild("toothTM");
-		this.toothTR = root.getChild("toothTR");
-		this.bodyMain = root.getChild("bodyMain");
-		this.finDorsal = root.getChild("finDorsal");
-		this.finR = root.getChild("finR");
-		this.finL = root.getChild("finL");
-		this.bodyBack = bodyMain.getChild("bodyBack");
-		this.tail = bodyBack.getChild("tail");
-		this.finTailTop = tail.getChild("finTailTop");
-		this.finTailBottom = tail.getChild("finTailBottom");
+		jawBottom = root.getChild("root").getChild("jawBottom");
+		toothBL = root.getChild("toothBL");
+		toothBML = root.getChild("toothBML");
+		toothMBR = root.getChild("toothMBR");
+		toothBR = root.getChild("toothBR");
+		head = root.getChild("head");
+		toothTL = root.getChild("toothTL");
+		toothTM = root.getChild("toothTM");
+		toothTR = root.getChild("toothTR");
+		bodyMain = root.getChild("bodyMain");
+		finDorsal = root.getChild("finDorsal");
+		finR = root.getChild("finR");
+		finL = root.getChild("finL");
+		bodyBack = bodyMain.getChild("bodyBack");
+		tail = bodyBack.getChild("tail");
+		finTailTop = tail.getChild("finTailTop");
+		finTailBottom = tail.getChild("finTailBottom");
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -84,7 +84,7 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		root().render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	@Override
@@ -109,9 +109,5 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 		tail.yRot = bodyMain.yRot * 1.4F;
 		finTailTop.yRot = bodyMain.yRot * 1.6F;
 		finTailBottom.yRot = bodyMain.yRot * 1.6F;
-	}
-
-	public ModelPart root() {
-		return root;
 	}
 }

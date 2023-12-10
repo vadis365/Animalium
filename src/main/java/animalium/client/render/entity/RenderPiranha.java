@@ -1,11 +1,11 @@
 package animalium.client.render.entity;
 
-import animalium.client.ClientEvents;
-
-import animalium.client.model.ModelPiranha;
-import animalium.common.entities.EntityPiranha;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
+import animalium.client.ClientEvents;
+import animalium.client.model.ModelPiranha;
+import animalium.common.entities.EntityPiranha;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ public class RenderPiranha extends MobRenderer<EntityPiranha, ModelPiranha<Entit
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/piranha.png");
 
 	public RenderPiranha(EntityRendererProvider.Context context) {
-        super(context, new ModelPiranha(context.bakeLayer(ClientEvents.PIRANHA)), 0.5F);
+        super(context, new ModelPiranha<>(context.bakeLayer(ClientEvents.PIRANHA)), 0.5F);
     }
 
 	@Override

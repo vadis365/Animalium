@@ -20,63 +20,63 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ModelRat<T extends EntityRat> extends EntityModel<T> {
 	public ModelPart root;
-    ModelPart body_rear;
-    ModelPart body_mid;
-    ModelPart r_hindleg1;
-    ModelPart l_hindleg1;
-    ModelPart tail1;
-    ModelPart body_front;
-    ModelPart neck;
-    ModelPart l_foreleg1;
-    ModelPart r_foreleg1;
-    ModelPart head;
-    ModelPart lower_jaw;
-    ModelPart upper_jaw;
-    ModelPart l_ear;
-    ModelPart r_ear;
-    ModelPart l_foreleg2;
-    ModelPart l_fore_paw;
-    ModelPart r_foreleg2;
-    ModelPart r_fore_paw;
-    ModelPart r_hindleg2;
-    ModelPart r_hindleg3;
-    ModelPart r_hind_paw;
-    ModelPart l_hindleg2;
-    ModelPart l_hindleg3;
-    ModelPart l_hind_paw;
-    ModelPart tail2;
-    ModelPart tail3;
-    ModelPart tail4;
+	public ModelPart body_rear;
+	public ModelPart body_mid;
+	public ModelPart r_hindleg1;
+	public ModelPart l_hindleg1;
+	public ModelPart tail1;
+	public ModelPart body_front;
+	public ModelPart neck;
+	public ModelPart l_foreleg1;
+	public ModelPart r_foreleg1;
+	public ModelPart head;
+	public ModelPart lower_jaw;
+	public ModelPart upper_jaw;
+	public ModelPart l_ear;
+	public ModelPart r_ear;
+	public ModelPart l_foreleg2;
+	public ModelPart l_fore_paw;
+	public ModelPart r_foreleg2;
+	public ModelPart r_fore_paw;
+	public ModelPart r_hindleg2;
+	public ModelPart r_hindleg3;
+	public ModelPart r_hind_paw;
+	public ModelPart l_hindleg2;
+	public ModelPart l_hindleg3;
+	public ModelPart l_hind_paw;
+	public ModelPart tail2;
+	public ModelPart tail3;
+	public ModelPart tail4;
 
     public ModelRat(ModelPart root) {
     	this.root = root;
-        this.body_rear = root.getChild("root").getChild("body_rear");
-        this.l_hindleg1 = body_rear.getChild("l_hindleg1");
-        this.l_hindleg2 = l_hindleg1.getChild("l_hindleg2");
-        this.l_hindleg3 = l_hindleg2.getChild("l_hindleg3");
-        this.l_hind_paw = l_hindleg3.getChild("l_hind_paw");
-        this.tail1 = body_rear.getChild("tail1");
-        this.tail2 = tail1.getChild("tail2");
-        this.tail3 = tail2.getChild("tail3");
-        this.tail4 = tail3.getChild("tail4");
-        this.r_hindleg1 = body_rear.getChild("r_hindleg1");
-        this.r_hindleg2 = r_hindleg1.getChild("r_hindleg2");
-        this.r_hindleg3 = r_hindleg2.getChild("r_hindleg3");
-        this.r_hind_paw = r_hindleg3.getChild("r_hind_paw");
-        this.body_mid = body_rear.getChild("body_mid");
-        this.body_front = body_mid.getChild("body_front");
-        this.r_foreleg1 = body_front.getChild("r_foreleg1");
-        this.r_foreleg2 = r_foreleg1.getChild("r_foreleg2");
-        this.r_fore_paw = r_foreleg2.getChild("r_fore_paw");
-        this.neck = body_front.getChild("neck");
-        this.head = neck.getChild("head");
-        this.upper_jaw = head.getChild("upper_jaw");
-        this.l_ear = head.getChild("l_ear");
-        this.lower_jaw = head.getChild("lower_jaw");
-        this.r_ear = head.getChild("r_ear");
-        this.l_foreleg1 = body_front.getChild("l_foreleg1");
-        this.l_foreleg2 = l_foreleg1.getChild("l_foreleg2");
-        this.l_fore_paw = l_foreleg2.getChild("l_fore_paw");
+        body_rear = root.getChild("root").getChild("body_rear");
+        l_hindleg1 = body_rear.getChild("l_hindleg1");
+        l_hindleg2 = l_hindleg1.getChild("l_hindleg2");
+        l_hindleg3 = l_hindleg2.getChild("l_hindleg3");
+        l_hind_paw = l_hindleg3.getChild("l_hind_paw");
+        tail1 = body_rear.getChild("tail1");
+        tail2 = tail1.getChild("tail2");
+        tail3 = tail2.getChild("tail3");
+        tail4 = tail3.getChild("tail4");
+        r_hindleg1 = body_rear.getChild("r_hindleg1");
+        r_hindleg2 = r_hindleg1.getChild("r_hindleg2");
+        r_hindleg3 = r_hindleg2.getChild("r_hindleg3");
+        r_hind_paw = r_hindleg3.getChild("r_hind_paw");
+        body_mid = body_rear.getChild("body_mid");
+        body_front = body_mid.getChild("body_front");
+        r_foreleg1 = body_front.getChild("r_foreleg1");
+        r_foreleg2 = r_foreleg1.getChild("r_foreleg2");
+        r_fore_paw = r_foreleg2.getChild("r_fore_paw");
+        neck = body_front.getChild("neck");
+        head = neck.getChild("head");
+        upper_jaw = head.getChild("upper_jaw");
+        l_ear = head.getChild("l_ear");
+        lower_jaw = head.getChild("lower_jaw");
+        r_ear = head.getChild("r_ear");
+        l_foreleg1 = body_front.getChild("l_foreleg1");
+        l_foreleg2 = l_foreleg1.getChild("l_foreleg2");
+        l_fore_paw = l_foreleg2.getChild("l_fore_paw");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -115,7 +115,7 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
  
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		root().render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	@Override
@@ -210,9 +210,5 @@ public class ModelRat<T extends EntityRat> extends EntityModel<T> {
 		else
 			lower_jaw.xRot = -0.2490658503988659F + flap * 0.2F;
 
-	}
-
-	public ModelPart root() {
-		return root;
 	}
 }

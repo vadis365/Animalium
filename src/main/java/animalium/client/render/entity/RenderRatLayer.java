@@ -1,9 +1,10 @@
 package animalium.client.render.entity;
 
-import animalium.client.model.ModelRat;
-import animalium.common.entities.EntityRat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
+import animalium.client.model.ModelRat;
+import animalium.common.entities.EntityRat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;

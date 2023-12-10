@@ -1,11 +1,11 @@
 package animalium.client.render.entity;
 
-import animalium.client.ClientEvents;
-
-import animalium.client.model.ModelRat;
-import animalium.common.entities.EntityRat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+
+import animalium.client.ClientEvents;
+import animalium.client.model.ModelRat;
+import animalium.common.entities.EntityRat;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +18,7 @@ public class RenderRat extends MobRenderer<EntityRat, ModelRat<EntityRat>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/rat.png");
 
 	public RenderRat(EntityRendererProvider.Context context) {
-        super(context, new ModelRat(context.bakeLayer(ClientEvents.RAT)), 0.5F);
+        super(context, new ModelRat<>(context.bakeLayer(ClientEvents.RAT)), 0.5F);
         this.addLayer(new RenderRatLayer(this));
     }
 

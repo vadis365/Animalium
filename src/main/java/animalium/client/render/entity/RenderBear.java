@@ -1,10 +1,11 @@
 package animalium.client.render.entity;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+
 import animalium.client.ClientEvents;
 import animalium.client.model.ModelBear;
 import animalium.common.entities.EntityBear;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +17,7 @@ public class RenderBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
 	public static final ResourceLocation TEXTURE = new ResourceLocation("animalium:textures/entity/bear.png");
 
 	public RenderBear(EntityRendererProvider.Context context) {
-        super(context, new ModelBear(context.bakeLayer(ClientEvents.BEAR)), 1.5F);
+        super(context, new ModelBear<>(context.bakeLayer(ClientEvents.BEAR)), 1.5F);
     }
 
 	@Override
