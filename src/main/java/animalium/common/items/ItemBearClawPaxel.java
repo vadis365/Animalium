@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 public class ItemBearClawPaxel extends DiggerItem {
 
@@ -61,9 +60,8 @@ public class ItemBearClawPaxel extends DiggerItem {
 		return stack.getItem() == ModItems.BEAR_CLAW.get();
 	}
 
-
 	@Override
-	public @NotNull InteractionResult useOn(UseOnContext context) {
+	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
 		BlockPos blockpos = context.getClickedPos();
 		BlockState blockstate = level.getBlockState(blockpos);

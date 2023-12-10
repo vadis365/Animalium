@@ -8,16 +8,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 
 public class EntityNeutralBear extends EntityBear {
@@ -40,7 +42,7 @@ public class EntityNeutralBear extends EntityBear {
 	}
 
 	@Override
-    public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack is = player.getItemInHand(hand);
 		float healingBuff = 0.0F;
 		if (!level().isClientSide && !is.isEmpty() && is.getItem() == ModItems.RAT_MEAT.get()) {
@@ -65,7 +67,7 @@ public class EntityNeutralBear extends EntityBear {
 	@Override
     public void travel(Vec3 travel_vector) {
         if (isVehicle()) {
-			LivingEntity RiderEntity = (LivingEntity) this.getFirstPassenger();
+			LivingEntity RiderEntity = (LivingEntity)getControllingPassenger();
 			if (RiderEntity != null) {
 				this.setYRot(RiderEntity.getYRot());
 				this.yRotO = this.getYRot();
@@ -181,7 +183,7 @@ public class EntityNeutralBear extends EntityBear {
 			double a = Math.toRadians(yBodyRot);
 			double offSetX = -Math.sin(a) * 0.35D;
 			double offSetZ = Math.cos(a) * 0.35D;
-			entity.setPos(getX() - offSetX, getY() + 1.65D + entity.getMyRidingOffset(entity), getZ() - offSetZ);
+			entity.setPos(getX() - offSetX, getY() + 1.65D + entity.getMyRidingOffset(), getZ() - offSetZ);
 		}
 	}
 }

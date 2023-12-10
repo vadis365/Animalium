@@ -144,10 +144,10 @@ public class EntityRat extends Monster {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
-		//ResourceKey<Level> dimensionKey = level.dimension();
+		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
 
-		//if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.RAT_BLACKLISTED_DIMS.get()))
-		//	return false;
+		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.RAT_BLACKLISTED_DIMS.get()))
+			return false;
         return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
 	}
 
@@ -246,7 +246,7 @@ public class EntityRat extends Monster {
 		}
 
 		@Override
-		protected void checkAndPerformAttack(LivingEntity enemy) {
+		protected void checkAndPerformAttack(LivingEntity enemy, double p_25558_) {
 			double attackReachSqr = (1.8D + enemy.getBbWidth()) * (1.8D + enemy.getBbWidth());
 			if (this.mob.distanceToSqr(enemy.getX(), enemy.getY(), enemy.getZ()) <= attackReachSqr) {
 				this.resetAttackCooldown();

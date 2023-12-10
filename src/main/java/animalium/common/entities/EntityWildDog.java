@@ -79,10 +79,10 @@ public class EntityWildDog extends Monster {
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
-//		ResourceKey<Level> dimensionKey = level.dimension();
-//
-//		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.WILD_DOG_BLACKLISTED_DIMS.get()))
-//			return false;
+		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
+
+		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.WILD_DOG_BLACKLISTED_DIMS.get()))
+			return false;
 
 		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
 	}
@@ -164,7 +164,7 @@ public class EntityWildDog extends Monster {
 
 
 		@Override
-		protected void checkAndPerformAttack(LivingEntity enemy) {
+		protected void checkAndPerformAttack(LivingEntity enemy, double p_25558_) {
 			double attackReachSqr = (1.8D + enemy.getBbWidth()) * (1.8D + enemy.getBbWidth());
 			if (this.mob.distanceToSqr(enemy.getX(), enemy.getY(), enemy.getZ()) <= attackReachSqr) {
 				this.resetAttackCooldown();

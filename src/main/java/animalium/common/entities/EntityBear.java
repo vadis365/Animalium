@@ -1,23 +1,32 @@
 package animalium.common.entities;
 
+import animalium.configs.Config;
 import animalium.init.ModEntities;
 import animalium.init.ModItems;
-import animalium.configs.Config;
 import animalium.utils.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -137,10 +146,10 @@ public class EntityBear extends Monster {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
-//		ResourceKey<Level> dimensionKey = level.dimension();
-//
-//		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.BEAR_BLACKLISTED_DIMS))
-//			return false;
+		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
+
+		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.BEAR_BLACKLISTED_DIMS.get()))
+			return false;
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
 			if (level.getSkyDarken() < 4)
 				return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.BEAR_SPAWN_Y_HEIGHT.get();
@@ -216,7 +225,7 @@ public class EntityBear extends Monster {
 		}
 
 		@Override
-		protected void checkAndPerformAttack(LivingEntity enemy) {
+		protected void checkAndPerformAttack(LivingEntity enemy, double p_25558_) {
 			double attackReachSqr = (2D + enemy.getBbWidth()) * (2D + enemy.getBbWidth());
 			if (this.mob.distanceToSqr(enemy.getX(), enemy.getY(), enemy.getZ()) <= attackReachSqr) {
 				this.resetAttackCooldown();

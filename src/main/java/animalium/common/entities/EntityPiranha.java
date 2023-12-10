@@ -120,10 +120,10 @@ public class EntityPiranha extends Monster {
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
-//		ResourceKey<Level> dimensionKey = level.dimension();
-//
-//		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.PIRANHA_BLACKLISTED_DIMS.get()))
-//			return false;
+		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
+
+		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.PIRANHA_BLACKLISTED_DIMS.get()))
+			return false;
 		if(pos.getY() < 45.0D || pos.getY() >= 80)
 			return false;
 		return (random.nextInt(10) == 0 || !level.canSeeSky(pos)) && level.getDifficulty() != Difficulty.PEACEFUL && (spawn == MobSpawnType.SPAWNER || level.getFluidState(pos).is(FluidTags.WATER));
@@ -339,7 +339,7 @@ public class EntityPiranha extends Monster {
 		}
 
 		@Override
-		protected void checkAndPerformAttack(LivingEntity enemy) {
+		protected void checkAndPerformAttack(LivingEntity enemy, double p_25558_) {
 			double attackRange = (double) ((enemy.getBbWidth() + 0.5F) * (enemy.getBbWidth() + 0.5F));
 			if (this.mob.distanceToSqr(enemy.getX(), enemy.getY(), enemy.getZ()) <= attackRange) {
 				this.resetAttackCooldown();
