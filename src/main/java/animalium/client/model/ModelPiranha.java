@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import animalium.common.entities.EntityPiranha;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
+public class ModelPiranha<T extends EntityPiranha> extends HierarchicalModel<T> {
 	public ModelPart root;
 	public ModelPart jawBottom;
 	public ModelPart toothBL;
@@ -84,7 +84,7 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		root().render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	@Override
@@ -109,5 +109,10 @@ public class ModelPiranha<T extends EntityPiranha> extends EntityModel<T> {
 		tail.yRot = bodyMain.yRot * 1.4F;
 		finTailTop.yRot = bodyMain.yRot * 1.6F;
 		finTailBottom.yRot = bodyMain.yRot * 1.6F;
+	}
+
+	@Override
+	public ModelPart root() {
+		return root;
 	}
 }

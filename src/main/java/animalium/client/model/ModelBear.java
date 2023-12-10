@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import animalium.common.entities.EntityBear;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ModelBear<T extends EntityBear> extends EntityModel<T> {
+public class ModelBear<T extends EntityBear> extends HierarchicalModel<T> {
 	public ModelPart root;
 	public ModelPart body_rear;
 	public ModelPart body_mid;
@@ -102,7 +102,7 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		root().render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	@Override
@@ -201,5 +201,10 @@ public class ModelBear<T extends EntityBear> extends EntityModel<T> {
 		ModelPart.xRot = x;
 		ModelPart.yRot = y;
 		ModelPart.zRot = z;
+	}
+
+	@Override
+	public ModelPart root() {
+		return root;
 	}
 }
