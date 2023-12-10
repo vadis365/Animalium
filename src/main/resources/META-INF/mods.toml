@@ -1,21 +1,20 @@
 modLoader="javafml"
-loaderVersion="${loader_version_range}"
-license="${mod_license}"
+loaderVersion="[44,)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/vadis365/Animalium/issues"
+displayURL="https://github.com/vadis365/Animalium"
 [[mods]]
-modId="${mod_id}" #mandatory
-version="${mod_version}" #mandatory
-displayName="${mod_name}" #mandatory
-authors="${mod_authors}" #optional
-description='''${mod_description}'''
-[[dependencies.${mod_id}]] #optional
-modId="forge" #mandatory
-mandatory=true #mandatory
-versionRange="${forge_version_range}" #mandatory
-ordering="NONE"
-side="BOTH"
-[[dependencies.${mod_id}]]
-modId="minecraft"
+modId="animalium"
+version="1.0.0"
+displayName="Animalium"
+credits="Thanks to people and stuff."
+authors="vadis365"
+description='''
+Some Aggro Beasts originally made for The Invasion Modpack.
+'''
+[[dependencies.animalium]]
+modId="forge"
 mandatory=true
-versionRange="${minecraft_version_range}"
+versionRange="[1.20.1,)"
 ordering="NONE"
 side="BOTH"
