@@ -108,7 +108,7 @@ public class ModelBear<T extends EntityBear> extends HierarchicalModel<T> {
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		head.yRot = (float) Math.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
-		neck.yRot =(float) Math.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
+		neck.yRot = (float) Math.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
 	}
 
 	@Override
