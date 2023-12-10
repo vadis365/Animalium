@@ -67,7 +67,7 @@ public class EntityNeutralBear extends EntityBear {
 	@Override
     public void travel(Vec3 travel_vector) {
         if (isVehicle()) {
-			LivingEntity RiderEntity = (LivingEntity)getControllingPassenger();
+			LivingEntity RiderEntity = (LivingEntity)getFirstPassenger();
 			if (RiderEntity != null) {
 				this.setYRot(RiderEntity.getYRot());
 				this.yRotO = this.getYRot();
