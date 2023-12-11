@@ -107,16 +107,16 @@ public class ModelBear<T extends EntityBear> extends HierarchicalModel<T> {
 
 	@Override
 	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		head.yRot = (float) Math.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
-		neck.yRot = (float) Math.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
+		head.yRot = Mth.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
+		neck.yRot = Mth.sin((netHeadYaw / (180F / (float) Math.PI)) * 0.5F);
 	}
 
 	@Override
 	public void prepareMobModel(T entity, float limbSwing, float limbSwingAngle, float partialRenderTicks) {
-		float animation = (float) (Math.sin((limbSwing * 0.6F + 2) * 0.5F) * 0.3F * limbSwingAngle * 0.3F);
-		float animation2 = (float) (Math.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F);
-		float animation3 = (float) (Math.sin((limbSwing * 0.6F + 4) * 0.5F) * 0.3F * limbSwingAngle * 0.3F);
-		float flap = (float) (Math.sin((entity.tickCount) * 0.3F) * 0.8F);
+		float animation = Mth.sin((limbSwing * 0.6F + 2F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float animation2 = Mth.sin((limbSwing * 0.6F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float animation3 = Mth.sin((limbSwing * 0.6F + 4F) * 0.5F) * 0.3F * limbSwingAngle * 0.3F;
+		float flap = Mth.sin((entity.tickCount) * 0.3F) * 0.8F;
 		float standingAngle = entity.smoothedAngle(partialRenderTicks);
 
 		if (entity.getX() == entity.xOld) {

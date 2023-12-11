@@ -29,8 +29,8 @@ public class ModEntities {
 	public static final RegistryObject< EntityType<EntityPiranha>> PIRANHA = ENTITIES.register("piranha", () -> EntityType.Builder.of(EntityPiranha::new, MobCategory.MONSTER).sized(0.9F, 0.9F).build(Util.MOD_ID + "piranha"));
 	public static RegistryObject<EntityType<EntityWildDog>> WILD_DOG = ENTITIES.register("wild_dog", () -> EntityType.Builder.of(EntityWildDog::new, MobCategory.MONSTER).sized(0.9F, 1.2F).build(Util.MOD_ID + "wild_dog"));
 	public static RegistryObject< EntityType<EntityBear>> BEAR = ENTITIES.register("bear", () -> EntityType.Builder.of(EntityBear::new, MobCategory.MONSTER).sized(2F, 2F).build(Util.MOD_ID + "bear"));
-	public static RegistryObject< EntityType<EntityNeutralBear>> BEAR_TAMED = ENTITIES.register("bear_tamed", () -> EntityType.Builder.of(EntityNeutralBear::new, MobCategory.MONSTER).sized(2F, 2F).build(Util.MOD_ID + "bear_tamed"));;
-	public static RegistryObject< EntityType<EntityRat>> RAT = ENTITIES.register("rat", () -> EntityType.Builder.of(EntityRat::new, MobCategory.MONSTER).sized(0.9F, 0.9F).build(Util.MOD_ID + "rat"));;
+	public static RegistryObject< EntityType<EntityNeutralBear>> BEAR_TAMED = ENTITIES.register("bear_tamed", () -> EntityType.Builder.of(EntityNeutralBear::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(3).setUpdateInterval(1).sized(2F, 2F).build(Util.MOD_ID + "bear_tamed"));
+	public static RegistryObject< EntityType<EntityRat>> RAT = ENTITIES.register("rat", () -> EntityType.Builder.of(EntityRat::new, MobCategory.MONSTER).sized(0.9F, 0.9F).build(Util.MOD_ID + "rat"));
 
 	@SubscribeEvent
 	public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
