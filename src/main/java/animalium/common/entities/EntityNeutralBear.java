@@ -9,11 +9,13 @@ import com.google.common.collect.Lists;
 
 import animalium.init.ModItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 
@@ -69,7 +72,7 @@ public class EntityNeutralBear extends EntityBear {
 	@Override
 	public void travel(Vec3 travel_vector) {
 		if (isVehicle()) {
-			LivingEntity RiderEntity = (LivingEntity) getRider();
+			LivingEntity RiderEntity = getControllingPassenger();
 			if (RiderEntity != null) {
 				this.setYRot(RiderEntity.getYRot());
 				this.yRotO = this.getYRot();
@@ -114,41 +117,67 @@ public class EntityNeutralBear extends EntityBear {
 		return false;
 	}
 
-	// Copy of boat dismounting location code
-	public Vec3 getDismountLocationForPassenger(LivingEntity entity) {
-		Vec3 vec3 = getCollisionHorizontalEscapeVector((double) (this.getBbWidth() * Mth.SQRT_OF_TWO), (double) entity.getBbWidth(), entity.getYRot());
-		double d0 = this.getX() + vec3.x;
-		double d1 = this.getZ() + vec3.z;
-		BlockPos blockpos = BlockPos.containing(d0, this.getBoundingBox().maxY, d1);
-		BlockPos blockpos1 = blockpos.below();
-		if (!this.level().isWaterAt(blockpos1)) {
-			List<Vec3> list = Lists.newArrayList();
-			double d2 = this.level().getBlockFloorHeight(blockpos);
-			if (DismountHelper.isBlockFloorValid(d2)) {
-				list.add(new Vec3(d0, (double) blockpos.getY() + d2, d1));
-			}
+	@Nullable
+	private Vec3 getDismountLocationInDirection(Vec3 vector, LivingEntity entity) {
+		double d0 = this.getX() + vector.x;
+		double d1 = this.getBoundingBox().minY;
+		double d2 = this.getZ() + vector.z;
+		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-			double d3 = this.level().getBlockFloorHeight(blockpos1);
-			if (DismountHelper.isBlockFloorValid(d3)) {
-				list.add(new Vec3(d0, (double) blockpos1.getY() + d3, d1));
-			}
+		for (Pose pose : entity.getDismountPoses()) {
+			blockpos$mutableblockpos.set(d0, d1, d2);
+			double d3 = this.getBoundingBox().maxY + 0.75D;
 
-			for (Pose pose : entity.getDismountPoses()) {
-				for (Vec3 vec31 : list) {
-					if (DismountHelper.canDismountTo(this.level(), vec31, entity, pose)) {
+			while (true) {
+				double d4 = this.level().getBlockFloorHeight(blockpos$mutableblockpos);
+				if ((double) blockpos$mutableblockpos.getY() + d4 > d3) {
+					break;
+				}
+
+				if (DismountHelper.isBlockFloorValid(d4)) {
+					AABB aabb = entity.getLocalBoundsForPose(pose);
+					Vec3 vec3 = new Vec3(d0, (double) blockpos$mutableblockpos.getY() + d4, d2);
+					if (DismountHelper.canDismountTo(this.level(), entity, aabb.move(vec3))) {
 						entity.setPose(pose);
-						return vec31;
+						return vec3;
 					}
+				}
+
+				blockpos$mutableblockpos.move(Direction.UP);
+				if (!((double) blockpos$mutableblockpos.getY() < d3)) {
+					break;
 				}
 			}
 		}
-		return super.getDismountLocationForPassenger(entity);
+
+		return null;
+	}
+
+	@Override
+	public Vec3 getDismountLocationForPassenger(LivingEntity entity) {
+		Vec3 vec3 = getCollisionHorizontalEscapeVector((double) this.getBbWidth(), (double) entity.getBbWidth(),
+				this.getYRot() + (entity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
+		Vec3 vec31 = this.getDismountLocationInDirection(vec3, entity);
+		if (vec31 != null) {
+			return vec31;
+		} else {
+			Vec3 vec32 = getCollisionHorizontalEscapeVector((double) this.getBbWidth(), (double) entity.getBbWidth(),
+					this.getYRot() + (entity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
+			Vec3 vec33 = this.getDismountLocationInDirection(vec32, entity);
+			return vec33 != null ? vec33 : this.position();
+		}
 	}
 
     @Override
     public boolean isControlledByLocalInstance() {
         Entity entity = this.getRider();
         return entity instanceof Player ? ((Player)entity).isLocalPlayer() : !this.level().isClientSide;
+    }
+
+    @Nullable
+    @Override
+    public LivingEntity getControllingPassenger() {
+       return getRider() instanceof LivingEntity ? (LivingEntity) getRider() : null;
     }
 
     @Nullable
