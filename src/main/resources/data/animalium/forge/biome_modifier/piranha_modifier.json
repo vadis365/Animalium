@@ -3,7 +3,9 @@
   "biomes": [
     "forest",
     "jungle",
-    "swamp"
+    "swamp",
+    "ocean",
+    "river"
   ],
   "spawners": {
     "type": "animalium:piranha",

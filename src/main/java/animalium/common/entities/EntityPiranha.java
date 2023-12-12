@@ -173,10 +173,10 @@ public class EntityPiranha extends Monster {
 		playSound(isInWater() ? SoundEvents.GENERIC_SWIM : SoundEvents.GUARDIAN_FLOP, 0.5F, 2F);
     }
 
-//	@SuppressWarnings("deprecation")
-//	public float getBlockPathWeight(BlockPos pos, LevelReader world) {
-//		return world.getFluidState(pos).is(FluidTags.WATER) ? 10.0F + world.getBrightness(pos) - 0.5F : super.getWalkTargetValue(pos, world);
-//	}
+	@Override
+	public float getWalkTargetValue(BlockPos pos, LevelReader level) {
+		return level.getFluidState(pos).is(FluidTags.WATER) ? 10.0F + level.getMaxLocalRawBrightness(pos) - 0.5F : super.getWalkTargetValue(pos, level);
+	}
 
 	@Override
 	public void aiStep() {

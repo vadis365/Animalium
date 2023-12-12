@@ -75,7 +75,7 @@ public class EntityWildDog extends Monster {
 	}
 
 	public static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-        return level.getRawBrightness(pos, 0) < 11;
+        return level.getBrightness(LightLayer.BLOCK, pos) < 11;
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {

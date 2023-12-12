@@ -136,14 +136,11 @@ public class EntityBear extends Monster {
 	}
 
 	protected static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
-			if (level.getSkyDarken() < 5) {
-				if (level.getRawBrightness(pos, 0) >= 6)
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get())
+			if (((Level) level).isDay())
+				if (level.getBrightness(LightLayer.BLOCK, pos) >= 5)
 					return true;
-			}
-		} else if (level.getRawBrightness(pos, 0) >= 8)
-			return false;
-		return true;
+		return !(level.getBrightness(LightLayer.BLOCK, pos) >= 8);
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
@@ -152,6 +149,8 @@ public class EntityBear extends Monster {
 			return false;
 		if(pos.getY() < Config.BEAR_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.BEAR_SPAWN_MAX_Y_HEIGHT.get())
 			return false;
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get() && checkAnyLightMonsterSpawnRules(entity, level, spawn, pos, random))
+			return isValidLightLevel(level, pos.above());
 		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
 	}
 
