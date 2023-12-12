@@ -122,7 +122,7 @@ public class ModelBear<T extends EntityBear> extends HierarchicalModel<T> {
 		if (entity.getX() == entity.xOld) {
 			r_foreleg1.xRot = 0.17453292519943295F + (animation2 * 8F) + flap * 0.05F;
 			r_foreleg2.xRot = 0.17453292519943295F + (animation2 * 6F) - flap * 0.025F;
-			r_fore_paw.xRot = -(standingAngle*1.25F) -0.17453292519943295F - animation2 * 18F + flap * 0.05F;
+			r_fore_paw.xRot = -(standingAngle * 1.25F) -0.17453292519943295F - (animation2 * 18F) + flap * 0.05F;
 
 			l_foreleg1.xRot = 0.17453292519943295F + (animation * 8F) + flap * 0.05F;
 			l_foreleg2.xRot = 0.17453292519943295F + (animation * 6F) - flap * 0.025F;

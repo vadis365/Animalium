@@ -1,11 +1,7 @@
 package animalium.common.entities;
 
 
-import java.util.List;
-
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
 
 import animalium.init.ModItems;
 import net.minecraft.core.BlockPos;
@@ -95,19 +91,15 @@ public class EntityNeutralBear extends EntityBear {
 					setSpeed((float) getAttribute(Attributes.MOVEMENT_SPEED).getValue());
 					super.travel(new Vec3(strafe, travel_vector.y, forward));
 				}
+				
+	            double d1 = getX() - xOld;
+	            double d0 = getZ() - zOld;
+	            float f2 = Mth.sqrt((float) (d1 * d1 + d0 * d0)) * 4.0F;
+	            if (f2 > 1.0F)
+	                f2 = 1.0F;
+	            this.walkAnimation.update(f2, 0.4F);
 			}
-
-//	            this.walkAnimation. = limbSwingAmount;
-//	            double d1 = getPosX() - prevPosX;
-//	            double d0 = getPosZ() - prevPosZ;
-//	            float f2 = Mth.sqrt(d1 * d1 + d0 * d0) * 4.0F;
-			//
-//	            if (f2 > 1.0F)
-//	                f2 = 1.0F;
-//	            limbSwingAmount += (f2 - limbSwingAmount) * 0.4F;
-//	            limbSwing += limbSwingAmount;
 		} else {
-			// jumpMovementFactor = 0.02F;
 			super.travel(travel_vector);
 		}
 	}

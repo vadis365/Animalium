@@ -127,7 +127,7 @@ public class EntityBear extends Monster {
 
 	@OnlyIn(Dist.CLIENT)
     public float smoothedAngle(float partialTicks) {
-        return prevStandingAngle + (standingAngle - prevStandingAngle) * partialTicks;
+        return standingAngle + (standingAngle - prevStandingAngle) * partialTicks;
     }
 
 	@Override
