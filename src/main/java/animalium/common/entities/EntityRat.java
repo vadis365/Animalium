@@ -140,17 +140,17 @@ public class EntityRat extends Monster {
 	}
 
 	public static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-        return level.getBrightness(LightLayer.BLOCK, pos) < 8;
+        return level.getBrightness(LightLayer.BLOCK, pos) < 11;
     }
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
 		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
-
 		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.RAT_BLACKLISTED_DIMS.get()))
 			return false;
-        return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.RAT_SPAWN_Y_HEIGHT.get();
+		if(pos.getY() < Config.RAT_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.RAT_SPAWN_MAX_Y_HEIGHT.get())
+			return false;
+        return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
 	}
-
 
 	public static String getDimensionRegName(ResourceKey<Level> reg) {
 		return reg.location().toString();

@@ -75,16 +75,16 @@ public class EntityWildDog extends Monster {
 	}
 
 	public static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-        return level.getBrightness(LightLayer.BLOCK, pos) < 8;
+        return level.getRawBrightness(pos, 0) < 11;
     }
 
 	public static boolean canSpawnHere(EntityType<EntityWildDog> entity, LevelAccessor level, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
 		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
-
 		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.WILD_DOG_BLACKLISTED_DIMS.get()))
 			return false;
-
-		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.WILD_DOG_SPAWN_Y_HEIGHT.get();
+		if(pos.getY() < Config.WILD_DOG_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.WILD_DOG_SPAWN_MAX_Y_HEIGHT.get())
+			return false;
+		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
 	}
 
 	@Override

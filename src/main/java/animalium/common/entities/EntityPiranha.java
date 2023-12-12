@@ -2,9 +2,9 @@ package animalium.common.entities;
 
 import java.util.List;
 
+import animalium.configs.Config;
 import animalium.init.ModEntities;
 import animalium.init.ModItems;
-import animalium.configs.Config;
 import animalium.utils.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,12 +21,22 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -121,14 +131,12 @@ public class EntityPiranha extends Monster {
 
 	public static boolean canSpawnHere(EntityType<EntityPiranha> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
 		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
-
 		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.PIRANHA_BLACKLISTED_DIMS.get()))
 			return false;
-		if(pos.getY() < 45.0D || pos.getY() >= 80)
+		if(pos.getY() < Config.PIRANHA_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.PIRANHA_SPAWN_MAX_Y_HEIGHT.get())
 			return false;
 		return (random.nextInt(10) == 0 || !level.canSeeSky(pos)) && level.getDifficulty() != Difficulty.PEACEFUL && (spawn == MobSpawnType.SPAWNER || level.getFluidState(pos).is(FluidTags.WATER));
 	}
-
 
 	@Override
 	public int getMaxSpawnClusterSize() {

@@ -137,26 +137,22 @@ public class EntityBear extends Monster {
 
 	protected static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
-			if (level.getSkyDarken() < 4)
-				if (level.getBrightness(LightLayer.BLOCK, pos) >= 6)
+			if (level.getSkyDarken() < 5) {
+				if (level.getRawBrightness(pos, 0) >= 6)
 					return true;
-		} else if (level.getBrightness(LightLayer.BLOCK, pos) >= 8)
+			}
+		} else if (level.getRawBrightness(pos, 0) >= 8)
 			return false;
 		return true;
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
 		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
-
 		if (Util.isDimBlacklisted(dimensionKey.location().toString(), Config.BEAR_BLACKLISTED_DIMS.get()))
 			return false;
-		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get()) {
-			if (level.getSkyDarken() < 4)
-				return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.BEAR_SPAWN_Y_HEIGHT.get();
-			else
-				return false;
-		}
-		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos) && pos.getY() <= Config.BEAR_SPAWN_Y_HEIGHT.get();
+		if(pos.getY() < Config.BEAR_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.BEAR_SPAWN_MAX_Y_HEIGHT.get())
+			return false;
+		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
 	}
 
 	@Override
