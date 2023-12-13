@@ -37,6 +37,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -136,11 +137,21 @@ public class EntityBear extends Monster {
 	}
 
 	protected static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get())
-			if (((Level) level).isDay())
-				if (level.getBrightness(LightLayer.BLOCK, pos) >= 5)
-					return true;
-		return !(level.getBrightness(LightLayer.BLOCK, pos) >= 8);
+		if (((Level) level).isDay())
+			if (level.canSeeSky(pos.above()))
+				return level.getBrightness(LightLayer.BLOCK, pos) > 4;
+		return false;
+	}
+
+	public static boolean canSpawnInDark(LevelAccessor level, BlockPos pos, RandomSource random) {
+		DimensionType dimensiontype = level.dimensionType();
+		int i = dimensiontype.monsterSpawnBlockLightLimit();
+		if (i < 15 && level.getBrightness(LightLayer.BLOCK, pos) > i)
+			return false;
+		else {
+			int j = ((Level) level).isThundering() ? level.getMaxLocalRawBrightness(pos, 10) : level.getMaxLocalRawBrightness(pos);
+			return j <= dimensiontype.monsterSpawnLightTest().sample(random);
+		}
 	}
 
 	public static boolean canSpawnHere(EntityType<EntityBear> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
@@ -149,9 +160,16 @@ public class EntityBear extends Monster {
 			return false;
 		if(pos.getY() < Config.BEAR_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.BEAR_SPAWN_MAX_Y_HEIGHT.get())
 			return false;
-		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get() && checkAnyLightMonsterSpawnRules(entity, level, spawn, pos, random))
-			return isValidLightLevel(level, pos.above());
-		return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get() && level.getDifficulty() != Difficulty.PEACEFUL && level.getBlockState(pos).isValidSpawn(level, pos, entity))
+			return isValidLightLevel(level, pos);
+		return !Config.BEAR_SPAWN_ONLY_AT_DAY.get() && level.getDifficulty() != Difficulty.PEACEFUL && canSpawnInDark(level, pos, random);
+	}
+
+	@Override
+	public float getWalkTargetValue(BlockPos pos, LevelReader level) {
+		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get())
+			level.getPathfindingCostFromLightLevels(pos);
+		return -level.getPathfindingCostFromLightLevels(pos);
 	}
 
 	@Override

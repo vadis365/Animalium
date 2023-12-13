@@ -28,6 +28,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 
 public class EntityRat extends Monster {
 
@@ -139,9 +140,16 @@ public class EntityRat extends Monster {
 		return typeIn != ModEntities.RAT.get();
 	}
 
-	public static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
-        return level.getBrightness(LightLayer.BLOCK, pos) < 11;
-    }
+	public static boolean canSpawnInDark(LevelAccessor level, BlockPos pos, RandomSource random) {
+		DimensionType dimensiontype = level.dimensionType();
+		int i = dimensiontype.monsterSpawnBlockLightLimit();
+		if (i < 15 && level.getBrightness(LightLayer.BLOCK, pos) > i)
+			return false;
+		else {
+			int j = ((Level) level).isThundering() ? level.getMaxLocalRawBrightness(pos, 10) : level.getMaxLocalRawBrightness(pos);
+			return j <= dimensiontype.monsterSpawnLightTest().sample(random);
+		}
+	}
 
 	public static boolean canSpawnHere(EntityType<EntityRat> entity, LevelAccessor level, MobSpawnType spawn, BlockPos pos, RandomSource random) {
 		ResourceKey<Level> dimensionKey = ((Level) level).dimension();
@@ -149,7 +157,7 @@ public class EntityRat extends Monster {
 			return false;
 		if(pos.getY() < Config.RAT_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.RAT_SPAWN_MAX_Y_HEIGHT.get())
 			return false;
-        return level.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(level, pos.above());
+        return level.getDifficulty() != Difficulty.PEACEFUL && canSpawnInDark(level, pos, random);
 	}
 
 	public static String getDimensionRegName(ResourceKey<Level> reg) {
