@@ -31,7 +31,6 @@ public class ItemDogPeltBoots extends ArmorItem {
 		tooltip.add(Component.translatable("tooltip.wild_dog_pelt_boots").withStyle(ChatFormatting.YELLOW));//applyTextStyle
 	}
 
-
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public String getArmorTexture(ItemStack is, Entity entity, EquipmentSlot slot, String type) {
@@ -45,7 +44,6 @@ public class ItemDogPeltBoots extends ArmorItem {
 	public boolean isValidRepairItem(ItemStack armour, ItemStack material) {
 		return material.getItem() == ModItems.WILD_DOG_PELT.get();
 	}
-
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {

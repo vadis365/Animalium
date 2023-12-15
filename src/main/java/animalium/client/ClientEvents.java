@@ -13,21 +13,16 @@ import animalium.utils.Util;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
-    public static ModelLayerLocation BEAR = new ModelLayerLocation(
-            new ResourceLocation(Util.MOD_ID + "bear"), "bear");
-    public static ModelLayerLocation WILD_DOG = new ModelLayerLocation(
-            new ResourceLocation(Util.MOD_ID + "wild_dog"), "wild_dog");
-    public static ModelLayerLocation RAT = new ModelLayerLocation(
-            new ResourceLocation(Util.MOD_ID + "rat"), "rat");
-    public static ModelLayerLocation PIRANHA = new ModelLayerLocation(
-            new ResourceLocation(Util.MOD_ID + "piranha"), "piranha");
-
+    public static ModelLayerLocation BEAR = new ModelLayerLocation(new ResourceLocation(Util.MOD_ID + "bear"), "bear");
+    public static ModelLayerLocation WILD_DOG = new ModelLayerLocation(new ResourceLocation(Util.MOD_ID + "wild_dog"), "wild_dog");
+    public static ModelLayerLocation RAT = new ModelLayerLocation(new ResourceLocation(Util.MOD_ID + "rat"), "rat");
+    public static ModelLayerLocation PIRANHA = new ModelLayerLocation(new ResourceLocation(Util.MOD_ID + "piranha"), "piranha");
 
     @SubscribeEvent
     public static void layerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -35,7 +30,6 @@ public class ClientEvents {
         event.registerLayerDefinition(ClientEvents.WILD_DOG, ModelWildDog::createBodyLayer);
         event.registerLayerDefinition(ClientEvents.RAT, ModelRat::createBodyLayer);
         event.registerLayerDefinition(ClientEvents.PIRANHA, ModelPiranha::createBodyLayer);
-
     }
 
     @SubscribeEvent

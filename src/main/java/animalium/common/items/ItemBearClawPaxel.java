@@ -5,10 +5,9 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import animalium.utils.Util;
-import animalium.init.ModToolTiers;
-
 import animalium.init.ModItems;
+import animalium.init.ModToolTiers;
+import animalium.utils.Util;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,7 +17,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CampfireBlock;
@@ -47,8 +49,6 @@ public class ItemBearClawPaxel extends DiggerItem {
 			return ModToolTiers.PAXEL.getSpeed();
 		return 2.0F;
 	}
-
-
 
 	@Override
 	public boolean isCorrectToolForDrops(BlockState state) {
@@ -98,6 +98,4 @@ public class ItemBearClawPaxel extends DiggerItem {
 			}
 		}
 	}
-
 }
-

@@ -1,25 +1,25 @@
 package animalium.init;
 
-import animalium.utils.Util;
+import java.util.function.Supplier;
+
 import animalium.common.entities.EntityBear;
 import animalium.common.entities.EntityNeutralBear;
 import animalium.common.entities.EntityPiranha;
 import animalium.common.entities.EntityRat;
 import animalium.common.entities.EntityWildDog;
+import animalium.utils.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
-
-import java.util.function.Supplier;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = Util.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities {
@@ -34,7 +34,6 @@ public class ModEntities {
 
 	@SubscribeEvent
 	public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-		Util.Log("Initializing Mob Spawn Placements.");
 		registerPlacement(event, BEAR, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityBear::canSpawnHere);
 		registerPlacement(event, PIRANHA, SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityPiranha::canSpawnHere);
 		registerPlacement(event, WILD_DOG, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, EntityWildDog::canSpawnHere);
@@ -47,7 +46,6 @@ public class ModEntities {
 
 	@SubscribeEvent
 	public static void initializeAttributes(EntityAttributeCreationEvent event) {
-		Util.Log("Initializing Mob Attributes.");
 		event.put(BEAR.get(), EntityBear.createAttributes().build());
 		event.put(BEAR_TAMED.get(), EntityBear.createAttributes().build());
 		event.put(PIRANHA.get(), EntityPiranha.createAttributes().build());

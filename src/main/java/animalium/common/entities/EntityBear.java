@@ -136,10 +136,11 @@ public class EntityBear extends Monster {
 		return typeIn != ModEntities.BEAR.get();
 	}
 
-	protected static boolean isValidLightLevel(LevelAccessor level, BlockPos pos) {
+	protected static boolean isValidLightLevel(LevelAccessor level, BlockPos pos, RandomSource random) {
+		DimensionType dimensiontype = level.dimensionType();
 		if (((Level) level).isDay())
-			if (level.canSeeSky(pos.above()))
-				return level.getBrightness(LightLayer.BLOCK, pos) > 4;
+			if (level.canSeeSky(pos))
+				return level.getMaxLocalRawBrightness(pos) > dimensiontype.monsterSpawnLightTest().sample(random);
 		return false;
 	}
 
@@ -160,15 +161,15 @@ public class EntityBear extends Monster {
 			return false;
 		if(pos.getY() < Config.BEAR_SPAWN_MIN_Y_HEIGHT.get() || pos.getY() > Config.BEAR_SPAWN_MAX_Y_HEIGHT.get())
 			return false;
-		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get() && level.getDifficulty() != Difficulty.PEACEFUL && level.getBlockState(pos).isValidSpawn(level, pos, entity))
-			return isValidLightLevel(level, pos);
+		if(Config.BEAR_SPAWN_ONLY_AT_DAY.get() && level.getDifficulty() != Difficulty.PEACEFUL)
+			return isValidLightLevel(level, pos, random);
 		return !Config.BEAR_SPAWN_ONLY_AT_DAY.get() && level.getDifficulty() != Difficulty.PEACEFUL && canSpawnInDark(level, pos, random);
 	}
 
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader level) {
 		if (Config.BEAR_SPAWN_ONLY_AT_DAY.get())
-			level.getPathfindingCostFromLightLevels(pos);
+			return level.getPathfindingCostFromLightLevels(pos);
 		return -level.getPathfindingCostFromLightLevels(pos);
 	}
 

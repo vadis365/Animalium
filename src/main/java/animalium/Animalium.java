@@ -1,5 +1,9 @@
 package animalium;
 
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
+import java.nio.file.Path;
+
 import animalium.common.CommonEvents;
 import animalium.configs.Config;
 import animalium.init.ModCreativeTab;
@@ -15,20 +19,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-import java.nio.file.Path;
-
-import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
-
-//TODO: FIX BLACKLISTED DIMS (Couldent figure out how to get dimension from LevelAccessor)
-//TODO: FIX TAMED BEAR MOUNT NOT SYNCHING POSITION
-
 @Mod(Util.MOD_ID)
 @Mod.EventBusSubscriber(modid = Util.MOD_ID)
 public class Animalium {
-
-    static {
-
-    }
 
     public Animalium() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

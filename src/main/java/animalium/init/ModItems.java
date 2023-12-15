@@ -3,12 +3,12 @@ package animalium.init;
 import java.util.LinkedHashSet;
 import java.util.function.Supplier;
 
-import animalium.utils.Util;
-import animalium.common.items.ItemRatMeat;
-import animalium.common.items.ItemBearClawPaxel;
-import animalium.common.items.ItemDogPeltBoots;
 import com.google.common.collect.Sets;
 
+import animalium.common.items.ItemBearClawPaxel;
+import animalium.common.items.ItemDogPeltBoots;
+import animalium.common.items.ItemRatMeat;
+import animalium.utils.Util;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -16,9 +16,9 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
 
 public class ModItems {
 

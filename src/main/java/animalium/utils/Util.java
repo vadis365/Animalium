@@ -25,17 +25,12 @@ public class Util {
 		LOGGER.info(MOD_ID + "[{}]: {}", level.toString(), message);
 	}
 
-	//public static boolean isDimBlacklisted(String dimensionIn, Set<String> blacklistedDims) {
-	//	return blacklistedDims.contains(dimensionIn);
-	//}
-
 	public static class BlockTags {
 		public static final TagKey<Block> NEEDS_BEAR_PAXEL = tag("needs_bear_paxel");
 
-		private static TagKey<Block> tag(String name){
+		private static TagKey<Block> tag(String name) {
 			return net.minecraft.tags.BlockTags.create(new ResourceLocation(MOD_ID, name));
 		}
-
 	}
 
 	public static boolean isDimBlacklisted(String dimensionIn, List<? extends String> blacklistedDims) {
