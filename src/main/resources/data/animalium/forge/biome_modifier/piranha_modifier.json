@@ -5,12 +5,22 @@
     "jungle",
     "swamp",
     "ocean",
-    "river"
+    "river",
+    "cold_ocean",
+    "deep_cold_ocean",
+    "deep_frozen_ocean",
+	"deep_lukewarm_ocean",
+	"deep_ocean",
+	"frozen_ocean",
+	"frozen_river",
+	"lukewarm_ocean",
+	"mangrove_swamp",
+	"warm_ocean"
   ],
   "spawners": {
     "type": "animalium:piranha",
     "maxCount": 4,
     "minCount": 1,
-    "weight": 10
+    "weight": 20
   }
 }

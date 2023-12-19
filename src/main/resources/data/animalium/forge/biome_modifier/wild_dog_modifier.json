@@ -1,14 +1,41 @@
 {
   "type": "forge:add_spawns",
   "biomes": [
-    "forest",
-    "desert",
-    "plains"
+  	"badlands",
+	"beach",
+	"birch_forest",
+	"cherry_grove",
+	"dark_forest",
+	"desert",
+	"eroded_badlands",
+	"flower_forest",
+	"forest",
+	"jagged_peaks",
+	"mangrove_swamp",
+	"meadow",
+	"old_growth_birch_forest",
+	"old_growth_pine_taiga",
+	"old_growth_spruce_taiga",
+	"plains",
+	"river",
+	"savanna",
+	"savanna_plateau",
+	"sparse_jungle",
+	"stony_peaks",
+	"stony_shore",
+	"sunflower_plains",
+	"swamp",
+	"taiga",
+	"windswept_forest",
+	"windswept_gravelly_hills",
+	"windswept_hills",
+	"windswept_savanna",
+	"wooded_badlands"
   ],
   "spawners": {
     "type": "animalium:wild_dog",
     "maxCount": 4,
     "minCount": 1,
-    "weight": 10
+    "weight": 20
   }
 }
